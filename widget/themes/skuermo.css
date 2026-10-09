@@ -1,131 +1,49 @@
-/* skuermo — retro-modern commercial brand.
- * Concept: a printed object from 1974, built with 2024 usability. Warm
- * mustard-and-rust palette, 2px ink outlines on every solid shape, hard offset
- * shadows with zero blur, and chunky controls that visibly depress when
- * pressed. The retro comes from colour, weight and edges — never from
- * contrast: body text stays near-black on cream and every control keeps a
- * 44px-friendly hit area.
- * Silhouette: 4-10px corners, 2px borders, hard 3-4px offset shadows,
- * mustard accent rule under the header, square typing blocks.
- */
+/* Skuermo — a bold printed workshop. Ink outlines, hard offset shadows,
+ * a stamped welcome mark, graphic prompt tiles and tactile press feedback. */
 .asw{
-  --asw-primary:#b45309;--asw-secondary:#7c2d12;--asw-accent:#ca8a04;
-  --asw-primary-hover:color-mix(in srgb,var(--asw-primary) 88%,#000);
-  /* geometry: chunky, never round */
-  --asw-r-sm:4px;--asw-r-md:6px;--asw-r-lg:10px;--asw-r-xl:14px;
-  /* surfaces: cream paper, ink-brown text */
-  --asw-bg:#fdf6e9;--asw-surface:#f8eeda;--asw-surface-2:#f1e3c8;--asw-surface-3:#e8d5b0;
-  --asw-border:#d9c49c;--asw-border-strong:#4a3524;
-  --asw-text:#3d2c1e;--asw-text-secondary:#7a6148;--asw-text-muted:#775f43;
-  /* the ink used for outlines and hard shadows */
-  --asw-ink:#4a3524;
-  --asw-bot-bg:#f8eeda;--asw-bot-text:#3d2c1e;
-  --asw-user-bg:var(--asw-primary);--asw-user-text:#fffdf6;
-  --asw-input-bg:#fffdf6;--asw-input-focus-bg:#ffffff;
-  --asw-shadow-subtle:2px 2px 0 rgba(74,53,36,.16);
-  --asw-shadow-elevated:3px 3px 0 rgba(74,53,36,.2),0 14px 28px -18px rgba(74,53,36,.5);
-  --asw-shadow-modal:8px 8px 0 rgba(74,53,36,.18),0 26px 50px -22px rgba(74,53,36,.45);
-  --asw-w-bold:800;
-
-  /* ── panel: a printed card with a 2px ink edge and a hard drop ── */
+  --asw-primary:#a84d10;--asw-secondary:#733212;--asw-accent:#d49b27;
+  --asw-bg:#fff7e9;--asw-surface:#f8edda;--asw-surface-2:#efdfc1;--asw-surface-3:#e5cfa7;
+  --asw-border:#d3bd98;--asw-border-strong:#7d6242;
+  --asw-text:#3c2b1b;--asw-text-secondary:#725a3c;--asw-text-muted:#7c6346;--asw-ink:#45311e;
+  --asw-r-sm:4px;--asw-r-md:6px;--asw-r-lg:10px;--asw-r-xl:12px;--asw-w-bold:800;
   --asw-panel-border-w:2px;--asw-panel-border-color:var(--asw-ink);
-  --asw-panel-shadow:6px 6px 0 rgba(74,53,36,.18),0 26px 50px -22px rgba(74,53,36,.45);
-
-  /* ── header: a rust bar closed off by a mustard rule ── */
-  --asw-header-bg:var(--asw-secondary);
-  --asw-header-ink:#fdf6e9;
-  --asw-header-pad:var(--asw-sp-3) var(--asw-sp-4);
-  --asw-header-min-h:64px;
-  --asw-header-sep:2px solid var(--asw-ink);
-  --asw-ornament:repeating-linear-gradient(90deg,var(--asw-accent) 0 14px,color-mix(in srgb,var(--asw-accent) 35%,var(--asw-ink)) 14px 28px);
-  --asw-ornament-h:4px;
-  --asw-w-header:800;
-  --asw-header-fs:15.5px;--asw-header-fs-sub:var(--asw-fs-xs);
-  --asw-avatar-sq:var(--asw-r-md);--asw-avatar-size:40px;
-  --asw-avatar-bg:rgba(253,246,233,.16);
-  --asw-avatar-ring:inset 0 0 0 2px rgba(253,246,233,.45);
-  --asw-user-avatar-bg:var(--asw-surface-3);--asw-user-avatar-color:var(--asw-ink);
-
-  /* ── bubbles: inked cards with a hard offset shadow ── */
-  --asw-msgs-pad:var(--asw-sp-4) var(--asw-sp-3) var(--asw-sp-2);
-  --asw-msgs-gap:var(--asw-sp-3);--asw-row-max:90%;
-  --asw-bubble-r:var(--asw-r-lg);--asw-bubble-notch:var(--asw-r-sm);
-  --asw-bubble-px:var(--asw-sp-3);--asw-bubble-py:10px;
-  --asw-bot-bubble-bg:var(--asw-surface);--asw-bot-bubble-border:var(--asw-ink);
-  --asw-bot-bubble-shadow:3px 3px 0 rgba(74,53,36,.16);
+  --asw-panel-shadow:6px 6px 0 rgba(69,49,30,.2),0 24px 52px -24px rgba(69,49,30,.3);
+  --asw-header-bg:var(--asw-secondary);--asw-header-ink:var(--asw-on-gradient);--asw-header-pad:18px;
+  --asw-header-fs:18px;--asw-header-sep:2px solid var(--asw-ink);
+  --asw-ornament:repeating-linear-gradient(90deg,var(--asw-accent) 0 12px,var(--asw-ink) 12px 24px);--asw-ornament-h:4px;
+  --asw-avatar-size:42px;--asw-avatar-sq:6px;--asw-avatar-ring:inset 0 0 0 2px color-mix(in srgb,var(--asw-header-ink) 35%,transparent);
+  --asw-msgs-pad:22px 18px 20px;--asw-msgs-gap:20px;
+  --asw-bubble-r:8px;--asw-bubble-notch:2px;--asw-bubble-px:14px;--asw-bubble-py:11px;
+  --asw-bot-bubble-bg:var(--asw-bg);--asw-bot-bubble-border:var(--asw-ink);--asw-bot-bubble-shadow:3px 3px 0 color-mix(in srgb,var(--asw-ink) 20%,transparent);
   --asw-user-bubble-bg:var(--asw-primary);--asw-user-bubble-text:var(--asw-on-brand);
-  --asw-lh:1.85;
-
-  /* ── composer: a solid inked box, send button presses into its shadow ── */
-  --asw-composer-bg:var(--asw-input-bg);--asw-composer-border:2px solid var(--asw-ink);
-  --asw-composer-pad:5px;--asw-composer-pad-start:6px;--asw-composer-pad-end:6px;
-  --asw-composer-gap:6px;
-  --asw-input-sq:var(--asw-r-md);
-  --asw-send-size:38px;--asw-send-bg:var(--asw-primary);--asw-send-ink:var(--asw-on-brand);
-  --asw-send-shadow:3px 3px 0 var(--asw-ink);
-  --asw-btn-sq:var(--asw-r-sm);
-
-  /* ── chips / citations: chunky, inked, hard-edged ── */
-  --asw-chip-radius:var(--asw-r-md);--asw-chip-bg:var(--asw-bg);
-  --asw-chip-border:2px solid var(--asw-ink);--asw-chip-ink:var(--asw-text);
-  --asw-chip-hover-bg:var(--asw-surface-3);--asw-chip-hover-border:var(--asw-primary);
-  --asw-chip-hover-ink:var(--asw-text);
-  --asw-cite-radius:var(--asw-r-sm);--asw-cite-bg:var(--asw-surface-2);
-  --asw-cite-border:2px solid var(--asw-ink);
-  --asw-fb-size:30px;--asw-state-hover:var(--asw-surface-3);
-  --asw-focus:var(--asw-primary);
-  --asw-typing-dot-r:0px;
-
-  /* ── fab: a chunky inked tile ── */
-  --asw-fab-bg:var(--asw-primary);--asw-fab-color:var(--asw-on-brand);
-  --asw-fab-sq:var(--asw-r-md);--asw-fab-border:2px solid var(--asw-ink);
-  --asw-fab-shadow:4px 4px 0 var(--asw-ink);
+  --asw-composer-bg:var(--asw-bg);--asw-composer-border:2px solid var(--asw-ink);--asw-input-focus-bg:var(--asw-bg);
+  --asw-input-sq:6px;--asw-btn-sq:4px;--asw-send-shadow:2px 2px 0 var(--asw-ink);
+  --asw-chip-radius:6px;--asw-chip-bg:var(--asw-bg);--asw-chip-border:2px solid var(--asw-ink);
+  --asw-cite-radius:4px;--asw-cite-bg:var(--asw-surface-2);--asw-cite-border:1px solid var(--asw-ink);
+  --asw-fab-bg:var(--asw-primary);--asw-fab-color:var(--asw-on-brand);--asw-fab-sq:8px;--asw-fab-border:2px solid var(--asw-ink);--asw-fab-shadow:4px 4px 0 var(--asw-ink);
 }
 .asw.dark{
-  /* Deep roast: espresso planes, brighter mustard accents, same hard edges. */
-  --asw-bg:#211a12;--asw-surface:#2c2217;--asw-surface-2:#352a1c;--asw-surface-3:#403322;
-  --asw-border:#4a3a25;--asw-border-strong:#c9a05a;
-  --asw-text:#f5ecd9;--asw-text-secondary:#c9b394;--asw-text-muted:#a68d6b;
-  --asw-ink:#0f0a05;
-  --asw-primary:#e0913c;--asw-secondary:#b4531a;--asw-accent:#e8b53c;
-  --asw-bot-bg:#2c2217;--asw-bot-text:#f5ecd9;
-  --asw-input-bg:#1a140d;--asw-input-focus-bg:#241b11;
-  --asw-user-bg:var(--asw-primary);
-  --asw-header-bg:#180d05;
-  --asw-panel-shadow:6px 6px 0 rgba(0,0,0,.5),0 26px 50px -22px rgba(0,0,0,.7);
-  --asw-bot-bubble-bg:var(--asw-surface);
-  --asw-bot-bubble-shadow:3px 3px 0 rgba(0,0,0,.55);
-  --asw-bot-bubble-shadow:3px 3px 0 rgba(0,0,0,.5);
-  --asw-send-shadow:3px 3px 0 var(--asw-ink);
-  --asw-fab-shadow:4px 4px 0 rgba(0,0,0,.6);
-  --asw-user-avatar-color:#f5ecd9;
+  --asw-primary:#f3b067;--asw-secondary:#d89a58;--asw-accent:#f1c470;
+  --asw-bg:#2c2115;--asw-surface:#3a2c1d;--asw-surface-2:#4a3926;--asw-surface-3:#5c472e;
+  --asw-border:#6c5134;--asw-border-strong:#ba9868;
+  --asw-text:#fff1d9;--asw-text-secondary:#dbc39c;--asw-text-muted:#cbb185;--asw-ink:#120d07;
+  --asw-header-bg:var(--asw-surface-2);--asw-header-ink:var(--asw-text);
+  --asw-panel-shadow:6px 6px 0 rgba(0,0,0,.6),0 24px 60px -20px rgba(0,0,0,.6);
 }
-/* Everyone gets an outline: bubbles, chips, cards. */
-.asw .asw-row.bot .asw-bubble{border-width:2px}
-.asw .asw-row.user .asw-bubble{border:2px solid var(--asw-ink);box-shadow:3px 3px 0 rgba(74,53,36,.2)}
-.asw.dark .asw-row.user .asw-bubble{box-shadow:3px 3px 0 rgba(0,0,0,.5)}
-/* Press feedback: the control moves into its own hard shadow. */
-.asw .asw-send:not(:disabled):active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--asw-ink)}
-.asw .asw-fab:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--asw-ink)}
-.asw .asw-suggestion:active{transform:translate(2px,2px);box-shadow:1px 1px 0 rgba(74,53,36,.2)}
-.asw .asw-header-btn{border-width:2px;border-color:rgba(253,246,233,.35);background:rgba(253,246,233,.1)}
-.asw .asw-header-btn:hover{background:rgba(253,246,233,.22);border-color:rgba(253,246,233,.6)}
-/* Chunky typography: bolder weights, wider tracking on labels. */
-.asw .asw-title{letter-spacing:.2px}
-.asw .asw-subtitle{letter-spacing:.04em}
-.asw .asw-badge,.asw .asw-identity,.asw .asw-live-chip{border-radius:var(--asw-r-sm);border:1px solid currentColor;font-size:9.5px;letter-spacing:.06em}
-.asw .asw-hero-orb-wrap{border-radius:var(--asw-r-md);background:var(--asw-primary);color:#fffdf6;border:2px solid var(--asw-ink);box-shadow:4px 4px 0 rgba(74,53,36,.2)}
-.asw.dark .asw-hero-orb-wrap{color:#241705}
-.asw .asw-hero-text{font-weight:800;font-size:16.5px}
-.asw .asw-handoff,.asw .asw-leadform{border-width:2px;border-color:var(--asw-ink);border-radius:var(--asw-r-lg);box-shadow:3px 3px 0 rgba(74,53,36,.16)}
-.asw .asw-scrollbtn{border-width:2px;border-color:var(--asw-ink);border-radius:var(--asw-r-md);box-shadow:2px 2px 0 rgba(74,53,36,.16)}
-.asw .asw-typing-bubble{border:2px solid var(--asw-ink);background:var(--asw-surface);border-radius:var(--asw-r-lg);border-end-start-radius:var(--asw-r-sm);box-shadow:3px 3px 0 rgba(74,53,36,.16)}
-.asw .asw-typing-dot{width:6px;height:6px;background:var(--asw-ink);opacity:.75}
-.asw .asw-divider::before,.asw .asw-divider::after{height:2px;background:var(--asw-border)}
-.asw .asw-status{border-width:2px;border-radius:2px}
-.asw .asw-form-submit,.asw .asw-handoff-btn{border:2px solid var(--asw-ink);border-radius:var(--asw-r-md)}
-.asw .asw-code-wrap,.asw .asw-table-wrap{border-width:2px;border-color:var(--asw-ink)}
-
-/* Transcript avatar: a chunky inked tile. */
-.asw .asw-row.bot .asw-msg-avatar{border-radius:var(--asw-r-sm);background:var(--asw-primary);border:2px solid var(--asw-ink);color:#fffdf6}
-.asw.dark .asw-row.bot .asw-msg-avatar{color:#241705}
+.asw .asw-header-btn{border-width:2px;border-color:color-mix(in srgb,var(--asw-header-ink) 35%,transparent);border-radius:4px}
+.asw .asw-badge,.asw .asw-live-chip{border-radius:3px;border:1px solid currentColor;background:transparent}
+.asw .asw-hero-orb-wrap{width:50px;height:50px;border-radius:6px;background:var(--asw-surface-3);color:var(--asw-text);border:2px solid var(--asw-ink);box-shadow:3px 3px 0 color-mix(in srgb,var(--asw-ink) 30%,transparent);transform:rotate(-5deg)}
+.asw .asw-hero-orb{transform:rotate(5deg)}
+.asw .asw-hero-text{font-size:22px;font-weight:800}
+.asw .asw-hero-grid{gap:12px}
+.asw .asw-hero-grid .asw-suggestion{min-height:64px;background:var(--asw-bg);border-radius:6px;box-shadow:3px 3px 0 color-mix(in srgb,var(--asw-ink) 25%,transparent)}
+.asw .asw-idx{display:grid;place-items:center;min-width:22px;min-height:22px;background:var(--asw-surface-3);color:var(--asw-text);border:1px solid var(--asw-ink);border-radius:2px}
+.asw .asw-card-arrow{color:var(--asw-text)}
+.asw .asw-row.bot .asw-bubble,.asw .asw-row.user .asw-bubble{border:2px solid var(--asw-ink)}
+.asw .asw-row.user .asw-bubble{box-shadow:3px 3px 0 color-mix(in srgb,var(--asw-ink) 25%,transparent)}
+.asw .asw-row.bot .asw-msg-avatar{border-radius:4px;border:2px solid var(--asw-ink);background:var(--asw-surface-3);color:var(--asw-text)}
+.asw .asw-send:not(:disabled):active,.asw .asw-suggestion:not(:disabled):active{transform:translate(2px,2px);box-shadow:none}
+.asw .asw-typing-dot{border-radius:0;background:var(--asw-text)}
+.asw .asw-footer{border-top:2px solid var(--asw-ink)}
+.asw .asw-form-submit,.asw .asw-handoff-btn{border:2px solid var(--asw-ink)}
+.asw .asw-sheet-card{border-top:2px solid var(--asw-ink)}

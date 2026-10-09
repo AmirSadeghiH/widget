@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Widget browser fixture</title>
+<style>body{margin:0;background:#f3f5fb;color:#182238;font:16px/2 Tahoma,sans-serif}main{min-height:150vh;padding:32px}button{padding:12px}</style></head>
+<body><main><h1>سایت میزبان — تست مرورگری</h1><button id="outside">دکمهٔ سایت میزبان</button><a href="#end">پیوند سایت میزبان</a><div id="end">پایان صفحه</div></main>
+<script>
+(async function () {
+  const params = new URLSearchParams(location.search);
+  const themes = ['classic','onyx','linen','clay','atomic','fluen','glassmo','md3','minimal','neu','skuermo'];
+  const theme = themes.includes(params.get('theme')) ? params.get('theme') : 'classic';
+  window.AI_WIDGET_CONFIG = Object.assign({
+    apiEndpoint: '/demo-api/chat/',
+    title: 'پشتیبانی آنلاین فروشگاه',
+    subtitle: 'راهنمای خرید، پیگیری سفارش و پاسخ به پرسش‌های شما',
+    greeting: 'سلام! چطور می‌توانیم کمکتان کنیم؟',
+    darkMode: params.get('mode') || 'light',
+    suggestions: ['راهنمای خرید', 'شرایط ارسال سفارش', 'ساعات پاسخ‌گویی', 'شرایط مرجوعی'],
+    enableAnimations: false,
+    showTeaser: false
+  }, window.__testOptions || {});
+  const script = document.createElement('script');
+  script.src = params.has('root') ? '/widget.js' : '/widget/' + (theme === 'classic' ? 'widget.js' : 'widget-' + theme + '.js');
+  script.onload = async () => { await window._aiWidget.ready; window._aiWidget.open(); window.__ready = true; };
+  document.head.appendChild(script);
+})();
+</script></body></html>

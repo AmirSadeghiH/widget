@@ -1,146 +1,48 @@
-/* glassmo — premium translucent interface.
- * Concept: depth through transparency. One real blur sits on the panel; every
- * layer above it is a frosted pane with a hairline edge and a 1px top
- * highlight. Colour is cyan-to-blue and always behind the glass, never on the
- * text. Opacity floors are deliberate: no surface ever drops below 62% so
- * Persian body text keeps its contrast over photographs and dark pages.
- * Silhouette: 14-22px corners, frosted header separator, glass bubbles, glass
- * capsule composer, glossy send button.
- */
+/* Glassmo — a glass atelier. Frosted inset panes, a cut-glass emblem and
+ * layered translucent cards. Opacity floors protect text on unknown host pages. */
 .asw{
-  --asw-primary:#0891b2;--asw-secondary:#2563eb;--asw-accent:#06b6d4;
-  --asw-primary-hover:color-mix(in srgb,var(--asw-primary) 88%,#000);
-  --asw-r-sm:10px;--asw-r-md:14px;--asw-r-lg:18px;--asw-r-xl:22px;
-  /* The opaque base is only used where glass would fail (sheet, toast, code). */
-  --asw-bg:#eef7fb;--asw-surface:rgba(255,255,255,.72);--asw-surface-2:rgba(255,255,255,.58);--asw-surface-3:rgba(255,255,255,.44);
-  --asw-border:rgba(9,49,66,.12);--asw-border-strong:rgba(9,49,66,.24);
-  --asw-text:#0b2733;--asw-text-secondary:#3d6273;--asw-text-muted:#42707f;
-  --asw-bot-bg:rgba(255,255,255,.72);--asw-bot-text:#0b2733;
-  --asw-user-bg:var(--asw-primary);--asw-user-text:#fff;
-  --asw-input-bg:rgba(255,255,255,.55);--asw-input-focus-bg:rgba(255,255,255,.78);
-  --asw-shadow-elevated:0 2px 4px rgba(9,49,66,.06),0 16px 40px -16px rgba(9,49,66,.28);
-  --asw-shadow-modal:0 30px 70px -22px rgba(9,49,66,.45);
-  /* glass language: one hairline plus one highlight, never a dark shadow */
-  --asw-glass-edge:inset 0 1px 0 rgba(255,255,255,.7);
-
-  /* ── panel: the single blurred surface ── */
-  --asw-panel-border-w:1px;--asw-panel-border-color:rgba(255,255,255,.6);
-  --asw-panel-shadow:0 30px 70px -22px rgba(9,49,66,.45),inset 0 1px 0 rgba(255,255,255,.75);
-
-  /* ── header: frosted tint of the brand, separated by a glossy hairline ── */
-  --asw-header-bg:linear-gradient(120deg,color-mix(in srgb,var(--asw-primary) 92%,transparent),color-mix(in srgb,var(--asw-secondary) 86%,transparent));
-  --asw-header-ink:#ffffff;
-  --asw-header-pad:var(--asw-sp-4);
-  --asw-header-min-h:66px;
-  --asw-header-sep:1px solid rgba(255,255,255,.35);
-  --asw-w-header:var(--asw-w-bold);
-  --asw-header-fs:var(--asw-fs-lg);--asw-header-fs-sub:var(--asw-fs-xs);
-  --asw-avatar-sq:var(--asw-r-md);--asw-avatar-size:38px;
-  --asw-avatar-bg:rgba(255,255,255,.22);
-  --asw-avatar-ring:inset 0 0 0 1px rgba(255,255,255,.4);
-  --asw-user-avatar-bg:rgba(255,255,255,.5);--asw-user-avatar-color:#0e7490;
-
-  /* ── bubbles: frosted panes, milky enough to stay readable ── */
-  --asw-msgs-pad:var(--asw-sp-4) var(--asw-sp-3) var(--asw-sp-2);
-  --asw-msgs-gap:var(--asw-sp-3);--asw-row-max:90%;
-  --asw-bubble-r:var(--asw-r-lg);--asw-bubble-notch:6px;
-  --asw-bubble-px:var(--asw-sp-3);--asw-bubble-py:11px;
-  --asw-bot-bubble-bg:rgba(255,255,255,.68);--asw-bot-bubble-border:rgba(255,255,255,.75);
-  --asw-bot-bubble-shadow:0 8px 22px -14px rgba(9,49,66,.5),inset 0 1px 0 rgba(255,255,255,.65);
-  --asw-user-bubble-bg:linear-gradient(135deg,color-mix(in srgb,var(--asw-primary) 92%,transparent),color-mix(in srgb,var(--asw-secondary) 88%,transparent));
-  --asw-user-bubble-text:#fff;
-
-  /* ── composer: a frosted capsule with a glass send button ── */
-  --asw-composer-bg:var(--asw-input-bg);--asw-composer-border:1px solid rgba(255,255,255,.65);
-  --asw-composer-pad:5px;--asw-composer-pad-start:6px;--asw-composer-pad-end:6px;
-  --asw-composer-gap:var(--asw-sp-2);
-  --asw-composer-shadow:inset 0 1px 0 rgba(255,255,255,.55);
-  --asw-input-sq:var(--asw-r-lg);
-  --asw-send-size:38px;
-  --asw-send-bg:linear-gradient(140deg,color-mix(in srgb,var(--asw-primary) 96%,transparent),color-mix(in srgb,var(--asw-secondary) 92%,transparent));
-  --asw-send-ink:#fff;
-  --asw-send-shadow:0 8px 20px -8px color-mix(in srgb,var(--asw-primary) 75%,transparent),inset 0 1px 0 rgba(255,255,255,.35);
-  --asw-btn-sq:var(--asw-r-md);
-
-  /* ── chips / citations: frosted, hairline-edged ── */
-  --asw-chip-radius:var(--asw-r-pill);--asw-chip-bg:rgba(255,255,255,.5);
-  --asw-chip-border:1px solid rgba(255,255,255,.7);--asw-chip-ink:var(--asw-text-secondary);
-  --asw-chip-hover-bg:rgba(255,255,255,.78);--asw-chip-hover-border:rgba(255,255,255,.9);
-  --asw-chip-hover-ink:var(--asw-text);
-  --asw-cite-radius:var(--asw-r-md);--asw-cite-bg:rgba(255,255,255,.45);
-  --asw-cite-border:1px solid rgba(255,255,255,.65);
-  --asw-fb-size:28px;--asw-state-hover:rgba(255,255,255,.6);
-  --asw-focus:var(--asw-primary);
-  --asw-typing-dot-r:50%;
-
-  /* ── fab: glossy, translucent, still legible on any page ── */
-  --asw-fab-bg:linear-gradient(135deg,color-mix(in srgb,var(--asw-primary) 97%,transparent),color-mix(in srgb,var(--asw-secondary) 94%,transparent));
-  --asw-fab-color:#fff;--asw-fab-sq:var(--asw-r-lg);--asw-fab-border:1px solid rgba(255,255,255,.35);
-  --asw-fab-shadow:0 14px 30px -10px color-mix(in srgb,var(--asw-primary) 60%,transparent),inset 0 1px 0 rgba(255,255,255,.35);
-  --asw-ornament:none;
+  --asw-primary:#087b98;--asw-secondary:#2563eb;--asw-accent:#06b6d4;
+  --asw-bg:#f2f9fc;--asw-surface:#e7f2f7;--asw-surface-2:#dcebf2;--asw-surface-3:#c9e0eb;
+  --asw-border:#c8dde8;--asw-border-strong:#9ebfcf;
+  --asw-text:#183845;--asw-text-secondary:#426675;--asw-text-muted:#527685;
+  --asw-r-sm:10px;--asw-r-md:14px;--asw-r-lg:20px;--asw-r-xl:24px;
+  --asw-panel-border-color:rgba(255,255,255,.9);--asw-panel-shadow:0 24px 70px -20px rgba(12,58,83,.28);
+  --asw-header-bg:linear-gradient(120deg,color-mix(in srgb,var(--asw-primary) 9%,var(--asw-bg)),var(--asw-bg));
+  --asw-header-ink:var(--asw-text);--asw-header-pad:16px;--asw-header-radius:18px;--asw-header-fs:17px;
+  --asw-header-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 8px 18px -16px rgba(12,58,83,.3);
+  --asw-avatar-size:42px;--asw-avatar-sq:12px;--asw-avatar-bg:var(--asw-bg);--asw-avatar-ink:var(--asw-primary);
+  --asw-avatar-ring:inset 0 0 0 1px var(--asw-border-strong);
+  --asw-msgs-pad:24px 16px 16px;--asw-msgs-gap:18px;
+  --asw-bubble-r:18px;--asw-bubble-notch:6px;--asw-bubble-px:14px;--asw-bubble-py:12px;
+  --asw-bot-bubble-bg:var(--asw-bg);--asw-bot-bubble-border:var(--asw-border);
+  --asw-bot-bubble-shadow:inset 0 1px 0 rgba(255,255,255,.85),0 6px 18px -14px rgba(12,58,83,.3);
+  --asw-user-bubble-bg:linear-gradient(135deg,var(--asw-primary),var(--asw-secondary));--asw-user-bubble-text:var(--asw-on-gradient);
+  --asw-composer-bg:var(--asw-bg);--asw-composer-border:1px solid var(--asw-border-strong);--asw-input-focus-bg:var(--asw-bg);
+  --asw-composer-shadow:inset 0 1px 0 rgba(255,255,255,.9);--asw-input-sq:18px;--asw-btn-sq:12px;
+  --asw-send-shadow:inset 0 1px 0 rgba(255,255,255,.25);
+  --asw-chip-radius:14px;--asw-chip-border:1px solid var(--asw-border-strong);--asw-cite-radius:10px;
+  --asw-fab-bg:linear-gradient(135deg,var(--asw-primary),var(--asw-secondary));--asw-fab-color:var(--asw-on-gradient);--asw-fab-sq:18px;
+  --asw-fab-border:1px solid rgba(255,255,255,.35);--asw-fab-ring:inset 0 1px 0 rgba(255,255,255,.3);
 }
 .asw.dark{
-  /* Dark glass: deep teal panes, brighter hairlines, no white haze. */
-  --asw-bg:#0b151c;--asw-surface:rgba(28,48,60,.62);--asw-surface-2:rgba(28,48,60,.5);--asw-surface-3:rgba(28,48,60,.4);
-  --asw-border:rgba(255,255,255,.1);--asw-border-strong:rgba(255,255,255,.2);
-  --asw-text:#e6f4fa;--asw-text-secondary:#a6c4d0;--asw-text-muted:#7f9fad;
-  --asw-primary:#22d3ee;--asw-secondary:#60a5fa;--asw-accent:#67e8f9;
-  --asw-bot-bg:rgba(28,48,60,.62);--asw-bot-text:#e6f4fa;
-  --asw-input-bg:rgba(28,48,60,.75);--asw-input-focus-bg:rgba(28,48,60,.78);
-  --asw-shadow-modal:0 32px 74px -24px rgba(0,0,0,.75),inset 0 1px 0 rgba(255,255,255,.12);
-  --asw-header-bg:linear-gradient(120deg,color-mix(in srgb,var(--asw-primary) 26%,transparent),color-mix(in srgb,var(--asw-secondary) 24%,transparent));
-  --asw-header-ink:#e6f4fa;
-  --asw-header-sep:1px solid rgba(255,255,255,.14);
-  --asw-bot-bubble-bg:rgba(28,48,60,.74);--asw-bot-bubble-border:rgba(255,255,255,.14);
-  --asw-bot-bubble-shadow:0 10px 24px -16px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.1);
-  --asw-user-bubble-bg:linear-gradient(135deg,color-mix(in srgb,var(--asw-primary) 92%,transparent),color-mix(in srgb,var(--asw-secondary) 86%,transparent));
-  --asw-composer-bg:rgba(28,48,60,.72);--asw-composer-border:1px solid rgba(255,255,255,.14);
-  --asw-chip-bg:rgba(28,48,60,.7);--asw-chip-border:1px solid rgba(255,255,255,.14);
-  --asw-chip-hover-bg:rgba(28,48,60,.7);--asw-chip-hover-border:rgba(255,255,255,.24);
-  --asw-cite-bg:rgba(28,48,60,.7);--asw-cite-border:1px solid rgba(255,255,255,.14);
-  --asw-state-hover:rgba(255,255,255,.1);
-  --asw-send-ink:var(--asw-on-brand);--asw-fab-color:var(--asw-on-brand);
+  --asw-primary:#8adef3;--asw-secondary:#a1c5ff;--asw-accent:#b9edf7;
+  --asw-bg:#132832;--asw-surface:#1e3947;--asw-surface-2:#2a4959;--asw-surface-3:#3b5c6b;
+  --asw-border:#3b5d6d;--asw-border-strong:#678f9f;
+  --asw-text:#edf9ff;--asw-text-secondary:#b9d7e4;--asw-text-muted:#a7c7d7;
+  --asw-panel-border-color:rgba(175,219,240,.25);--asw-panel-shadow:0 28px 74px -20px rgba(0,0,0,.65);
+  --asw-header-shadow:inset 0 1px 0 rgba(255,255,255,.12);
+  --asw-bot-bubble-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 6px 18px -14px rgba(0,0,0,.4);
+  --asw-composer-shadow:inset 0 1px 0 rgba(255,255,255,.08);
 }
-/* The one real glass move: frost the panel over the page. The panel's own
- * background colour has to be translucent too, or there is nothing to blur. */
-.asw .asw-panel{
-  background-color:rgba(255,255,255,.46);
-  background-image:linear-gradient(160deg,rgba(255,255,255,.5),rgba(226,244,252,.28));
-  -webkit-backdrop-filter:blur(20px) saturate(1.35);
-  backdrop-filter:blur(20px) saturate(1.35);
-}
-.asw.dark .asw-panel{background-color:rgba(11,21,28,.82);background-image:linear-gradient(160deg,rgba(255,255,255,.07),rgba(12,30,40,.2))}
-/* Dark glass over an unknown page: the transcript gets an extra scrim so
- * the metadata stays readable even when the host page is light. */
-.asw.dark .asw-messages{background-color:rgba(11,21,28,.6)}
-/* No blur, no problem: fall back to nearly-opaque panes so text stays legible. */
-@supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){
-  .asw .asw-panel{background-color:#f3fafd}
-  .asw.dark .asw-panel{background-color:#0f1d26}
-  .asw .asw-bubble,.asw .asw-suggestion,.asw .asw-citation{background-color:rgba(255,255,255,.94)}
-}
-/* Solid where transparency would hurt: the sheet, the toast, code blocks. */
-.asw .asw-sheet-card{background:#f4fafd}
-.asw.dark .asw-sheet-card{background:#122129}
-.asw .asw-code-wrap,.asw .asw-table-wrap{background:rgba(255,255,255,.82)}
-.asw.dark .asw-code-wrap,.asw.dark .asw-table-wrap{background:rgba(10,26,34,.72)}
-.asw .asw-hero-orb-wrap{
-  border-radius:var(--asw-r-lg);
-  background:rgba(255,255,255,.55);
-  color:var(--asw-primary);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.7);
-}
-.asw .asw-scrollbtn{background:rgba(255,255,255,.7)}
-.asw.dark .asw-scrollbtn{background:rgba(28,48,60,.7)}
-.asw .asw-handoff,.asw .asw-leadform{background:rgba(255,255,255,.55);border-color:rgba(255,255,255,.65)}
-.asw.dark .asw-handoff,.asw.dark .asw-leadform{background:rgba(28,48,60,.5);border-color:rgba(255,255,255,.14)}
-
-/* Transcript avatar: a frosted pane. */
-.asw .asw-row.bot .asw-msg-avatar{
-  border-radius:var(--asw-r-md);
-  background:rgba(255,255,255,.55);
-  color:var(--asw-primary);
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.6);
-}
-.asw .asw-typing-bubble{background:rgba(255,255,255,.6);border-color:rgba(255,255,255,.7);border-radius:var(--asw-r-lg);border-end-start-radius:6px}
-.asw .asw-typing-dot{background:var(--asw-primary)}
+.asw .asw-panel{background-color:rgba(242,249,252,.96);background-image:linear-gradient(160deg,rgba(255,255,255,.28),rgba(220,239,247,.18));backdrop-filter:blur(20px) saturate(1.2);-webkit-backdrop-filter:blur(20px) saturate(1.2)}
+.asw.dark .asw-panel{background-color:rgba(19,40,50,.97);background-image:linear-gradient(160deg,rgba(165,226,255,.06),transparent)}
+.asw .asw-header{margin:10px 10px 0;border:1px solid var(--asw-border)}
+.asw .asw-header-btn{background:var(--asw-bg);border-color:var(--asw-border-strong);color:var(--asw-text-secondary)}
+.asw .asw-header-btn:hover{background:var(--asw-surface-2);color:var(--asw-text)}
+.asw .asw-hero-orb-wrap{width:56px;height:56px;transform:rotate(-8deg);border-radius:16px;background:var(--asw-bg);border:1px solid var(--asw-border-strong);box-shadow:inset 0 2px 0 rgba(255,255,255,.25),0 8px 18px -12px rgba(12,58,83,.3)}
+.asw .asw-hero-orb{transform:rotate(8deg)}
+.asw .asw-hero-text{font-size:20px;font-weight:600}
+.asw .asw-hero-grid .asw-suggestion{background:color-mix(in srgb,var(--asw-bg) 80%,transparent);border-radius:14px;box-shadow:inset 0 1px 0 rgba(255,255,255,.2)}
+.asw .asw-footer{margin:0 10px 10px;border:1px solid var(--asw-border);border-radius:18px;background:color-mix(in srgb,var(--asw-bg) 92%,transparent);padding-inline:10px}
+.asw .asw-row.bot .asw-msg-avatar{border:1px solid var(--asw-border-strong);background:var(--asw-bg)}
+@supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){.asw .asw-panel{background:var(--asw-bg)}}

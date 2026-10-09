@@ -1,104 +1,48 @@
-/* clay — soft, tactile, touchable.
- * Concept: everything is cushioned. One continuous rounded mass: the header is
- * a soft slab with rounded underside, bubbles are pillows with a small notch,
- * the composer is a capsule, the send button and FAB are fat circles with
- * coloured two-step shadows. Colour is a calm teal-green, never sweet.
- * Silhouette: 18-26px corners everywhere, pill composer, circular avatar.
- */
+/* Clay — a friendly soft studio: a cushioned inset header, generous organic
+ * shapes, pillowy question tiles and a tactile circular primary control. */
 .asw{
-  --asw-primary:#0f9c8c;--asw-secondary:#0b7f74;--asw-accent:#14b8a6;
-  --asw-primary-hover:color-mix(in srgb,var(--asw-primary) 88%,#000);
-  /* geometry: the roundest theme — cushioned, not bubbly */
-  --asw-r-sm:14px;--asw-r-md:18px;--asw-r-lg:22px;--asw-r-xl:26px;
-  /* surfaces: cool mint-whites with a soft green cast */
-  --asw-bg:#ffffff;--asw-surface:#f2faf8;--asw-surface-2:#e6f4f1;--asw-surface-3:#d6ece7;
-  --asw-border:#dcefe9;--asw-border-strong:#bfe0d8;
-  --asw-text:#123430;--asw-text-secondary:#4d6b67;--asw-text-muted:#51706b;
-  --asw-bot-bg:#f2faf8;--asw-bot-text:#123430;
-  --asw-user-bg:var(--asw-primary);--asw-user-text:#ffffff;
-  --asw-input-bg:#f2faf8;--asw-input-focus-bg:#ffffff;
-  --asw-shadow-subtle:0 1px 2px rgba(18,60,54,.06);
-  --asw-shadow-elevated:0 2px 4px rgba(18,60,54,.06),0 16px 34px -14px rgba(18,60,54,.2);
-  --asw-shadow-modal:0 26px 58px -20px rgba(18,60,54,.3);
-
-  /* ── panel: soft outer edge, no visible border line ── */
-  --asw-panel-border-w:0;--asw-panel-border-color:transparent;
-  --asw-panel-shadow:0 26px 58px -20px rgba(18,60,54,.3);
-  --asw-panel-ring:inset 0 0 0 1px var(--asw-border);
-
-  /* ── header: a soft slab, rounded underside, floating above the sheet ── */
-  --asw-header-bg:linear-gradient(140deg,var(--asw-primary),var(--asw-secondary));
-  --asw-header-pad:var(--asw-sp-4);
-  --asw-header-min-h:72px;
-  --asw-header-radius:0 0 var(--asw-r-xl) var(--asw-r-xl);
-  --asw-header-shadow:0 10px 20px -14px color-mix(in srgb,var(--asw-primary) 80%,transparent);
-  --asw-w-header:var(--asw-w-bold);
-  --asw-header-fs:var(--asw-fs-lg);--asw-header-fs-sub:var(--asw-fs-xs);
-  --asw-avatar-sq:50%;--asw-avatar-size:40px;
-  --asw-avatar-bg:rgba(255,255,255,.22);
-  --asw-avatar-ring:0 0 0 2px rgba(255,255,255,.45);
-  --asw-user-avatar-bg:var(--asw-surface-3);--asw-user-avatar-color:var(--asw-secondary);
-
-  /* ── bubbles: pillows. Assistant is cushioned, visitor is saturated ── */
-  --asw-msgs-pad:var(--asw-sp-4) var(--asw-sp-3) var(--asw-sp-2);
-  --asw-msgs-gap:var(--asw-sp-3);--asw-row-max:90%;
-  --asw-bubble-r:var(--asw-r-lg);--asw-bubble-notch:8px;
-  --asw-bubble-px:var(--asw-sp-4);--asw-bubble-py:12px;
-  --asw-bot-bubble-bg:var(--asw-surface);--asw-bot-bubble-border:transparent;
-  --asw-bot-bubble-shadow:0 2px 4px rgba(18,60,54,.05),0 10px 20px -12px rgba(18,60,54,.18);
+  --asw-primary:#0f8c7c;--asw-secondary:#087265;--asw-accent:#14b8a6;
+  --asw-bg:#fcfffe;--asw-surface:#f0f8f4;--asw-surface-2:#e2f1e9;--asw-surface-3:#d1e8dd;
+  --asw-border:#d0e7db;--asw-border-strong:#a7cbbc;
+  --asw-text:#173e32;--asw-text-secondary:#486c5d;--asw-text-muted:#557566;
+  --asw-r-sm:16px;--asw-r-md:20px;--asw-r-lg:24px;--asw-r-xl:28px;
+  --asw-panel-border-w:0;--asw-panel-ring:inset 0 0 0 1px var(--asw-border);
+  --asw-panel-shadow:0 24px 60px -20px rgba(16,66,47,.28);
+  --asw-header-bg:var(--asw-surface-2);--asw-header-ink:var(--asw-text);--asw-header-pad:18px;
+  --asw-header-radius:22px;--asw-header-fs:17px;--asw-w-header:600;
+  --asw-header-shadow:inset 0 2px 0 rgba(255,255,255,.4),0 5px 12px -8px rgba(20,73,52,.2);
+  --asw-avatar-size:46px;--asw-avatar-sq:50%;--asw-avatar-bg:var(--asw-bg);--asw-avatar-ink:var(--asw-primary);
+  --asw-avatar-ring:0 3px 7px rgba(16,66,47,.08);
+  --asw-msgs-pad:22px 16px 16px;--asw-msgs-gap:18px;
+  --asw-bubble-r:24px;--asw-bubble-notch:9px;--asw-bubble-px:16px;--asw-bubble-py:13px;
+  --asw-bot-bubble-bg:var(--asw-surface-2);--asw-bot-bubble-border:transparent;
+  --asw-bot-bubble-shadow:inset 0 1px 1px rgba(255,255,255,.4),0 4px 8px -6px rgba(16,66,47,.2);
   --asw-user-bubble-bg:var(--asw-primary);--asw-user-bubble-text:var(--asw-on-brand);
-  --asw-lh:1.8;
-
-  /* ── composer: a capsule with a fat round send button inside ── */
-  --asw-composer-bg:var(--asw-input-bg);--asw-composer-border:1px solid transparent;
-  --asw-composer-pad:6px;--asw-composer-pad-start:6px;--asw-composer-pad-end:6px;
-  --asw-composer-gap:var(--asw-sp-2);
-  --asw-input-sq:var(--asw-r-pill);
-  --asw-send-size:40px;--asw-send-bg:var(--asw-primary);--asw-send-ink:#ffffff;
-  --asw-send-shadow:0 4px 10px -4px color-mix(in srgb,var(--asw-primary) 70%,transparent);
-  --asw-btn-sq:var(--asw-r-pill);
-
-  /* ── chips: soft filled pills, no outlines ── */
-  --asw-chip-radius:var(--asw-r-pill);--asw-chip-bg:var(--asw-surface);
-  --asw-chip-border:1px solid transparent;--asw-chip-ink:var(--asw-text-secondary);
-  --asw-chip-hover-bg:var(--asw-surface-3);--asw-chip-hover-border:transparent;
-  --asw-chip-hover-ink:var(--asw-text);
-  --asw-cite-radius:var(--asw-r-md);--asw-cite-bg:var(--asw-surface);
-  --asw-cite-border:1px solid var(--asw-border);
-  --asw-fb-size:30px;--asw-state-hover:var(--asw-surface-2);
-  --asw-focus:var(--asw-primary);
-  --asw-typing-dot-r:50%;
-
-  /* ── fab: a fat circle with a coloured cushion ── */
-  --asw-fab-bg:var(--asw-primary);--asw-fab-color:#ffffff;
-  --asw-fab-sq:50%;--asw-fab-border:0;
-  --asw-fab-shadow:0 12px 26px -10px color-mix(in srgb,var(--asw-primary) 65%,transparent);
-  --asw-fab-ring:inset 0 2px 0 rgba(255,255,255,.22);
-  --asw-ornament:none;
+  --asw-input-sq:28px;--asw-btn-sq:50%;--asw-composer-bg:var(--asw-surface);
+  --asw-send-shadow:0 3px 0 color-mix(in srgb,var(--asw-primary) 65%,#000);
+  --asw-chip-radius:20px;--asw-chip-border:1px solid var(--asw-border);
+  --asw-cite-radius:16px;--asw-cite-bg:var(--asw-surface-2);
+  --asw-fab-bg:var(--asw-primary);--asw-fab-color:var(--asw-on-brand);--asw-fab-sq:50%;
+  --asw-fab-shadow:0 4px 0 color-mix(in srgb,var(--asw-primary) 65%,#000),0 14px 26px -12px rgba(12,91,60,.35);
 }
 .asw.dark{
-  /* Deep soft teal: the same cushioned shapes on a dark green-black base. */
-  --asw-bg:#0e1f1d;--asw-surface:#162927;--asw-surface-2:#1d332f;--asw-surface-3:#25403a;
-  --asw-border:#1f3532;--asw-border-strong:#2f4c46;
-  --asw-text:#e7f4f1;--asw-text-secondary:#9cbcb7;--asw-text-muted:#85a5a1;
-  --asw-bot-bg:#162927;--asw-bot-text:#e7f4f1;
-  --asw-input-bg:#162927;--asw-input-focus-bg:#0e1f1d;
-  --asw-primary:#2ec4b0;--asw-secondary:#1c9c8d;--asw-accent:#5ee0d0;
-  --asw-shadow-modal:0 28px 60px -22px rgba(0,0,0,.72);
-  --asw-panel-ring:inset 0 0 0 1px var(--asw-border);
-  --asw-bot-bubble-bg:var(--asw-surface);
-  --asw-send-ink:#04201c;--asw-fab-color:#04201c;
+  --asw-primary:#80dec0;--asw-secondary:#52c9a8;
+  --asw-bg:#12261f;--asw-surface:#1b342a;--asw-surface-2:#254437;--asw-surface-3:#315547;
+  --asw-border:#375647;--asw-border-strong:#628671;
+  --asw-text:#edf9f2;--asw-text-secondary:#b5d3c1;--asw-text-muted:#a0c2ae;
+  --asw-header-shadow:inset 0 2px 0 rgba(255,255,255,.04),0 5px 12px -8px rgba(0,0,0,.4);
+  --asw-bot-bubble-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 4px 8px -6px rgba(0,0,0,.3);
+  --asw-panel-shadow:0 24px 60px -16px rgba(0,0,0,.6);
 }
-/* Cushion the interactive furniture — and only that. */
-.asw .asw-header-btn{border-radius:var(--asw-r-md);background:rgba(255,255,255,.2);border-color:transparent}
-.asw .asw-header-btn:hover{background:rgba(255,255,255,.32)}
-.asw .asw-hero-orb-wrap{border-radius:50%;background:var(--asw-surface-2);color:var(--asw-primary)}
-.asw .asw-row.user .asw-bubble{box-shadow:0 6px 14px -8px color-mix(in srgb,var(--asw-primary) 85%,transparent)}
-.asw .asw-scrollbtn{border-radius:var(--asw-r-pill);box-shadow:0 8px 18px -10px rgba(18,60,54,.4)}
-.asw .asw-handoff,.asw .asw-leadform{border-radius:var(--asw-r-lg);border-color:transparent;box-shadow:0 10px 22px -14px rgba(18,60,54,.3)}
-.asw .asw-typing-bubble{border-radius:var(--asw-r-lg);border-end-start-radius:var(--asw-bubble-notch)}
-.asw .asw-suggestion{padding:9px var(--asw-sp-4)}
-
-/* Transcript avatar: a soft disc. */
-.asw .asw-row.bot .asw-msg-avatar{border-radius:50%;background:var(--asw-surface-2);color:var(--asw-primary)}
-.asw .asw-typing-dot{background:var(--asw-primary)}
+.asw .asw-header{margin:8px 8px 0}
+.asw .asw-header-tools{border:0;padding-top:0}
+.asw .asw-header-btn{border-radius:50%;border-color:transparent;background:var(--asw-bg);color:var(--asw-text-secondary)}
+.asw .asw-header-btn:hover{background:var(--asw-surface-3);color:var(--asw-text)}
+.asw .asw-hero-orb-wrap{width:68px;height:68px;border-radius:50%;background:var(--asw-surface-2);box-shadow:inset 0 3px 1px rgba(255,255,255,.4),0 6px 12px -8px rgba(16,66,47,.3)}
+.asw .asw-hero-text{font-size:20px;font-weight:600}
+.asw .asw-hero-grid{gap:12px}
+.asw .asw-hero-grid .asw-suggestion{min-height:66px;border-radius:20px;background:var(--asw-surface-2);box-shadow:inset 0 2px 1px rgba(255,255,255,.3),0 3px 6px -4px rgba(16,66,47,.2)}
+.asw .asw-row.bot .asw-msg-avatar{border-radius:50%;background:var(--asw-surface-2)}
+.asw .asw-footer{border-top:0}
+.asw .asw-send:not(:disabled):active{transform:translateY(2px);box-shadow:none}
+.asw .asw-sheet-card{border-top:0}

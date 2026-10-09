@@ -1,0 +1,118 @@
+/* onyx — premium dark developer tooling.
+ * Concept: an expensive console. Deep charcoal planes separated by 1px
+ * hairlines, one electric accent used as an edge light, sharp 6-14px corners,
+ * tabular micro-type. Depth comes from borders and value steps, not shadows.
+ * Silhouette: squared panel with a hairline, square avatar, squared bubbles,
+ * dark-on-dark visitor bubble with a bright accent fill, cyan focus ring.
+ */
+.asw{
+  --asw-primary:#22d3ee;--asw-secondary:#0ea5b7;--asw-accent:#67e8f9;
+  --asw-primary-hover:color-mix(in srgb,var(--asw-primary) 86%,#000);
+  --asw-on-primary:#04252b;
+  /* geometry: precise, slightly sharp */
+  --asw-r-sm:6px;--asw-r-md:10px;--asw-r-lg:14px;--asw-r-xl:18px;
+  /* surfaces: three steps of charcoal, borders do the separating */
+  --asw-bg:#0e1117;--asw-surface:#151a22;--asw-surface-2:#1b2130;--asw-surface-3:#222a3a;
+  --asw-border:#242b38;--asw-border-strong:#39424f;
+  --asw-text:#eaf0f8;--asw-text-secondary:#a3b0c2;--asw-text-muted:#8b98ad;
+  --asw-bot-bg:#151a22;--asw-bot-text:#eaf0f8;
+  --asw-user-bg:var(--asw-primary);--asw-user-text:#04252b;
+  --asw-input-bg:#151a22;--asw-input-focus-bg:#0e1117;
+  --asw-shadow-subtle:0 1px 2px rgba(0,0,0,.5);
+  --asw-shadow-elevated:0 2px 6px rgba(0,0,0,.45),0 18px 40px -14px rgba(0,0,0,.7);
+  --asw-shadow-modal:0 30px 70px -18px rgba(0,0,0,.85);
+  --asw-success:#34d399;--asw-warning:#fbbf24;--asw-error:#f87171;
+
+  /* ── panel: hairline shell + a 1px inner top highlight ── */
+  --asw-panel-border-w:1px;--asw-panel-border-color:#2a3242;
+  --asw-panel-shadow:0 30px 70px -18px rgba(0,0,0,.85);
+  --asw-panel-ring:inset 0 1px 0 rgba(255,255,255,.06);
+
+  /* ── header: charcoal plane, accent rail on top, hairline under ──
+   * The header is deliberately not the brand colour: the accent is a rail and
+   * a text colour, so a customer brand colour still reads as theirs. */
+  --asw-header-bg:#0b0e14;
+  --asw-header-ink:#eaf0f8;
+  --asw-header-pad:var(--asw-sp-3) var(--asw-sp-3);
+  --asw-header-min-h:60px;
+  --asw-header-sep:1px solid #242b38;
+  --asw-header-rail:linear-gradient(90deg,transparent,color-mix(in srgb,var(--asw-primary) 75%,transparent) 22%,color-mix(in srgb,var(--asw-primary) 75%,transparent) 78%,transparent);
+  --asw-header-rail-h:2px;
+  --asw-w-header:var(--asw-w-bold);
+  --asw-avatar-sq:var(--asw-r-md);--asw-avatar-size:36px;
+  --asw-avatar-bg:color-mix(in srgb,var(--asw-primary) 10%,#0b0e14);
+  --asw-avatar-ink:var(--asw-primary);
+  --asw-avatar-ring:inset 0 0 0 1px color-mix(in srgb,var(--asw-primary) 34%,transparent);
+  --asw-user-avatar-bg:color-mix(in srgb,var(--asw-primary) 12%,#0b0e14);
+  --asw-user-avatar-color:var(--asw-primary);
+
+  /* ── bubbles: dark plane with a hairline; visitor gets the accent fill ── */
+  --asw-msgs-pad:var(--asw-sp-4) var(--asw-sp-3) var(--asw-sp-2);
+  --asw-msgs-gap:var(--asw-sp-3);--asw-row-max:88%;
+  --asw-bubble-r:var(--asw-r-lg);--asw-bubble-notch:4px;
+  --asw-bubble-px:var(--asw-sp-3);--asw-bubble-py:10px;
+  --asw-bot-bubble-bg:var(--asw-surface);--asw-bot-bubble-border:var(--asw-border);
+  --asw-bot-bubble-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+  --asw-user-bubble-bg:var(--asw-primary);--asw-user-bubble-text:var(--asw-on-brand);
+
+  /* ── composer: inset dark field, focus glows once ── */
+  --asw-composer-bg:var(--asw-input-bg);--asw-composer-border:1px solid var(--asw-border-strong);
+  --asw-input-sq:var(--asw-r-md);--asw-composer-pad:5px;
+  --asw-composer-pad-start:6px;--asw-composer-pad-end:6px;
+  --asw-send-size:36px;--asw-send-bg:var(--asw-primary);--asw-send-ink:var(--asw-on-brand);
+  --asw-send-shadow:0 0 0 1px color-mix(in srgb,var(--asw-primary) 40%,transparent),0 6px 18px -8px color-mix(in srgb,var(--asw-primary) 70%,transparent);
+  --asw-btn-sq:var(--asw-r-sm);
+
+  /* ── chips: rectangular, hairline, accent on hover ── */
+  --asw-chip-radius:var(--asw-r-sm);--asw-chip-bg:var(--asw-surface);
+  --asw-chip-border:1px solid var(--asw-border);--asw-chip-ink:var(--asw-text-secondary);
+  --asw-chip-hover-bg:color-mix(in srgb,var(--asw-primary) 10%,var(--asw-surface));
+  --asw-chip-hover-border:color-mix(in srgb,var(--asw-primary) 45%,transparent);
+  --asw-chip-hover-ink:var(--asw-text);
+  --asw-cite-radius:var(--asw-r-sm);--asw-cite-bg:transparent;
+  --asw-cite-border:1px solid var(--asw-border);
+  --asw-fb-size:28px;--asw-state-hover:var(--asw-surface-2);
+  --asw-focus:var(--asw-primary);
+  --asw-typing-dot-r:50%;
+
+  /* ── fab: the one element allowed to glow ── */
+  --asw-fab-bg:linear-gradient(140deg,color-mix(in srgb,var(--asw-primary) 92%,#fff),var(--asw-secondary));
+  --asw-fab-color:var(--asw-on-brand);--asw-fab-sq:var(--asw-r-lg);--asw-fab-border:0;
+  --asw-fab-shadow:0 8px 26px -8px color-mix(in srgb,var(--asw-primary) 55%,transparent);
+  --asw-fab-ring:inset 0 1px 0 rgba(255,255,255,.28);
+  --asw-ornament:none;
+}
+.asw.dark{
+  /* Same personality, one stop deeper: the planes separate more, the accent
+   * is the only thing that gets brighter. */
+  --asw-bg:#080a0f;--asw-surface:#0f131b;--asw-surface-2:#151b25;--asw-surface-3:#1c2431;
+  --asw-border:#1f2733;--asw-border-strong:#333d4d;
+  --asw-text:#e6edf7;--asw-text-secondary:#98a5b8;--asw-text-muted:#7f8ca1;
+  --asw-bot-bg:#0f131b;--asw-bot-text:#e6edf7;
+  --asw-input-bg:#0f131b;--asw-input-focus-bg:#080a0f;
+  --asw-header-bg:#05070b;--asw-header-sep:1px solid #1f2733;
+  --asw-bot-bubble-bg:var(--asw-surface);
+  --asw-bot-bubble-bg:var(--asw-surface);
+  --asw-panel-border-color:#232b38;
+}
+/* Micro-type is tabular and monospaced where the content is Latin/digits
+ * (timestamps, status pills); body text stays on the Persian face. */
+.asw .asw-subtitle{letter-spacing:.06em;font-size:10.5px}
+.asw .asw-time,.asw .asw-badge,.asw .asw-identity,.asw .asw-live-chip{font-family:var(--asw-mono);letter-spacing:.02em}
+.asw .asw-status{box-shadow:0 0 0 2px var(--asw-header-bg,#0b0e14)}
+/* Header controls: hairline squares instead of translucent plates. */
+.asw .asw-header-btn{background:transparent;border-color:var(--asw-border);color:var(--asw-text-secondary)}
+.asw .asw-header-btn:hover{background:var(--asw-surface-2);border-color:var(--asw-border-strong);color:var(--asw-text)}
+/* Visitor rows read as "the sent packet": accent fill, dark ink, no shadow. */
+.asw .asw-row.user .asw-bubble{font-weight:var(--asw-w-medium)}
+.asw .asw-footer{background:var(--asw-bg);border-top-color:var(--asw-border)}
+.asw .asw-typing-dot{background:var(--asw-primary);opacity:.85}
+
+/* Transcript avatar: a hairline square — the operator marker. */
+.asw .asw-row.bot .asw-msg-avatar{
+  border-radius:var(--asw-r-sm);
+  background:color-mix(in srgb,var(--asw-primary) 12%,#0b0e14);
+  color:var(--asw-primary);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--asw-primary) 32%,transparent);
+}
+.asw .asw-typing-bubble{background:var(--asw-surface);border-color:var(--asw-border);border-radius:var(--asw-r-lg);border-end-start-radius:4px}

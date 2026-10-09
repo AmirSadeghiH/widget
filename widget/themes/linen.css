@@ -1,0 +1,122 @@
+/* linen — editorial, premium, human.
+ * Concept: a well-set page. Warm paper instead of panels, terracotta instead of
+ * brand gradients, rules instead of fills, generous leading instead of chrome.
+ * Silhouette: small crisp corners, a paper masthead header with a short accent
+ * rule, circular thin-ringed avatar, outline bubbles with wide measure, a
+ * composer that is just an underline, and a circular outlined send button.
+ */
+.asw{
+  --asw-primary:#c2410c;--asw-secondary:#9a3412;--asw-accent:#b45309;
+  --asw-primary-hover:color-mix(in srgb,var(--asw-primary) 88%,#000);
+  /* geometry: editorial crispness — small radii, straight edges */
+  --asw-r-sm:4px;--asw-r-md:6px;--asw-r-lg:10px;--asw-r-xl:14px;
+  /* surfaces: paper, not plastic */
+  --asw-bg:#fffdf9;--asw-surface:#faf6f0;--asw-surface-2:#f3ece1;--asw-surface-3:#eae0d1;
+  --asw-border:#ece2d3;--asw-border-strong:#d8c9b1;
+  --asw-text:#33291f;--asw-text-secondary:#6f6252;--asw-text-muted:#7c6b52;
+  --asw-bot-bg:#fffdf9;--asw-bot-text:#33291f;
+  --asw-user-bg:var(--asw-primary);--asw-user-text:#fffdf8;
+  --asw-input-bg:transparent;--asw-input-focus-bg:transparent;
+  --asw-shadow-subtle:0 1px 2px rgba(90,64,35,.05);
+  --asw-shadow-elevated:0 1px 2px rgba(90,64,35,.06),0 14px 30px -12px rgba(90,64,35,.16);
+  --asw-shadow-modal:0 24px 56px -20px rgba(90,64,35,.28);
+  /* typography: wider leading and lighter headings than every other theme */
+  --asw-lh:1.9;
+
+  /* ── panel: paper sheet, one hairline, a whisper of shadow ── */
+  --asw-panel-border-w:1px;--asw-panel-border-color:var(--asw-border-strong);
+  --asw-panel-shadow:0 24px 56px -20px rgba(90,64,35,.28);
+
+  /* ── header: a masthead. Paper, ink, one rule, one accent rule ── */
+  --asw-header-bg:var(--asw-bg);
+  --asw-header-ink:var(--asw-text);
+  --asw-header-pad:var(--asw-sp-4) var(--asw-sp-4) var(--asw-sp-3);
+  --asw-header-min-h:0px;
+  --asw-header-sep:1px solid var(--asw-border);
+  --asw-ornament:linear-gradient(90deg,var(--asw-primary),color-mix(in srgb,var(--asw-primary) 25%,transparent) 38%,transparent 60%);
+  --asw-ornament-h:2px;
+  --asw-w-header:var(--asw-w-medium);
+  --asw-header-fs:16.5px;--asw-header-fs-sub:var(--asw-fs-sm);
+  --asw-avatar-sq:50%;--asw-avatar-size:40px;
+  --asw-avatar-bg:var(--asw-bg);--asw-avatar-ink:var(--asw-primary);
+  --asw-avatar-ring:inset 0 0 0 1px color-mix(in srgb,var(--asw-primary) 40%,transparent);
+  --asw-user-avatar-bg:var(--asw-surface-3);--asw-user-avatar-color:var(--asw-primary);
+
+  /* ── bubbles: outlined, wide measure, generous leading ── */
+  --asw-msgs-pad:var(--asw-sp-6) var(--asw-sp-4) var(--asw-sp-3);
+  --asw-msgs-gap:var(--asw-sp-4);--asw-row-max:86%;
+  --asw-bubble-r:var(--asw-r-lg);--asw-bubble-notch:3px;
+  --asw-bubble-px:var(--asw-sp-4);--asw-bubble-py:12px;
+  --asw-bot-bubble-bg:var(--asw-bg);--asw-bot-bubble-border:var(--asw-border-strong);
+  --asw-bot-bubble-shadow:0 1px 2px rgba(90,64,35,.05);
+  --asw-user-bubble-bg:var(--asw-primary);--asw-user-bubble-text:var(--asw-on-brand);
+
+  /* ── composer: an underline, nothing more ── */
+  --asw-composer-bg:transparent;--asw-composer-border:0;
+  --asw-composer-pad:6px;--asw-composer-pad-start:2px;--asw-composer-pad-end:2px;
+  --asw-composer-gap:var(--asw-sp-2);
+  --asw-input-sq:0px;
+  --asw-send-size:38px;--asw-send-bg:transparent;--asw-send-ink:var(--asw-primary);
+  --asw-send-hover:var(--asw-primary);
+  --asw-btn-sq:50%;
+
+  /* ── chips / citations: small outlined rectangles, quoted sources ── */
+  --asw-chip-radius:var(--asw-r-md);--asw-chip-bg:transparent;
+  --asw-chip-border:1px solid var(--asw-border-strong);--asw-chip-ink:var(--asw-text-secondary);
+  --asw-chip-hover-bg:var(--asw-surface-2);--asw-chip-hover-border:var(--asw-primary);
+  --asw-chip-hover-ink:var(--asw-primary);
+  --asw-cite-radius:var(--asw-r-sm);--asw-cite-bg:var(--asw-surface);
+  --asw-cite-border:1px dashed var(--asw-border-strong);
+  --asw-fb-size:30px;--asw-state-hover:var(--asw-surface-2);
+  --asw-focus:var(--asw-primary);
+  --asw-typing-dot-r:50%;
+
+  /* ── fab: paper disc, terracotta mark, deep warm shadow ── */
+  --asw-fab-bg:var(--asw-bg);--asw-fab-color:var(--asw-primary);
+  --asw-fab-sq:50%;--asw-fab-border:1px solid var(--asw-border-strong);
+  --asw-fab-shadow:0 12px 26px -10px rgba(90,64,35,.45);
+}
+.asw.dark{
+  /* Warm brown/cream dark: the paper becomes a deep espresso sheet. */
+  --asw-bg:#1b1611;--asw-surface:#241d16;--asw-surface-2:#2c241b;--asw-surface-3:#372d21;
+  --asw-border:#352b20;--asw-border-strong:#4d3f2c;
+  --asw-text:#f4ecdd;--asw-text-secondary:#c0ab90;--asw-text-muted:#a08b6a;
+  --asw-primary:#e2823f;--asw-secondary:#c2612a;--asw-accent:#e08b3c;
+  --asw-bot-bg:#1b1611;--asw-bot-text:#f4ecdd;
+  --asw-input-bg:transparent;--asw-input-focus-bg:transparent;
+  --asw-shadow-modal:0 26px 60px -22px rgba(0,0,0,.6);
+  --asw-panel-border-color:#4d3f2c;
+  --asw-bot-bubble-bg:var(--asw-bg);
+  --asw-bot-bubble-bg:var(--asw-bg);
+}
+/* The composer is a rule, and the rule is the focus indicator. */
+.asw .asw-input-wrap{border-block-end:1px solid var(--asw-border-strong)}
+.asw .asw-input-wrap:focus-within{border-block-end-color:var(--asw-primary);box-shadow:0 1px 0 0 var(--asw-primary);background:transparent}
+.asw .asw-input-wrap.asw-listening{border-block-end-color:var(--asw-error);box-shadow:0 1px 0 0 var(--asw-error)}
+/* Send: outlined disc, fills on hover — the only filled control in the theme. */
+.asw .asw-send{border:1px solid var(--asw-border-strong)}
+.asw .asw-send:not(:disabled):hover{color:#fffdf8;border-color:var(--asw-primary)}
+.asw .asw-send:disabled{border-color:var(--asw-border);opacity:.5}
+.asw .asw-send.asw-stop{background:var(--asw-error);border-color:var(--asw-error);color:#fff}
+/* Header controls: quiet ghosts; the paper masthead must stay quiet. */
+.asw .asw-header-btn{background:transparent;border-color:transparent;color:var(--asw-text-secondary)}
+.asw .asw-header-btn:hover{background:var(--asw-surface-2);color:var(--asw-text)}
+/* Welcome: set like a standfirst — medium weight, wide measure, no orb fill. */
+.asw .asw-hero{padding-block-start:var(--asw-sp-7)}
+.asw .asw-hero-orb-wrap{border-radius:50%;background:var(--asw-bg);color:var(--asw-primary);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--asw-primary) 40%,transparent)}
+.asw .asw-hero-text{font-size:17px;font-weight:var(--asw-w-medium);line-height:1.85}
+.asw .asw-hero-sub{color:var(--asw-text-secondary)}
+.asw .asw-hero-grid .asw-suggestion{border-radius:var(--asw-r-md);background:transparent}
+/* Sources read as footnotes. */
+.asw .asw-citations-label{font-style:italic}
+.asw .asw-divider::before,.asw .asw-divider::after{background:var(--asw-border)}
+
+/* Transcript avatar: a thin-ringed disc, like a columnist's portrait. */
+.asw .asw-row.bot .asw-msg-avatar{
+  border-radius:50%;
+  background:var(--asw-bg);
+  color:var(--asw-primary);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--asw-primary) 35%,transparent);
+}
+.asw .asw-typing-bubble{background:var(--asw-bg);border-color:var(--asw-border-strong);border-radius:var(--asw-r-lg);border-end-start-radius:3px}
+.asw .asw-typing-dot{background:var(--asw-primary);opacity:.8}

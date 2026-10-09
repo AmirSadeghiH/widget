@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design check — widget states</title>
+<style>
+  body{margin:0;font-family:Vazirmatn,Tahoma,sans-serif;background:#f2f3f7;color:#1b1d26}
+  .bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid #e6e8ef;position:sticky;top:0;z-index:9}
+  .bar strong{font-size:12px;margin-inline-end:6px}
+  .bar button{font:inherit;font-size:11.5px;padding:5px 9px;border:1px solid #d7dae4;background:#f7f8fb;border-radius:7px;cursor:pointer}
+  .bar button:hover{border-color:#9aa3bd}
+  .bar code{font-size:11px;background:#f2f3f7;border:1px solid #e6e8ef;border-radius:6px;padding:3px 6px;direction:ltr}
+  main{padding:22px 18px;max-width:640px}
+  h1{font-size:17px;margin:0 0 6px}
+  p{color:#5b6172;font-size:13px;line-height:1.9;margin:0 0 10px}
+  .card{background:#fff;border:1px solid #e6e8ef;border-radius:12px;padding:12px;font-size:12px;color:#5b6172}
+</style>
+</head>
+<body>
+<div class="bar">
+  <strong>state:</strong>
+  <button data-act="open">open</button>
+  <button data-act="close">close</button>
+  <button data-act="welcome">welcome</button>
+  <button data-act="answer">ai answer</button>
+  <button data-act="nothelpful">not helpful → CTA</button>
+  <button data-act="waiting">human waiting</button>
+  <button data-act="claimed">operator joined</button>
+  <button data-act="agent">operator reply</button>
+  <button data-act="closed">human closed</button>
+  <button data-act="thinking">thinking</button>
+  <button data-act="error">error + retry</button>
+  <button data-act="offline">offline</button>
+  <button data-act="locked">locked</button>
+  <code id="which"></code>
+</div>
+<main>
+  <h1>سایت نمونه مشتری</h1>
+  <p>این صفحه برای بازبینی چشمی ویجت است: همان فایل‌های واقعی bundle لود می‌شوند و
+  همه‌ی حالت‌ها از طریق کلاینت‌های عمومی خود ویجت (<code>AISupportLive</code> و
+  <code>AISupportUI</code>) رانده می‌شوند؛ هیچ backend‌ای درگیر نیست.</p>
+  <div class="card">تم انتخابی: <b id="theme"></b> — پارامتر <code>?theme=onyx</code> را عوض کنید.</div>
+</main>
+<script>
+  (function () {
+    var theme = new URLSearchParams(location.search).get("theme") || "classic";
+    document.getElementById("theme").textContent = theme;
+    var file = theme === "classic" ? "widget.js" : "widget-" + theme + ".js";
+    document.getElementById("which").textContent = file;
+
+    // ?noconf=1 keeps the theme's own palette: the gallery uses it to show what
+    // an installation looks like before a customer overrides any colour.
+    var noconf = new URLSearchParams(location.search).get("noconf") === "1";
+    window.AI_WIDGET_CONFIG = {
+      title: "پشتیبانی آنلاین",
+      subtitle: "آنلاین • پاسخ فوری",
+      greeting: "سلام! چطور می‌توانم کمکتان کنم؟",
+      suggestions: ["قیمت محصولات", "شرایط ارسال", "ساعات کاری", "مرجوعی"],
+      liveHandoffEnabled: true,
+      liveHandoffSlaMinutes: 5
+    };
+    if (!noconf) window.AI_WIDGET_CONFIG.primaryColor = "#4f46e5";
+
+    var script = document.createElement("script");
+    // Cache-bust so the inspection always runs the file currently on disk.
+    script.src = "./" + file + "?v=" + Date.now();
+    script.setAttribute("data-preview", "1");
+    script.defer = true;
+    document.head.appendChild(script);
+
+    function w() { return window._aiWidget; }
+    function row(text, sender) { return w().addMessage(text, sender, false, {}); }
+    // Mirror what sendMessage() does around a real exchange so the capture shows
+    // the same scroll position production would show.
+    function started() {
+      w()._chatStarted = true;
+      w()._stick = true;
+      w().collapseHero();
+      w().suggestions.hidden = true;
+    }
+    // Instant (non-smooth) pin: smooth scrolling is requestAnimationFrame driven
+    // and this inspection tab throttles rAF, so we set the end position directly.
+    function pin() {
+      w()._stick = true;
+      var m = w().messages;
+      m.scrollTop = m.scrollHeight;
+    }
+
+    var ACTIONS = {
+      open: function () { w().open(); },
+      close: function () { w().close(); },
+      welcome: function () {
+        w().messages.innerHTML = "";
+        w().messageCount = 0;
+        w().addHero(window.AI_WIDGET_CONFIG.greeting);
+      },
+      answer: function () {
+        w().open();
+        started();
+        w().addMessage("ساعات کاری ما شنبه تا چهارشنبه ۹ تا ۱۷ است.", "user");
+        w().handleAnswerResult(
+          "**ساعات کاری** شنبه تا چهارشنبه از **۹ تا ۱۷** است.\n\n- پنجشنبه ۹ تا ۱۳\n- جمعه تعطیل\n\n```bash\ncurl https://api.example.com/hours\n```",
+          { message_id: 101, citations: [{ title: "صفحه تماس با ما", page_number: 2 }] }
+        );
+        pin();
+      },
+      nothelpful: function () {
+        // The config endpoint is authoritative for this flag; with no backend in
+        // this page we feed the client the same payload the bundle applies.
+        AISupportLive.applyConfig(w(), { enabled: true, sla_minutes: 5, cta_label: "اتصال به پشتیبانی انسانی" });
+        var last = w().messages.querySelector(".asw-row.asw-last .asw-feedback");
+        if (!last) return;
+        w().handleFeedback(last.querySelector(".thumbs-down"));
+        pin();
+      },
+      waiting: function () {
+        w().open();
+        AISupportLive.applyMode(w(), "waiting", {});
+        w().ui.sync();
+      },
+      claimed: function () {
+        w().open();
+        AISupportLive.applyMode(w(), "human", { operator: "op1" });
+        var last = w().messages.lastElementChild;
+        if (last) {
+          var col = last.querySelector(".asw-col");
+          w().addMessage("یک کارشناس انسانی گفتگو را ادامه می‌دهد.", "bot", false, { skipFeedback: true });
+          AISupportLive.decorateHistory(w(), [{ sender: "agent", content: "x" }, { sender: "system", content: "y" }]);
+        }
+        w().ui.sync();
+      },
+      agent: function () {
+        w().open();
+        if (!w().messages.querySelector(".asw-row")) { started(); row("سلام، من کارشناس پشتیبانی هستم.", "user"); }
+        row("سلام! بررسی کردم؛ سفارش شما امروز ارسال می‌شود.", "bot");
+        AISupportLive.decorateHistory(w(), [{ sender: "agent" }]);
+        w().ui.sync();
+        pin();
+      },
+      closed: function () {
+        w().open();
+        started();
+        row("پشتیبانی انسانی پایان یافت. دستیار هوشمند دوباره فعال شد.", "bot");
+        AISupportLive.decorateHistory(w(), [{ sender: "system" }]);
+        row("پس یک سؤال دیگر دارم.", "user");
+        AISupportLive.applyMode(w(), "ai", {});
+        w().ui.sync();
+        pin();
+      },
+      thinking: function () {
+        w().open();
+        w().setLoading(true);
+        w().ui.sync();
+      },
+      error: function () {
+        w().open();
+        started();
+        w()._lastUserMessage = "سؤال قبلی";
+        w().addMessage("این پاسخ دریافت نشد.", "bot", false, { isError: true, retry: true });
+        pin();
+      },
+      offline: function () {
+        w().open();
+        // Drive the real path: flip navigator.onLine and fire the event the
+        // widget already listens to.
+        Object.defineProperty(navigator, "onLine", { value: false, configurable: true });
+        window.dispatchEvent(new Event("offline"));
+        w().ui.sync();
+      },
+      locked: function () {
+        w().open();
+        w()._setBlocked(true, "این سرویس در حال حاضر برای این سایت در دسترس نیست.");
+        pin();
+      }
+    };
+
+    document.querySelectorAll("[data-act]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        try {
+          ACTIONS[btn.dataset.act]();
+        } catch (error) {
+          console.error(error);
+          btn.textContent = btn.dataset.act + " !";
+        }
+      });
+    });
+
+    // Deep link: ?act=answer runs one state after boot (handy for screenshots).
+    var act = new URLSearchParams(location.search).get("act");
+    if (act && ACTIONS[act]) {
+      setTimeout(function () { ACTIONS[act](); }, 350);
+    }
+  })();
+</script>
+</body>
+</html>

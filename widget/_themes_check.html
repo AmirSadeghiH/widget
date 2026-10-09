@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>Themes check — boot + identity + alignment for all 11 bundles</title>
+<style>
+  body{margin:0;font:13px/1.7 Tahoma,sans-serif;background:#0f1116;color:#e8eaf2}
+  h1{font-size:15px;margin:0;padding:12px 16px;background:#151823;border-bottom:1px solid #262b3a}
+  #log{padding:8px 16px}
+  .row{padding:4px 0;border-bottom:1px solid #1d2130;direction:ltr;text-align:left;font-family:ui-monospace,Consolas,monospace;font-size:12px}
+  .ok{color:#5ddba0}.bad{color:#ff6b76}.warn{color:#e0b354}
+  iframe{position:fixed;left:-4000px;top:0;width:420px;height:760px;border:0}
+</style>
+</head>
+<body>
+<h1>Themes check — boots every bundle in its own document</h1>
+<div id="log"></div>
+<div id="frames"></div>
+<script>
+(function () {
+  "use strict";
+  var THEMES = ["classic","onyx","linen","clay","atomic","fluen","glassmo","md3","minimal","neu","skuermo"];
+  var results = [];
+  window.__results = results;
+
+  function fileFor(theme) { return theme === "classic" ? "widget.js" : "widget-" + theme + ".js"; }
+
+  function measure(win, doc, theme) {
+    var w = win._aiWidget;
+    var out = { theme: theme, file: fileFor(theme), booted: !!w, version: win.AISupportWidget && win.AISupportWidget.version };
+    if (!w) return out;
+    out.liveClient = typeof win.AISupportLive;
+    out.uiShell = typeof win.AISupportUI;
+    try { w.open(); } catch (e) { out.openError = String(e); }
+
+    var host = doc.getElementById("ai-support-widget-host");
+    out.host = !!host;
+    var sr = host && host.shadowRoot;
+    out.shadow = !!sr;
+    if (!sr) return out;
+
+    out.cssBytes = sr.querySelector("style").textContent.length;
+    var root = sr.querySelector(".asw");
+    out.state = root.getAttribute("data-ui-state");
+    out.dot = getComputedStyle(sr.querySelector(".asw-status")).backgroundColor;
+    out.primary = getComputedStyle(root).getPropertyValue("--asw-primary").trim();
+    out.radiusLg = getComputedStyle(root).getPropertyValue("--asw-r-lg").trim();
+    out.headerBg = getComputedStyle(root).getPropertyValue("--asw-header-bg").trim();
+    out.fontFamily = getComputedStyle(root).fontFamily.slice(0, 28);
+
+    var box = sr.querySelector(".asw-messages").getBoundingClientRect();
+    out.messagesDirection = getComputedStyle(sr.querySelector(".asw-messages")).direction;
+
+    // Render one of each and read the physical side as a 0..1 fraction of the
+    // transcript width: <0.5 is the left half, >0.5 the right half.
+    w.addMessage("پیام بازدیدکننده", "user", false, {});
+    w.addMessage("پاسخ دستیار", "bot", false, {});
+    var frac = function (sel) {
+      var row = sr.querySelector(sel);
+      if (!row || !box.width) return null;
+      var r = row.getBoundingClientRect();
+      return Math.round((((r.left + r.right) / 2) - box.left) / box.width * 100) / 100;
+    };
+    out.userSide = frac(".asw-row.user");
+    out.botSide = frac(".asw-row.bot");
+
+    // A system notice must sit in the middle, not on either side.
+    w.addMessage("یک کارشناس به گفتگو پیوست.", "bot", false, { skipFeedback: true });
+    if (win.AISupportLive && win.AISupportLive.decorateHistory) {
+      win.AISupportLive.decorateHistory(w, [{ sender: "system", content: "x" }]);
+    }
+    out.noteSide = frac(".asw-row.asw-live-row-note");
+
+    out.handoffWired = !!(w.live && typeof w.live.adopt === "function");
+    return out;
+  }
+
+  function run(theme) {
+    return new Promise(function (resolve) {
+      var frame = document.createElement("iframe");
+      frame.src = "./_design_check.html?theme=" + theme + "&t=" + Date.now();
+      document.getElementById("frames").appendChild(frame);
+      var done = false;
+      var finish = function (r) {
+        if (done) return;
+        done = true;
+        resolve(r);
+      };
+      var deadline = Date.now() + 15000;
+      var poll = function () {
+        if (Date.now() > deadline) return finish({ theme: theme, booted: false, reason: "timeout" });
+        var win, doc;
+        try { win = frame.contentWindow; doc = frame.contentDocument; } catch (e) { return finish({ theme: theme, booted: false, reason: "inaccessible" }); }
+        if (win && win._aiWidget && doc && doc.getElementById("ai-support-widget-host")) {
+          var r = measure(win, doc, theme);
+          frame.remove();
+          return finish(r);
+        }
+        setTimeout(poll, 120);
+      };
+      poll();
+    });
+  }
+
+  (async function () {
+    for (var i = 0; i < THEMES.length; i++) {
+      var r = await run(THEMES[i]);
+      results.push(r);
+      paint();
+    }
+    window.__done = true;
+  })();
+
+  function paint() {
+    var log = document.getElementById("log");
+    log.innerHTML = results.map(function (r) {
+      if (!r.booted) return '<div class="row bad">' + r.theme + ' — BOOT FAILED (' + (r.reason || "?") + ")</div>";
+      var sides = "user=" + r.userSide + " bot=" + r.botSide + " note=" + r.noteSide;
+      var sideOk = r.userSide > 0.5 && r.botSide < 0.5;
+      var stateOk = r.state === "online";
+      return '<div class="row">' +
+        '<b>' + r.theme.padEnd(9) + "</b> " +
+        r.file.padEnd(20) +
+        " boot=" + r.booted +
+        " v=" + r.version +
+        " live=" + r.liveClient + " ui=" + r.uiShell +
+        " css=" + r.cssBytes +
+        " state=<span class='" + (stateOk ? "ok" : "warn") + "'>" + r.state + "</span>" +
+        " dot=" + r.dot +
+        " sides=<span class='" + (sideOk ? "ok" : "bad") + "'>" + sides + "</span>" +
+        " primary=" + r.primary +
+        " r-lg=" + r.radiusLg +
+        "</div>";
+    }).join("");
+  }
+})();
+</script>
+</body>
+</html>

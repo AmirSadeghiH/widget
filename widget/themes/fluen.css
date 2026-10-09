@@ -1,0 +1,121 @@
+/* fluen — expressive modern startup.
+ * Concept: one fluid gesture. The header is a floating gradient card resting
+ * inside the panel instead of a bar glued to its top edge, corners are large
+ * and asymmetric, and the only saturated object in the interface is the round
+ * gradient send button. The gradient is identity, not wallpaper: it appears on
+ * exactly three surfaces (header, send, FAB).
+ * Silhouette: 14-26px corners, floating header card, squircle bubbles, pill
+ * composer with a gradient disc inside it.
+ */
+.asw{
+  --asw-primary:#6d5efc;--asw-secondary:#d6409f;--asw-accent:#8b7cff;
+  --asw-primary-hover:color-mix(in srgb,var(--asw-primary) 88%,#000);
+  /* geometry: fluid — large radii, small notches */
+  --asw-r-sm:10px;--asw-r-md:14px;--asw-r-lg:20px;--asw-r-xl:26px;
+  /* surfaces: cool white over a violet-tinted grey */
+  --asw-bg:#ffffff;--asw-surface:#fbf9ff;--asw-surface-2:#f3efff;--asw-surface-3:#e8e2fb;
+  --asw-border:#ece7f7;--asw-border-strong:#d7ceef;
+  --asw-text:#1b1430;--asw-text-secondary:#5d5480;--asw-text-muted:#6e6591;
+  --asw-bot-bg:#fbf9ff;--asw-bot-text:#1b1430;
+  --asw-user-bg:var(--asw-primary);--asw-user-text:#fff;
+  --asw-input-bg:#fbf9ff;--asw-input-focus-bg:#ffffff;
+  --asw-shadow-elevated:0 1px 2px rgba(29,21,51,.06),0 16px 36px -14px rgba(29,21,51,.22);
+  --asw-shadow-modal:0 28px 64px -22px rgba(29,21,51,.34);
+
+  /* ── panel: clean sheet; the header card supplies the drama ── */
+  --asw-panel-border-w:1px;--asw-panel-border-color:var(--asw-border);
+  --asw-panel-shadow:0 28px 64px -22px rgba(29,21,51,.34);
+
+  /* ── header: a floating gradient card ── */
+  --asw-header-ink:#ffffff;
+  --asw-header-pad:var(--asw-sp-4);
+  --asw-header-min-h:76px;
+  --asw-header-radius:var(--asw-r-lg);
+  --asw-header-shadow:0 14px 30px -18px color-mix(in srgb,var(--asw-primary) 85%,transparent);
+  --asw-w-header:var(--asw-w-bold);
+  --asw-header-fs:15.5px;--asw-header-fs-sub:var(--asw-fs-xs);
+  --asw-avatar-sq:50%;--asw-avatar-size:42px;
+  --asw-avatar-bg:rgba(255,255,255,.22);
+  --asw-avatar-ring:0 0 0 2px rgba(255,255,255,.3);
+  --asw-user-avatar-bg:var(--asw-surface-3);--asw-user-avatar-color:var(--asw-primary);
+
+  /* ── bubbles: squircles with a single soft notch ── */
+  --asw-msgs-pad:var(--asw-sp-4) var(--asw-sp-3) var(--asw-sp-2);
+  --asw-msgs-gap:var(--asw-sp-3);--asw-row-max:90%;
+  --asw-bubble-r:var(--asw-r-lg);--asw-bubble-notch:8px;
+  --asw-bubble-px:var(--asw-sp-4);--asw-bubble-py:11px;
+  --asw-bot-bubble-bg:var(--asw-surface);--asw-bot-bubble-border:var(--asw-border);
+  --asw-bot-bubble-shadow:0 1px 2px rgba(29,21,51,.05),0 12px 26px -16px rgba(29,21,51,.2);
+  --asw-user-bubble-bg:linear-gradient(135deg,var(--asw-primary),var(--asw-secondary));
+  --asw-user-bubble-text:#fff;
+  --asw-lh:1.8;
+
+  /* ── composer: a capsule with the gradient disc inside ── */
+  --asw-composer-bg:var(--asw-input-bg);--asw-composer-border:1px solid transparent;
+  --asw-composer-pad:6px;--asw-composer-pad-start:8px;--asw-composer-pad-end:6px;
+  --asw-composer-gap:var(--asw-sp-2);
+  --asw-input-sq:var(--asw-r-xl);
+  --asw-send-size:40px;
+  --asw-send-bg:linear-gradient(135deg,var(--asw-primary),var(--asw-secondary));
+  --asw-send-ink:#fff;
+  --asw-send-shadow:0 6px 16px -6px color-mix(in srgb,var(--asw-primary) 70%,transparent);
+  --asw-btn-sq:50%;
+
+  /* ── chips: tinted pills that fill on hover ── */
+  --asw-chip-radius:var(--asw-r-pill);
+  --asw-chip-bg:color-mix(in srgb,var(--asw-primary) 7%,#ffffff);
+  --asw-chip-border:1px solid color-mix(in srgb,var(--asw-primary) 16%,transparent);
+  --asw-chip-ink:var(--asw-text-secondary);
+  --asw-chip-hover-bg:color-mix(in srgb,var(--asw-primary) 14%,#ffffff);
+  --asw-chip-hover-border:color-mix(in srgb,var(--asw-primary) 40%,transparent);
+  --asw-chip-hover-ink:var(--asw-text);
+  --asw-cite-radius:var(--asw-r-md);--asw-cite-bg:var(--asw-surface);
+  --asw-cite-border:1px solid var(--asw-border);
+  --asw-fb-size:30px;--asw-state-hover:var(--asw-surface-2);
+  --asw-focus:var(--asw-primary);
+  --asw-typing-dot-r:50%;
+
+  /* ── fab: gradient, large radius, coloured lift ── */
+  --asw-fab-bg:linear-gradient(135deg,var(--asw-primary),var(--asw-secondary));
+  --asw-fab-color:#fff;--asw-fab-sq:var(--asw-r-lg);--asw-fab-border:0;
+  --asw-fab-shadow:0 14px 30px -12px color-mix(in srgb,var(--asw-primary) 65%,transparent);
+  --asw-fab-ring:inset 0 1px 0 rgba(255,255,255,.25);
+  --asw-ornament:none;
+}
+.asw.dark{
+  --asw-bg:#131024;--asw-surface:#1b1631;--asw-surface-2:#221b3d;--asw-surface-3:#2b2249;
+  --asw-border:#2a2246;--asw-border-strong:#3d3266;
+  --asw-text:#f2eeff;--asw-text-secondary:#b3a9d4;--asw-text-muted:#8f84b3;
+  --asw-bot-bg:#1b1631;--asw-bot-text:#f2eeff;
+  --asw-input-bg:#1b1631;--asw-input-focus-bg:#131024;
+  --asw-primary:#8b7cff;--asw-secondary:#e86ab4;--asw-accent:#a99bff;
+  --asw-shadow-modal:0 30px 70px -24px rgba(0,0,0,.8);
+  --asw-chip-bg:color-mix(in srgb,var(--asw-primary) 12%,#131024);
+  --asw-chip-hover-bg:color-mix(in srgb,var(--asw-primary) 20%,#131024);
+  --asw-bot-bubble-bg:var(--asw-surface);
+}
+/* The floating card: inset from the panel edges, gradient, soft light on top. */
+.asw .asw-header{
+  margin:10px 10px 0;
+  background-image:
+    radial-gradient(120% 140% at 12% 0%,rgba(255,255,255,.28),transparent 55%),
+    linear-gradient(120deg,var(--asw-primary),var(--asw-secondary));
+}
+.asw .asw-header-btn{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.28)}
+.asw .asw-header-btn:hover{background:rgba(255,255,255,.3)}
+/* Keep the state banners on the same inset grid as the card. */
+.asw .asw-banner,.asw .asw-netstatus{margin-inline:10px}
+.asw .asw-hero-orb-wrap{
+  border-radius:50%;
+  background-image:linear-gradient(135deg,var(--asw-primary),var(--asw-secondary));
+  color:#fff;
+  box-shadow:0 12px 26px -14px color-mix(in srgb,var(--asw-primary) 85%,transparent);
+}
+.asw .asw-hero-text{font-size:16.5px}
+.asw .asw-scrollbtn{border-radius:var(--asw-r-pill)}
+.asw .asw-handoff,.asw .asw-leadform{border-radius:var(--asw-r-lg)}
+
+/* Transcript avatar: a disc tinted with the brand. */
+.asw .asw-row.bot .asw-msg-avatar{border-radius:50%;background:color-mix(in srgb,var(--asw-primary) 12%,#fff);color:var(--asw-primary)}
+.asw .asw-typing-bubble{background:var(--asw-surface);border-color:var(--asw-border);border-radius:var(--asw-r-lg);border-end-start-radius:8px}
+.asw .asw-typing-dot{background:var(--asw-primary)}

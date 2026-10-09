@@ -1,0 +1,91 @@
+/* classic — the modern SaaS support default.
+ * Concept: one trustworthy column. A branded gradient header carries the
+ * identity, everything below it is quiet white-on-soft-grey so the
+ * conversation is always the loudest thing on screen.
+ * Silhouette: 16px panel, 16px bubbles with a 6px notch on the side facing the
+ * speaker, rounded-square avatars, squared send button. Hierarchy comes from
+ * fill and alignment, never from decoration.
+ */
+.asw{
+  --asw-primary:#4f46e5;--asw-secondary:#7c3aed;--asw-accent:#8b5cf6;
+  --asw-primary-hover:color-mix(in srgb,var(--asw-primary) 88%,#000);
+  /* geometry: soft squares — approachable but not playful */
+  --asw-r-sm:8px;--asw-r-md:12px;--asw-r-lg:16px;--asw-r-xl:20px;
+  /* surfaces */
+  --asw-bg:#ffffff;--asw-surface:#f7f8fa;--asw-surface-2:#eef0f6;--asw-surface-3:#e4e7ef;
+  --asw-border:#e6e8ef;--asw-border-strong:#d2d6e0;
+  --asw-text:#12152b;--asw-text-secondary:#5b6280;--asw-text-muted:#6a7188;
+  --asw-bot-bg:#f7f8fa;--asw-bot-text:#12152b;
+  --asw-user-bg:var(--asw-primary);--asw-user-text:#fff;
+  --asw-input-bg:#f7f8fa;--asw-input-focus-bg:#ffffff;
+  --asw-shadow-elevated:0 1px 2px rgba(15,18,40,.05),0 14px 32px -12px rgba(15,18,40,.2);
+  --asw-shadow-modal:0 24px 60px -18px rgba(15,18,40,.32);
+
+  /* ── panel: one hairline, one deep shadow, nothing else ── */
+  --asw-panel-border-w:1px;--asw-panel-border-color:var(--asw-border);
+  --asw-panel-shadow:var(--asw-shadow-modal);--asw-panel-ring:0 0 0 0 transparent;
+
+  /* ── header: the brand gradient is the identity surface ──
+   * Header text colour is decided at runtime (light brand colours get ink),
+   * so --asw-header-ink keeps the core default. */
+  --asw-header-bg:linear-gradient(135deg,var(--asw-primary),var(--asw-secondary));
+  --asw-header-pad:var(--asw-sp-3) var(--asw-sp-4);
+  --asw-header-min-h:62px;
+  --asw-header-sep:1px solid rgba(15,18,40,.08);
+  --asw-header-fs:var(--asw-fs-lg);--asw-header-fs-sub:var(--asw-fs-xs);
+  --asw-w-header:var(--asw-w-bold);
+  --asw-avatar-sq:var(--asw-r-md);--asw-avatar-bg:var(--asw-header-btn-bg);
+  --asw-avatar-ring:0 0 0 1px rgba(255,255,255,.18);
+
+  /* ── bubbles: filled assistant, solid brand visitor, notched corners ── */
+  --asw-msgs-pad:var(--asw-sp-4) var(--asw-sp-3) var(--asw-sp-2);
+  --asw-msgs-gap:var(--asw-sp-3);--asw-row-max:88%;
+  --asw-bubble-r:var(--asw-r-lg);--asw-bubble-notch:6px;
+  --asw-bubble-px:var(--asw-sp-3);--asw-bubble-py:10px;
+  --asw-bot-bubble-bg:var(--asw-surface);--asw-bot-bubble-border:var(--asw-border);
+  --asw-bot-bubble-shadow:var(--asw-shadow-subtle);
+  --asw-user-bubble-bg:linear-gradient(135deg,var(--asw-primary),var(--asw-secondary));
+  --asw-user-bubble-text:var(--asw-on-brand);
+  --asw-user-avatar-bg:color-mix(in srgb,var(--asw-primary) 80%,var(--asw-secondary));
+  --asw-user-avatar-color:#fff;
+
+  /* ── composer: a soft field with a strong focus ring, squared CTA ── */
+  --asw-composer-bg:var(--asw-input-bg);--asw-composer-border:1px solid var(--asw-border-strong);
+  --asw-input-sq:var(--asw-r-lg);
+  --asw-send-size:36px;--asw-send-bg:var(--asw-primary);--asw-send-ink:var(--asw-on-primary);
+  --asw-btn-sq:var(--asw-r-sm);
+
+  /* ── chips / citations: outlined pills, one hairline, no fill ── */
+  --asw-chip-radius:var(--asw-r-pill);--asw-chip-bg:var(--asw-bg);
+  --asw-chip-border:1px solid var(--asw-border);--asw-chip-ink:var(--asw-text-secondary);
+  --asw-chip-hover-bg:var(--asw-surface);--asw-chip-hover-border:var(--asw-border-strong);
+  --asw-cite-radius:var(--asw-r-sm);--asw-cite-bg:var(--asw-bg);--asw-cite-border:1px solid var(--asw-border);
+  --asw-fb-size:28px;--asw-state-hover:var(--asw-surface-2);
+  --asw-focus:var(--asw-primary);
+
+  /* ── fab: the same gradient as the header, squared off ── */
+  --asw-fab-bg:linear-gradient(135deg,var(--asw-primary),var(--asw-secondary));
+  --asw-fab-color:#fff;--asw-fab-sq:var(--asw-r-lg);--asw-fab-border:0;
+  --asw-fab-shadow:0 8px 22px -8px color-mix(in srgb,var(--asw-primary) 60%,transparent);
+  --asw-ornament:none;
+}
+.asw.dark{
+  --asw-bg:#0f1117;--asw-surface:#171a24;--asw-surface-2:#1e2230;--asw-surface-3:#262b3b;
+  --asw-border:#242938;--asw-border-strong:#343b50;
+  --asw-text:#eef0f8;--asw-text-secondary:#a6adc4;--asw-text-muted:#7b839e;
+  --asw-bot-bg:#171a24;--asw-bot-text:#eef0f8;
+  --asw-input-bg:#171a24;--asw-input-focus-bg:#0f1117;
+  --asw-shadow-modal:0 26px 66px -18px rgba(0,0,0,.7);
+  --asw-header-sep:1px solid rgba(0,0,0,.4);
+  --asw-bot-bubble-bg:var(--asw-surface);
+  --asw-bot-bubble-bg:var(--asw-surface);
+  --asw-bot-bubble-shadow:0 1px 2px rgba(0,0,0,.35);
+}
+/* Welcome state: a soft brand-tinted square, not a glowing orb. */
+.asw .asw-hero-orb-wrap{border-radius:var(--asw-r-md);background:color-mix(in srgb,var(--asw-primary) 12%,transparent);color:var(--asw-primary)}
+.asw .asw-hero-text{font-weight:var(--asw-w-bold);letter-spacing:0}
+
+/* Transcript avatar: the same rounded square as the header, brand-tinted.
+ * Typing dots stay neutral — the calmest possible "someone is writing". */
+.asw .asw-row.bot .asw-msg-avatar{border-radius:var(--asw-r-md)}
+.asw .asw-typing-bubble{border-end-start-radius:6px}

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Theme gallery — 11 widget identities</title>
+<style>
+  :root{
+    --ink:#14161f;--muted:#5c6274;--line:#e4e6ef;--bg:#f4f5f9;--card:#fff;
+    --chip:#f4f5fa;--chip-on:#14161f;--chip-on-ink:#fff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font-family:Vazirmatn,'Segoe UI',Tahoma,sans-serif;font-size:13px}
+  header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);
+         backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;padding:10px 16px}
+  .row + .row{border-top:1px dashed var(--line)}
+  .lbl{font-size:11px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;min-width:74px}
+  button{font:inherit;font-size:12px;padding:5px 11px;border:1px solid var(--line);
+         background:var(--chip);border-radius:8px;cursor:pointer;color:var(--ink)}
+  button:hover{border-color:#b9bfd2}
+  button[aria-pressed="true"]{background:var(--chip-on);color:var(--chip-on-ink);border-color:var(--chip-on)}
+  h1{font-size:15px;margin:0;padding:12px 16px 0}
+  p.help{margin:4px 16px 10px;color:var(--muted);font-size:12px;line-height:1.9;max-width:900px}
+  main{display:grid;gap:16px;padding:16px;
+       grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr))}
+  figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:14px;
+         overflow:hidden;display:flex;flex-direction:column}
+  figcaption{display:flex;align-items:baseline;justify-content:space-between;gap:8px;
+             padding:9px 12px;border-bottom:1px solid var(--line);background:#fbfbfe}
+  figcaption b{font-size:13px}
+  figcaption span{font-size:11px;color:var(--muted);direction:ltr}
+  .stage{position:relative;background:#eceef4;
+         background-image:linear-gradient(45deg,#e7e9f0 25%,transparent 25%,transparent 75%,#e7e9f0 75%),
+                          linear-gradient(45deg,#e7e9f0 25%,transparent 25%,transparent 75%,#e7e9f0 75%);
+         background-size:16px 16px;background-position:0 0,8px 8px}
+  iframe{display:block;border:0;width:100%;height:620px}
+  @media (max-width:520px){.lbl{min-width:100%}}
+</style>
+</head>
+<body>
+<header>
+  <h1>گالری ۱۱ هویت بصری ویجت</h1>
+  <p class="help">هر کارت یک bundle واقعی (<code>widget-&lt;theme&gt;.js</code>) را لود می‌کند و همان
+  کلاینت‌های عمومی خود ویجت را صدا می‌زند؛ هیچ backend و هیچ استایل کمکی‌ای در iframe نیست.
+  تم‌ها فقط در «هویت» با هم فرق دارند: ساختار DOM، قراردادهای JS و رفتار runtime در همه یکی است.</p>
+  <div class="row">
+    <span class="lbl">state</span>
+    <button data-state="welcome" aria-pressed="true">welcome</button>
+    <button data-state="answer">answer</button>
+    <button data-state="citations">citations</button>
+    <button data-state="handoff">handoff</button>
+    <button data-state="waiting">human waiting</button>
+    <button data-state="agent">operator</button>
+    <button data-state="thinking">thinking</button>
+    <button data-state="error">error</button>
+    <button data-state="offline">offline</button>
+    <button data-state="locked">locked</button>
+    <button data-state="empty">empty</button>
+  </div>
+  <div class="row">
+    <span class="lbl">viewport</span>
+    <button data-w="320">320</button>
+    <button data-w="360">360</button>
+    <button data-w="390" aria-pressed="true">390</button>
+    <button data-w="430">430</button>
+    <button data-w="768">768</button>
+    <button data-w="1024">1024</button>
+    <span class="lbl" style="margin-inline-start:14px">mode</span>
+    <button data-mode="light" aria-pressed="true">light</button>
+    <button data-mode="dark">dark</button>
+    <span class="lbl" style="margin-inline-start:14px">palette</span>
+    <button data-pal="theme" aria-pressed="true">theme default</button>
+    <button data-pal="brand">customer brand</button>
+  </div>
+</header>
+
+<main id="grid"></main>
+
+<script>
+  (function () {
+    var THEMES = ["classic","onyx","linen","clay","atomic","fluen","glassmo","md3","minimal","neu","skuermo"];
+    var NOTE = {
+      classic: "SaaS support default · gradient masthead",
+      onyx: "premium dark console · hairline + accent rail",
+      linen: "editorial paper · rules, wide measure",
+      clay: "tactile cushions · rounded slab header",
+      atomic: "operations console · compact, hairline grid",
+      fluen: "expressive startup · floating gradient card",
+      glassmo: "premium glass · frosted panes, hairline edges",
+      md3: "Material 3 · tonal surfaces, state layers",
+      minimal: "ultra-minimal · hairline + ink, no colour",
+      neu: "soft depth · extruded controls, inset field",
+      skuermo: "retro-modern · ink outlines, hard offset"
+    };
+
+    var state = { act: "welcome", w: 390, mode: "light", pal: "theme" };
+
+    function build() {
+      var grid = document.getElementById("grid");
+      grid.innerHTML = "";
+      THEMES.forEach(function (theme) {
+        var fig = document.createElement("figure");
+        fig.innerHTML =
+          '<figcaption><b></b><span></span></figcaption>' +
+          '<div class="stage"><iframe loading="lazy"></iframe></div>';
+        fig.querySelector("b").textContent = theme;
+        fig.querySelector("span").textContent = NOTE[theme];
+        var frame = fig.querySelector("iframe");
+        frame.setAttribute("title", theme + " theme");
+        frame.style.height = (state.w >= 768 ? 620 : 600) + "px";
+        frame.src = "./_design_check.html?theme=" + theme +
+                    (state.pal === "theme" ? "&noconf=1" : "") +
+                    "&v=" + Date.now();
+        frame.addEventListener("load", function () { drive(frame); });
+        grid.appendChild(fig);
+      });
+    }
+
+    /* Every state is driven through the widget's own public API from the
+       parent frame (same origin), so the gallery cannot fake a state the
+       runtime would not produce. */
+    function drive(frame) {
+      var win = frame.contentWindow;
+      if (!win || !win._aiWidget) { return; }
+      reset(win);
+      // One turn of the event loop: the offline/live listeners are async and
+      // the reset has to land before the next state is painted.
+      win.setTimeout(function () { apply(win); }, 60);
+    }
+
+    function reset(win) {
+      var w = win._aiWidget;
+      try {
+        w.messages.innerHTML = "";
+        w.messageCount = 0;
+        w._handoffShown = false;
+        w._chatStarted = true;
+        w._stick = true;
+        w.open();
+        w.setLoading(false);
+        // This page has no backend, so the client legitimately reports
+        // "offline". Clear it or every state after `offline` stays red.
+        w._configUnreachable = false;
+        win.AISupportLive.applyMode(w, "ai", {});
+        w._setBlocked(false);
+        Object.defineProperty(win.navigator, "onLine", { value: true, configurable: true });
+        win.dispatchEvent(new win.Event("online"));
+      } catch (e) { /* the state simply was not armed */ }
+    }
+
+    function apply(win) {
+      var w = win._aiWidget;
+      try {
+        w.options.darkMode = state.mode;
+        w.applyVisuals();
+        w.ui.sync();
+
+        w.suggestions.hidden = false;
+        if (w.renderSuggestions && w._suggestionItems && w._suggestionItems.length) w.renderSuggestions();
+
+        if (state.act === "empty") { w.close(); return; }
+        if (state.act === "welcome") { w.addHero(w.options.greeting); return; }
+        w.collapseHero();
+        w.suggestions.hidden = true;
+
+        if (state.act === "thinking") { w.setLoading(true); w.ui.sync(); return; }
+        if (state.act === "offline") {
+          w.addMessage("سلام", "user");
+          Object.defineProperty(win.navigator, "onLine", { value: false, configurable: true });
+          win.dispatchEvent(new win.Event("offline"));
+          w.ui.sync();
+          return;
+        }
+        if (state.act === "locked") {
+          w.addMessage("سلام", "user");
+          w._setBlocked(true, "این سرویس در حال حاضر برای این سایت در دسترس نیست.");
+          w.ui.sync();
+          return;
+        }
+        if (state.act === "error") {
+          w._lastUserMessage = "سؤال قبلی";
+          w.addMessage("این پاسخ دریافت نشد.", "bot", false, { isError: true, retry: true });
+          return;
+        }
+        if (state.act === "answer" || state.act === "citations") {
+          w.addMessage("ساعات کاری شما در روزهای تعطیل چگونه است؟", "user");
+          w.handleAnswerResult(
+            "**ساعات کاری** شنبه تا چهارشنبه از **۹ تا ۱۷** است.\n\n- پنجشنبه ۹ تا ۱۳\n- جمعه تعطیل\n\n" +
+            "```bash\ncurl https://api.example.com/hours\n```",
+            {
+              message_id: 101,
+              citations: state.act === "citations"
+                ? [{ title: "صفحه تماس با ما", page_number: 2, url: "https://example.com/contact" },
+                   { title: "راهنمای سفارش‌ها", page_number: 7, url: "https://example.com/orders" }]
+                : []
+            });
+          return;
+        }
+        if (state.act === "handoff") {
+          // The live layer attaches itself when the remote config enables it;
+          // this page has no backend, so the gallery arms it through the same
+          // public API a production embed uses.
+          win.AISupportLive.applyConfig(w, { enabled: true, sla_minutes: 5, cta_label: "اتصال به پشتیبانی انسانی" });
+          if (!w.live) win.AISupportLive.install(w);
+          w.addMessage("می‌خواهم با یک کارشناس صحبت کنم", "user");
+          // The CTA hangs off the newest *answer*, so there has to be one.
+          w.addMessage("برای پیگیری سفارش، شماره سفارش را در بخش پشتیبانی وارد کنید.", "bot", false, {});
+          var last = w.messages.querySelector(".asw-row.asw-last .asw-feedback");
+          if (last) w.handleFeedback(last.querySelector(".thumbs-down"));
+          return;
+        }
+        if (state.act === "waiting") {
+          w.addMessage("سفارش من هنوز ارسال نشده است.", "user");
+          win.AISupportLive.applyMode(w, "waiting", {});
+          w.ui.sync();
+          return;
+        }
+        if (state.act === "agent") {
+          win.AISupportLive.applyMode(w, "human", { operator: "op1" });
+          w.addMessage("سفارش من هنوز ارسال نشده است.", "user");
+          w.addMessage("بررسی کردم؛ سفارش شما امروز ارسال می‌شود.", "bot", false, { skipFeedback: true });
+          win.AISupportLive.decorateHistory(w, [{ sender: "agent" }]);
+          w.ui.sync();
+          return;
+        }
+      } catch (err) {
+        console.warn("gallery: " + err.message);
+      }
+    }
+
+    function press(group, node) {
+      Array.prototype.forEach.call(document.querySelectorAll("[data-" + group + "]"), function (b) {
+        b.setAttribute("aria-pressed", String(b === node));
+      });
+    }
+
+    Array.prototype.forEach.call(document.querySelectorAll("[data-state]"), function (b) {
+      b.addEventListener("click", function () {
+        state.act = b.dataset.state; press("state", b);
+        // A fresh document per state: the runtime reports "offline" whenever
+        // the config endpoint is unreachable (true on this page), so reusing a
+        // frame would carry that state into every later state.
+        Array.prototype.forEach.call(document.querySelectorAll("iframe"), function (f) {
+          f.src = f.src.split("&v=")[0] + "&v=" + Date.now();
+        });
+      });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-w]"), function (b) {
+      b.addEventListener("click", function () {
+        state.w = parseInt(b.dataset.w, 10); press("w", b);
+        Array.prototype.forEach.call(document.querySelectorAll("iframe"), function (f) {
+          f.parentNode.parentNode.style.maxWidth = Math.max(state.w + 2, 300) + "px";
+          f.contentWindow && f.contentWindow.dispatchEvent(new Event("resize"));
+        });
+      });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-mode]"), function (b) {
+      b.addEventListener("click", function () {
+        state.mode = b.dataset.mode; press("mode", b); build();
+      });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-pal]"), function (b) {
+      b.addEventListener("click", function () {
+        state.pal = b.dataset.pal; press("pal", b); build();
+      });
+    });
+
+    build();
+  })();
+</script>
+</body>
+</html>

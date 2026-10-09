@@ -1,0 +1,148 @@
+/* md3 — Material 3 product UI.
+ * Concept: tone instead of chrome. Surfaces are tinted steps of one hue
+ * (surface → container → container-high) and separated by value, not by
+ * borders or shadows; elevation is reserved for the things that literally float
+ * (panel, FAB, send). Controls are pill-shaped or 8px chips, everything is
+ * 32-48px tall, and every press paints a state layer instead of changing colour.
+ * Silhouette: 28px capsule composer, 16px square-ish send button, 18px bubbles
+ * with a 4px asymmetric corner, 8px assist chips, 28px large FAB.
+ */
+.asw{
+  --asw-primary:#6750a4;--asw-secondary:#4f378b;--asw-accent:#9a82db;
+  --asw-primary-hover:color-mix(in srgb,var(--asw-primary) 88%,#000);
+  /* M3 shape scale: XS 4 · S 8 · M 12 · L 16 · XL 28 */
+  --asw-r-sm:8px;--asw-r-md:12px;--asw-r-lg:16px;--asw-r-xl:28px;
+  /* tonal surfaces: every step is the primary hue mixed into white */
+  --asw-bg:#fdf7ff;
+  --asw-surface:color-mix(in srgb,var(--asw-primary) 5%,#fef7ff);
+  --asw-surface-2:color-mix(in srgb,var(--asw-primary) 8%,#fef7ff);
+  --asw-surface-3:color-mix(in srgb,var(--asw-primary) 14%,#fef7ff);
+  --asw-border:color-mix(in srgb,var(--asw-primary) 18%,#e7e0ec);
+  --asw-border-strong:color-mix(in srgb,var(--asw-primary) 30%,#cac4d0);
+  --asw-text:#1d1b20;--asw-text-secondary:#5b5666;--asw-text-muted:#6d677a;
+  /* M3 role colours derived from the brand hue */
+  --asw-on-primary:#ffffff;
+  --asw-primary-container:color-mix(in srgb,var(--asw-primary) 20%,#ffffff);
+  --asw-on-primary-container:color-mix(in srgb,var(--asw-primary) 72%,#150029);
+  --asw-bot-bg:color-mix(in srgb,var(--asw-primary) 8%,#fef7ff);
+  --asw-bot-text:#1d1b20;
+  --asw-user-bg:var(--asw-primary-container);--asw-user-text:var(--asw-on-primary-container);
+  --asw-input-bg:var(--asw-surface-3);--asw-input-focus-bg:color-mix(in srgb,var(--asw-primary) 18%,#ffffff);
+  /* elevation: level 3 for the panel, level 1 for controls, none elsewhere */
+  --asw-shadow-subtle:0 1px 2px rgba(0,0,0,.12),0 1px 3px 1px rgba(0,0,0,.06);
+  --asw-shadow-elevated:0 1px 2px rgba(0,0,0,.3),0 2px 6px 2px rgba(0,0,0,.15);
+  --asw-shadow-modal:0 4px 8px 3px rgba(0,0,0,.15),0 1px 3px rgba(0,0,0,.3);
+
+  /* ── panel: floating surface, no hairline ── */
+  --asw-panel-border-w:0;--asw-panel-border-color:transparent;
+  --asw-panel-shadow:0 4px 8px 3px rgba(0,0,0,.15),0 1px 3px rgba(0,0,0,.3);
+
+  /* ── header: M3 small top app bar — flat primary, medium title ── */
+  --asw-header-bg:var(--asw-primary);
+  --asw-header-pad:10px var(--asw-sp-2) 10px var(--asw-sp-3);
+  --asw-header-min-h:64px;
+  --asw-header-sep:none;
+  --asw-w-header:var(--asw-w-medium);
+  --asw-header-fs:16px;--asw-header-fs-sub:12px;
+  --asw-avatar-sq:50%;--asw-avatar-size:36px;
+  --asw-avatar-bg:rgba(255,255,255,.16);
+  --asw-user-avatar-bg:var(--asw-surface-3);--asw-user-avatar-color:var(--asw-on-primary-container);
+
+  /* ── bubbles: tonal, borderless, 4px corner on the speaker's side ── */
+  --asw-msgs-pad:var(--asw-sp-4) var(--asw-sp-3) var(--asw-sp-2);
+  --asw-msgs-gap:var(--asw-sp-3);--asw-row-max:90%;
+  --asw-bubble-r:18px;--asw-bubble-notch:4px;
+  --asw-bubble-px:var(--asw-sp-4);--asw-bubble-py:12px;
+  --asw-bot-bubble-bg:color-mix(in srgb,var(--asw-primary) 8%,#fef7ff);
+  --asw-bot-bubble-border:transparent;
+  --asw-bot-bubble-shadow:none;
+  --asw-user-bubble-bg:var(--asw-primary-container);
+  --asw-user-bubble-text:var(--asw-on-primary-container);
+  --asw-lh:1.75;
+
+  /* ── composer: M3 search-bar capsule, indicator ring on focus ── */
+  --asw-composer-bg:var(--asw-surface-3);--asw-composer-border:0;
+  --asw-composer-pad:6px;--asw-composer-pad-start:var(--asw-sp-4);--asw-composer-pad-end:6px;
+  --asw-composer-gap:var(--asw-sp-2);
+  --asw-input-sq:var(--asw-r-xl);
+  --asw-send-size:44px;--asw-send-bg:var(--asw-primary);--asw-send-ink:var(--asw-on-brand);
+  --asw-send-shadow:var(--asw-shadow-subtle);
+  --asw-btn-sq:var(--asw-r-lg);
+
+  /* ── chips: 8px assist chips with state layers ── */
+  --asw-chip-radius:var(--asw-r-sm);--asw-chip-bg:transparent;
+  --asw-chip-border:1px solid var(--asw-border-strong);--asw-chip-ink:var(--asw-text-secondary);
+  --asw-chip-hover-bg:color-mix(in srgb,var(--asw-primary) 10%,transparent);
+  --asw-chip-hover-border:color-mix(in srgb,var(--asw-primary) 45%,transparent);
+  --asw-chip-hover-ink:var(--asw-primary);
+  --asw-cite-radius:var(--asw-r-sm);--asw-cite-bg:var(--asw-surface-2);
+  --asw-cite-border:1px solid var(--asw-border);
+  /* M3 state layers: 8% hover, 12% pressed */
+  --asw-fb-size:32px;
+  --asw-state-hover:color-mix(in srgb,var(--asw-primary) 10%,transparent);
+  --asw-state-press:color-mix(in srgb,var(--asw-primary) 16%,transparent);
+  --asw-focus:var(--asw-primary);
+  --asw-typing-dot-r:50%;
+
+  /* ── fab: M3 large FAB (28px corners, container fill, level 3) ── */
+  --asw-fab-bg:var(--asw-primary-container);--asw-fab-color:var(--asw-on-primary-container);
+  --asw-fab-sq:var(--asw-r-xl);--asw-fab-border:0;
+  --asw-fab-shadow:0 4px 8px 3px rgba(0,0,0,.15),0 1px 3px rgba(0,0,0,.3);
+  --asw-ornament:none;
+}
+.asw.dark{
+  /* Tonal dark: containers stay brand-tinted, surfaces stay near-black. */
+  --asw-bg:#14121b;
+  --asw-surface:color-mix(in srgb,var(--asw-primary) 12%,#1d1b26);
+  --asw-surface-2:color-mix(in srgb,var(--asw-primary) 16%,#211f2b);
+  --asw-surface-3:color-mix(in srgb,var(--asw-primary) 22%,#262430);
+  --asw-border:color-mix(in srgb,var(--asw-primary) 26%,#44414f);
+  --asw-border-strong:color-mix(in srgb,var(--asw-primary) 40%,#5d5a68);
+  --asw-text:#e6e0e9;--asw-text-secondary:#cac4d0;--asw-text-muted:#9a93a5;
+  --asw-primary:#cfbcff;--asw-secondary:#b69df8;--asw-accent:#e5d9ff;
+  --asw-on-primary:#381e72;
+  --asw-primary-container:color-mix(in srgb,var(--asw-primary) 26%,#241f31);
+  --asw-on-primary-container:color-mix(in srgb,var(--asw-primary) 42%,#ffffff);
+  --asw-bot-bg:var(--asw-surface-2);--asw-bot-text:#e6e0e9;
+  --asw-bot-bubble-bg:var(--asw-surface-2);
+  --asw-input-bg:var(--asw-surface-3);
+  --asw-input-focus-bg:color-mix(in srgb,var(--asw-primary) 26%,#241f31);
+  --asw-shadow-modal:0 6px 12px 4px rgba(0,0,0,.4),0 2px 4px rgba(0,0,0,.5);
+  --asw-header-bg:var(--asw-surface-2);
+  --asw-user-bubble-bg:var(--asw-primary-container);
+  --asw-user-bubble-text:var(--asw-on-primary-container);
+  --asw-fab-bg:var(--asw-primary-container);--asw-fab-color:var(--asw-on-primary-container);
+  --asw-send-bg:var(--asw-primary);--asw-send-ink:var(--asw-on-brand);
+}
+/* State layers: M3 presses paint a translucent layer of the content colour
+ * instead of swapping to a different colour. */
+.asw .asw-fb-btn:active,.asw .asw-suggestion:active,.asw .asw-header-btn:active{background:var(--asw-state-press)}
+.asw .asw-header-btn{background:transparent;border-color:transparent}
+.asw .asw-header-btn:hover{background:var(--asw-state-hover)}
+.asw .asw-suggestion:hover{background:var(--asw-chip-hover-bg)}
+.asw .asw-fb-btn.active{background:var(--asw-state-press);color:var(--asw-primary)}
+.asw .asw-fb-btn{border-radius:var(--asw-r-md)}
+/* Composer: a filled capsule that grows a 2px indicator when focused. */
+.asw .asw-input-wrap:focus-within{border:0;box-shadow:0 0 0 2px var(--asw-primary)}
+.asw .asw-input-wrap.asw-listening{box-shadow:0 0 0 2px var(--asw-error)}
+.asw .asw-mic{border-radius:var(--asw-r-pill)}
+.asw .asw-send{border-radius:var(--asw-r-lg)}
+.asw .asw-send.asw-stop{border-radius:var(--asw-r-lg)}
+/* Chips are 32px tall with 8px corners — the M3 assist-chip silhouette. */
+.asw .asw-suggestion{min-height:32px;padding:6px var(--asw-sp-4);font-weight:var(--asw-w-medium)}
+.asw .asw-hero-grid .asw-suggestion{border-radius:var(--asw-r-md);min-height:48px}
+/* Welcome: tonal container orb, M3 headline typography. */
+.asw .asw-hero-orb-wrap{border-radius:var(--asw-r-xl);background:var(--asw-primary-container);color:var(--asw-on-primary-container)}
+.asw .asw-hero-text{font-size:19px;font-weight:var(--asw-w-medium);line-height:1.6}
+/* Bottom sheet + cards follow the same container steps as the bubbles. */
+.asw .asw-handoff,.asw .asw-leadform{background:var(--asw-surface-2);border:0;border-radius:var(--asw-r-lg);box-shadow:var(--asw-shadow-subtle)}
+.asw .asw-scrollbtn{border-radius:var(--asw-r-lg);border:0;box-shadow:var(--asw-shadow-elevated)}
+.asw .asw-sheet-card{border-top:0}
+.asw .asw-form-submit{border-radius:var(--asw-r-pill);min-height:44px}
+.asw .asw-handoff-btn{border-radius:var(--asw-r-pill);min-height:36px}
+.asw .asw-typing-bubble{background:var(--asw-bot-bg);border:0}
+
+/* Transcript avatar: circular, tonal container fill. */
+.asw .asw-row.bot .asw-msg-avatar{border-radius:50%;background:var(--asw-surface-3);color:var(--asw-on-primary-container)}
+.asw .asw-typing-dot{background:var(--asw-primary)}
+.asw .asw-typing-bubble{border-end-start-radius:4px}

@@ -1,0 +1,121 @@
+/* minimal — ultra-minimal premium.
+ * Concept: subtraction. One hairline does the work a border, a fill and a
+ * shadow would do elsewhere: the panel is a white sheet with a 1px edge, the
+ * header has no fill at all, bubbles are drawn with a single hairline and the
+ * visitor's message is pure ink. Colour appears exactly twice — the send button
+ * and interactive accents — so a customer's brand colour still reads without
+ * ever competing with the conversation.
+ * Silhouette: 3-6px corners, no shadows on any surface except the panel,
+ * square dots in the typing indicator, ghost header controls.
+ */
+.asw{
+  --asw-primary:#111111;--asw-secondary:#4a4a4a;--asw-accent:#7a7a7a;
+  --asw-primary-hover:#000000;
+  --asw-on-primary:#ffffff;
+  /* geometry: the smallest radii in the system */
+  --asw-r-sm:3px;--asw-r-md:4px;--asw-r-lg:6px;--asw-r-xl:8px;
+  /* surfaces: pure neutrals, no tint anywhere */
+  --asw-bg:#ffffff;--asw-surface:#fafafa;--asw-surface-2:#f2f2f2;--asw-surface-3:#e8e8e8;
+  --asw-border:#ececec;--asw-border-strong:#d6d6d6;
+  --asw-text:#111111;--asw-text-secondary:#5c5c5c;--asw-text-muted:#6a6a6a;
+  --asw-bot-bg:#ffffff;--asw-bot-text:#111111;
+  --asw-user-bg:var(--asw-text);--asw-user-text:#ffffff;
+  --asw-input-bg:#ffffff;--asw-input-focus-bg:#ffffff;
+  /* elevation: almost none — one quiet shadow for the panel, nothing else */
+  --asw-shadow-subtle:0 0 0 0 transparent;
+  --asw-shadow-elevated:0 1px 2px rgba(0,0,0,.06);
+  --asw-shadow-modal:0 18px 44px -20px rgba(0,0,0,.3);
+  --asw-lh:1.75;
+
+  /* ── panel: a white sheet with one hairline ── */
+  --asw-panel-border-w:1px;--asw-panel-border-color:var(--asw-border);
+  --asw-panel-shadow:0 18px 44px -20px rgba(0,0,0,.3);
+
+  /* ── header: no fill, no shadow — a rule and the identity ── */
+  --asw-header-bg:var(--asw-bg);
+  --asw-header-ink:var(--asw-text);
+  --asw-header-pad:var(--asw-sp-3) var(--asw-sp-4);
+  --asw-header-min-h:56px;
+  --asw-header-sep:1px solid var(--asw-border);
+  --asw-w-header:var(--asw-w-medium);
+  --asw-header-fs:14px;--asw-header-fs-sub:var(--asw-fs-xs);
+  --asw-avatar-sq:var(--asw-r-md);--asw-avatar-size:34px;
+  --asw-avatar-bg:var(--asw-bg);--asw-avatar-ink:var(--asw-text);
+  --asw-avatar-ring:inset 0 0 0 1px var(--asw-border-strong);
+  --asw-user-avatar-bg:var(--asw-surface-3);--asw-user-avatar-color:var(--asw-text);
+
+  /* ── bubbles: hairline assistant, ink visitor ── */
+  --asw-msgs-pad:var(--asw-sp-4) var(--asw-sp-4) var(--asw-sp-2);
+  --asw-msgs-gap:var(--asw-sp-3);--asw-row-max:88%;
+  --asw-bubble-r:var(--asw-r-lg);--asw-bubble-notch:var(--asw-r-sm);
+  --asw-bubble-px:12px;--asw-bubble-py:9px;
+  --asw-bot-bubble-bg:var(--asw-bg);--asw-bot-bubble-border:var(--asw-border-strong);
+  --asw-bot-bubble-shadow:none;
+  --asw-user-bubble-bg:var(--asw-text);--asw-user-bubble-text:#ffffff;
+
+  /* ── composer: one rectangle, one rule, a small filled send button ── */
+  --asw-composer-bg:var(--asw-bg);--asw-composer-border:1px solid var(--asw-border-strong);
+  --asw-composer-pad:4px;--asw-composer-pad-start:4px;--asw-composer-pad-end:4px;
+  --asw-composer-gap:6px;
+  --asw-input-sq:var(--asw-r-lg);
+  --asw-send-size:34px;--asw-send-bg:var(--asw-primary);--asw-send-ink:#ffffff;
+  --asw-btn-sq:var(--asw-r-sm);
+
+  /* ── chips / citations: hairline, quiet, never filled ── */
+  --asw-chip-radius:var(--asw-r-lg);--asw-chip-bg:transparent;
+  --asw-chip-border:1px solid var(--asw-border);--asw-chip-ink:var(--asw-text-secondary);
+  --asw-chip-hover-bg:transparent;--asw-chip-hover-border:var(--asw-text);
+  --asw-chip-hover-ink:var(--asw-text);
+  --asw-cite-radius:var(--asw-r-sm);--asw-cite-bg:transparent;
+  --asw-cite-border:1px solid var(--asw-border);
+  --asw-fb-size:28px;--asw-state-hover:var(--asw-surface-2);
+  --asw-focus:var(--asw-primary);
+  --asw-typing-dot-r:0px;
+
+  /* ── fab: an ink square, the quietest possible affordance ── */
+  --asw-fab-bg:var(--asw-text);--asw-fab-color:#ffffff;
+  --asw-fab-sq:var(--asw-r-md);--asw-fab-border:0;
+  --asw-fab-shadow:0 6px 18px -8px rgba(0,0,0,.45);
+  --asw-ornament:none;
+}
+.asw.dark{
+  /* Near-black monochrome: the visitor bubble inverts to a pale sheet. */
+  --asw-bg:#0c0c0d;--asw-surface:#151516;--asw-surface-2:#1d1d1f;--asw-surface-3:#28282b;
+  --asw-border:#242425;--asw-border-strong:#3a3a3d;
+  --asw-text:#f2f2f2;--asw-text-secondary:#b2b2b4;--asw-text-muted:#8c8c90;
+  --asw-primary:#f2f2f2;--asw-secondary:#b2b2b4;--asw-accent:#8a8a8e;
+  --asw-bot-bg:#0c0c0d;--asw-bot-text:#f2f2f2;
+  --asw-user-bg:var(--asw-text);--asw-user-text:#0c0c0d;
+  --asw-input-bg:#0c0c0d;--asw-input-focus-bg:#0c0c0d;
+  --asw-header-bg:#0c0c0d;--asw-header-ink:#f2f2f2;
+  --asw-bot-bubble-bg:var(--asw-bg);
+  --asw-shadow-modal:0 20px 48px -22px rgba(0,0,0,.8);
+  --asw-avatar-bg:#0c0c0d;--asw-avatar-ink:#f2f2f2;
+  --asw-send-bg:var(--asw-primary);--asw-send-ink:#0c0c0d;
+  --asw-fab-bg:var(--asw-text);--asw-fab-color:#0c0c0d;
+  --asw-chip-hover-border:var(--asw-text);
+}
+/* Header controls are ghosts: icon-only, no plate, no border until hover. */
+.asw .asw-header-btn{background:transparent;border-color:transparent;color:var(--asw-text-muted)}
+.asw .asw-header-btn:hover{background:var(--asw-surface-2);color:var(--asw-text)}
+/* Nothing in the transcript casts a shadow. */
+.asw .asw-scrollbtn{box-shadow:none;border-color:var(--asw-border-strong)}
+.asw .asw-toast{box-shadow:0 8px 24px -12px rgba(0,0,0,.4)}
+.asw .asw-handoff,.asw .asw-leadform{border-radius:var(--asw-r-md);box-shadow:none;background:var(--asw-surface)}
+.asw .asw-typing-bubble{background:var(--asw-bg);border-color:var(--asw-border-strong);border-radius:var(--asw-r-lg);border-end-start-radius:var(--asw-r-sm)}
+.asw .asw-typing-dot{width:5px;height:5px;background:var(--asw-text-muted)}
+/* Welcome: type only, no ornament panel. */
+.asw .asw-hero{padding-block-start:var(--asw-sp-6)}
+.asw .asw-hero-orb-wrap{border-radius:var(--asw-r-md);background:transparent;color:var(--asw-text);box-shadow:inset 0 0 0 1px var(--asw-border-strong)}
+.asw .asw-hero-text{font-size:15.5px;font-weight:var(--asw-w-medium)}
+.asw .asw-hero-grid .asw-suggestion{border-radius:var(--asw-r-md)}
+.asw .asw-divider::before,.asw .asw-divider::after{background:var(--asw-border)}
+.asw .asw-foot-meta{padding-top:7px}
+
+/* Transcript avatar: an outlined square with no fill at all. */
+.asw .asw-row.bot .asw-msg-avatar{
+  border-radius:var(--asw-r-md);
+  background:transparent;
+  color:var(--asw-text-secondary);
+  box-shadow:inset 0 0 0 1px var(--asw-border-strong);
+}

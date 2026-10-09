@@ -1,125 +1,47 @@
-/* atomic — technical operations console.
- * Concept: an instrument panel embedded in a website. Everything is compact,
- * everything is labelled, every edge is a hairline. Cool blue-grey values, one
- * blue accent, square corners, ruled transcript paper, and a header that reads
- * like a status bar. Decoration budget: zero.
- * Silhouette: 4-6px corners, 1px visible borders on every surface, squared
- * avatar and send button, tabular labels, tighter leading.
- */
+/* Atomic — an operations desk. Modular chrome, a quiet engineering grid,
+ * indexed prompt modules, square controls and dense but readable log packets. */
 .asw{
   --asw-primary:#2563eb;--asw-secondary:#1d4ed8;--asw-accent:#60a5fa;
-  --asw-primary-hover:color-mix(in srgb,var(--asw-primary) 88%,#000);
-  /* geometry: sharp — the crispest theme */
-  --asw-r-sm:3px;--asw-r-md:4px;--asw-r-lg:6px;--asw-r-xl:8px;
-  /* surfaces: cool operational grey-blue */
-  --asw-bg:#ffffff;--asw-surface:#f7f9fc;--asw-surface-2:#eef2f7;--asw-surface-3:#e2e8f1;
-  --asw-border:#dde3ec;--asw-border-strong:#c2ccdb;
-  --asw-text:#0d1424;--asw-text-secondary:#415066;--asw-text-muted:#5e6a7c;
-  --asw-bot-bg:#f7f9fc;--asw-bot-text:#0d1424;
-  --asw-user-bg:var(--asw-primary);--asw-user-text:#fff;
-  --asw-input-bg:#ffffff;--asw-input-focus-bg:#ffffff;
-  --asw-shadow-subtle:0 0 0 0 transparent;
-  --asw-shadow-elevated:0 1px 2px rgba(15,23,42,.08);
-  --asw-shadow-modal:0 18px 44px -16px rgba(15,23,42,.34);
-  /* density: the compact theme — tighter leading, smaller body, tighter rows */
-  --asw-lh:1.65;--asw-fs-body:13.5px;--asw-fs-sm:12px;--asw-fs-xs:11px;--asw-fs-lg:15px;
-
-  /* ── panel: visible structure, no soft shadow ── */
-  --asw-panel-border-w:1px;--asw-panel-border-color:var(--asw-border-strong);
-  --asw-panel-shadow:0 18px 44px -16px rgba(15,23,42,.34);
-
-  /* ── header: a console title bar ── */
-  --asw-header-bg:#0d1424;
-  --asw-header-ink:#e8eefc;
-  --asw-header-pad:9px var(--asw-sp-3);
-  --asw-header-min-h:52px;
-  --asw-header-sep:1px solid #22304b;
-  --asw-w-header:var(--asw-w-bold);
-  --asw-header-fs:13.5px;--asw-header-fs-sub:10.5px;
-  --asw-avatar-sq:var(--asw-r-sm);--asw-avatar-size:32px;
-  --asw-avatar-bg:color-mix(in srgb,var(--asw-accent) 18%,#0d1424);
-  --asw-avatar-ink:var(--asw-accent);
-  --asw-avatar-ring:inset 0 0 0 1px color-mix(in srgb,var(--asw-accent) 40%,transparent);
-  --asw-user-avatar-bg:var(--asw-surface-3);--asw-user-avatar-color:var(--asw-primary);
-
-  /* ── bubbles: bordered rectangles, tight padding, no shadows ── */
-  --asw-msgs-pad:var(--asw-sp-3) var(--asw-sp-2) var(--asw-sp-2);
-  --asw-msgs-gap:var(--asw-sp-2);--asw-row-max:92%;
-  --asw-bubble-r:var(--asw-r-md);--asw-bubble-notch:var(--asw-r-sm);
-  --asw-bubble-px:10px;--asw-bubble-py:8px;
-  --asw-bot-bubble-bg:#f7f9fc;--asw-bot-bubble-border:var(--asw-border-strong);
-  --asw-bot-bubble-shadow:none;
+  --asw-bg:#fbfcff;--asw-surface:#f1f5fb;--asw-surface-2:#e8eef7;--asw-surface-3:#d9e4f3;
+  --asw-border:#d6dfeb;--asw-border-strong:#a7b9d0;
+  --asw-text:#18263f;--asw-text-secondary:#475d7a;--asw-text-muted:#586f8d;
+  --asw-r-sm:3px;--asw-r-md:5px;--asw-r-lg:8px;--asw-r-xl:10px;
+  --asw-panel-border-color:var(--asw-border-strong);--asw-panel-shadow:0 18px 42px -18px rgba(20,35,61,.3);
+  --asw-header-bg:var(--asw-surface-2);--asw-header-ink:var(--asw-text);--asw-header-pad:14px;
+  --asw-header-fs:15px;--asw-header-sep:1px solid var(--asw-border-strong);
+  --asw-avatar-size:34px;--asw-avatar-sq:4px;--asw-avatar-bg:var(--asw-bg);--asw-avatar-ink:var(--asw-primary);
+  --asw-avatar-ring:inset 0 0 0 1px var(--asw-border-strong);
+  --asw-lh:1.8;--asw-msgs-pad:18px 14px 14px;--asw-msgs-gap:14px;--asw-row-max:94%;
+  --asw-bubble-r:5px;--asw-bubble-notch:1px;--asw-bubble-px:12px;--asw-bubble-py:10px;
+  --asw-bot-bubble-bg:var(--asw-bg);--asw-bot-bubble-border:var(--asw-border-strong);--asw-bot-bubble-shadow:none;
   --asw-user-bubble-bg:var(--asw-primary);--asw-user-bubble-text:var(--asw-on-brand);
-
-  /* ── composer: a field with a hard edge, square send ── */
-  --asw-composer-bg:var(--asw-input-bg);--asw-composer-border:1px solid var(--asw-border-strong);
-  --asw-composer-pad:4px;--asw-composer-pad-start:4px;--asw-composer-pad-end:4px;
-  --asw-composer-gap:4px;
-  --asw-input-sq:var(--asw-r-sm);
-  --asw-send-size:32px;--asw-send-bg:var(--asw-primary);--asw-send-ink:var(--asw-on-brand);
-  --asw-btn-sq:var(--asw-r-sm);
-
-  /* ── chips / citations: small rectangles with hairlines and mono labels ── */
-  --asw-chip-radius:var(--asw-r-sm);--asw-chip-bg:#ffffff;
-  --asw-chip-border:1px solid var(--asw-border-strong);--asw-chip-ink:var(--asw-text-secondary);
-  --asw-chip-hover-bg:#eef4ff;--asw-chip-hover-border:var(--asw-primary);
-  --asw-chip-hover-ink:var(--asw-primary);
-  --asw-cite-radius:var(--asw-r-sm);--asw-cite-bg:var(--asw-surface-2);
-  --asw-cite-border:1px solid var(--asw-border-strong);
-  --asw-fb-size:26px;--asw-state-hover:var(--asw-surface-2);
-  --asw-focus:var(--asw-primary);
-  --asw-typing-dot-r:1px;
-
-  /* ── fab: a flat square with a hard edge ── */
-  --asw-fab-bg:var(--asw-primary);--asw-fab-color:#fff;
-  --asw-fab-sq:var(--asw-r-md);--asw-fab-border:0;
-  --asw-fab-shadow:0 6px 16px -6px color-mix(in srgb,var(--asw-primary) 60%,transparent);
-  --asw-ornament:none;
+  --asw-composer-bg:var(--asw-bg);--asw-composer-border:1px solid var(--asw-border-strong);--asw-input-focus-bg:var(--asw-bg);
+  --asw-input-sq:5px;--asw-btn-sq:4px;--asw-composer-pad:4px;
+  --asw-chip-radius:4px;--asw-chip-bg:var(--asw-bg);--asw-chip-border:1px solid var(--asw-border-strong);
+  --asw-cite-radius:3px;--asw-cite-border:1px solid var(--asw-border-strong);
+  --asw-fab-bg:var(--asw-primary);--asw-fab-color:var(--asw-on-brand);--asw-fab-sq:6px;
 }
 .asw.dark{
-  /* Night operations: near-black planes, brighter hairlines, same grid. */
-  --asw-bg:#080c15;--asw-surface:#0e141f;--asw-surface-2:#141c2a;--asw-surface-3:#1b2434;
-  --asw-border:#1c2534;--asw-border-strong:#2b3648;
-  --asw-text:#e6edfb;--asw-text-secondary:#93a3bd;--asw-text-muted:#78879e;
-  --asw-bot-bg:#0e141f;--asw-bot-text:#e6edfb;
-  --asw-input-bg:#0e141f;--asw-input-focus-bg:#080c15;
-  --asw-primary:#5b9bff;--asw-secondary:#3b82f6;--asw-accent:#93c5fd;
-  --asw-shadow-modal:0 20px 48px -18px rgba(0,0,0,.8);
-  --asw-header-bg:#05080f;--asw-header-sep:1px solid #1c2534;
-  --asw-bot-bubble-bg:var(--asw-surface);
-  --asw-bot-bubble-border:#2b3648;
-  --asw-header-ink:#e6edfb;
+  --asw-primary:#9bc6ff;--asw-secondary:#7eb2ff;--asw-accent:#bfdbfe;
+  --asw-bg:#0f1726;--asw-surface:#19263a;--asw-surface-2:#25364f;--asw-surface-3:#334866;
+  --asw-border:#344860;--asw-border-strong:#566e8c;
+  --asw-text:#edf4ff;--asw-text-secondary:#b4c7e0;--asw-text-muted:#9cb5d3;
+  --asw-panel-shadow:0 24px 60px -18px rgba(0,0,0,.7);
 }
-/* Ruled transcript: a 1px grid at 4% so the conversation reads as logged data
- * without ever competing with the text. */
-.asw .asw-messages{
-  background-image:repeating-linear-gradient(to bottom,transparent 0 27px,color-mix(in srgb,var(--asw-border-strong) 26%,transparent) 27px 28px);
-}
-/* Console chrome: every label is small, tabular and uppercase where Latin. */
-.asw .asw-subtitle{letter-spacing:.08em;opacity:.75}
-.asw .asw-time,.asw .asw-badge,.asw .asw-live-chip,.asw .asw-code-lang{font-family:var(--asw-mono);letter-spacing:.02em}
-.asw .asw-header-btn{background:transparent;border-color:#22304b;color:#a9bcd6}
-.asw .asw-header-btn:hover{background:#16203a;border-color:color-mix(in srgb,var(--asw-accent) 45%,transparent);color:#e8eefc}
-.asw.dark .asw-header-btn{border-color:#1c2534;color:#93a3bd}
-.asw.dark .asw-header-btn:hover{background:#141c2a;color:#e6edfb}
-/* Status pills get a hard edge and a mono label; dots become squares. */
-.asw .asw-badge,.asw .asw-identity,.asw .asw-live-chip{border-radius:var(--asw-r-sm);font-size:9.5px;letter-spacing:.06em}
-.asw .asw-status{border-radius:2px;border-width:2px}
+.asw .asw-header{border-inline-start:3px solid var(--asw-primary)}
+.asw .asw-header-btn{background:var(--asw-bg);border-color:var(--asw-border-strong);color:var(--asw-text-secondary)}
+.asw .asw-header-btn:hover{background:var(--asw-surface-3);color:var(--asw-text)}
+.asw .asw-badge,.asw .asw-live-chip{border-radius:3px;border:1px solid var(--asw-border-strong);background:var(--asw-bg)}
+.asw .asw-messages{background-image:linear-gradient(color-mix(in srgb,var(--asw-border-strong) 12%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--asw-border-strong) 12%,transparent) 1px,transparent 1px);background-size:24px 24px}
+.asw .asw-hero{display:grid;grid-template-columns:36px minmax(0,1fr);text-align:start;align-items:center;gap:12px;padding:20px 0}
+.asw .asw-hero-orb-wrap{grid-column:1;grid-row:1;width:36px;height:36px;border-radius:4px;background:var(--asw-surface-2);border:1px solid var(--asw-border-strong)}
+.asw .asw-hero-orb svg{width:18px;height:18px}
+.asw .asw-hero-text{grid-column:2;grid-row:1;font-size:18px}
+.asw .asw-hero-sub{grid-column:1/-1;max-width:none}
+.asw .asw-hero-grid{grid-column:1/-1;gap:8px}
+.asw .asw-hero-grid .asw-suggestion{background:var(--asw-bg);min-height:60px;border-radius:4px}
+.asw .asw-idx{display:grid;place-items:center;min-width:22px;min-height:22px;border:1px solid var(--asw-border-strong);color:var(--asw-primary);border-radius:2px}
+.asw .asw-row.bot .asw-msg-avatar{background:var(--asw-surface-2);border:1px solid var(--asw-border-strong);border-radius:3px}
 .asw .asw-typing-dot{width:3px;height:9px;background:var(--asw-primary)}
-.asw .asw-typing-bubble{gap:4px;padding:8px 10px;border-radius:var(--asw-r-md);border-end-start-radius:var(--asw-r-sm);background:var(--asw-bot-bg);border:1px solid var(--asw-border-strong)}
-/* Dense transcript furniture: tighter meta rows, hard-edged cards. */
-.asw .asw-foot-meta{padding-top:5px}
-.asw .asw-handoff,.asw .asw-leadform{border-radius:var(--asw-r-md);padding:10px}
-.asw .asw-scrollbtn{border-radius:var(--asw-r-sm)}
-.asw .asw-hero{padding-block:var(--asw-sp-5) var(--asw-sp-3)}
-.asw .asw-hero-orb-wrap{border-radius:var(--asw-r-sm);background:var(--asw-surface-2);color:var(--asw-primary);box-shadow:inset 0 0 0 1px var(--asw-border-strong)}
-.asw .asw-hero-text{font-size:var(--asw-fs-body)}
-.asw .asw-hero-grid .asw-suggestion{border-radius:var(--asw-r-sm);padding:8px 10px}
-
-/* Transcript avatar: a bordered chip, like a log-line tag. */
-.asw .asw-row.bot .asw-msg-avatar{
-  border-radius:var(--asw-r-sm);
-  background:var(--asw-surface-2);
-  color:var(--asw-primary);
-  box-shadow:inset 0 0 0 1px var(--asw-border-strong);
-}
+.asw .asw-scrollbtn{border-radius:4px}
+.asw .asw-code-header{border-bottom:1px solid var(--asw-border-strong)}

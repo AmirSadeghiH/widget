@@ -1,274 +1,122 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Theme gallery — 11 widget identities</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>استودیوی ویجت — ۱۱ هویت مستقل</title>
 <style>
-  :root{
-    --ink:#14161f;--muted:#5c6274;--line:#e4e6ef;--bg:#f4f5f9;--card:#fff;
-    --chip:#f4f5fa;--chip-on:#14161f;--chip-on-ink:#fff;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);
-       font-family:Vazirmatn,'Segoe UI',Tahoma,sans-serif;font-size:13px}
-  header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);
-         backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-  .row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;padding:10px 16px}
-  .row + .row{border-top:1px dashed var(--line)}
-  .lbl{font-size:11px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;min-width:74px}
-  button{font:inherit;font-size:12px;padding:5px 11px;border:1px solid var(--line);
-         background:var(--chip);border-radius:8px;cursor:pointer;color:var(--ink)}
-  button:hover{border-color:#b9bfd2}
-  button[aria-pressed="true"]{background:var(--chip-on);color:var(--chip-on-ink);border-color:var(--chip-on)}
-  h1{font-size:15px;margin:0;padding:12px 16px 0}
-  p.help{margin:4px 16px 10px;color:var(--muted);font-size:12px;line-height:1.9;max-width:900px}
-  main{display:grid;gap:16px;padding:16px;
-       grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr))}
-  figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:14px;
-         overflow:hidden;display:flex;flex-direction:column}
-  figcaption{display:flex;align-items:baseline;justify-content:space-between;gap:8px;
-             padding:9px 12px;border-bottom:1px solid var(--line);background:#fbfbfe}
-  figcaption b{font-size:13px}
-  figcaption span{font-size:11px;color:var(--muted);direction:ltr}
-  .stage{position:relative;background:#eceef4;
-         background-image:linear-gradient(45deg,#e7e9f0 25%,transparent 25%,transparent 75%,#e7e9f0 75%),
-                          linear-gradient(45deg,#e7e9f0 25%,transparent 25%,transparent 75%,#e7e9f0 75%);
-         background-size:16px 16px;background-position:0 0,8px 8px}
-  iframe{display:block;border:0;width:100%;height:620px}
-  @media (max-width:520px){.lbl{min-width:100%}}
+@font-face{font-family:Studio;src:url('./fonts/vazirmatn-arabic.woff2');font-weight:100 900;font-display:swap}
+@font-face{font-family:Studio;src:url('./fonts/vazirmatn-latin.woff2');font-weight:100 900;font-display:swap}
+:root{--ink:#202a3e;--muted:#637087;--line:#e2e7ef;--bg:#f8f9fc;--card:#fff;--accent:#484bc8}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.8 Studio,Tahoma,sans-serif}button,input,select{font:inherit}button,a,select,input{touch-action:manipulation}button{cursor:pointer}button:focus-visible,select:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #8186e8;outline-offset:3px}
+.shell{display:grid;grid-template-columns:244px minmax(0,1fr);min-height:100vh}.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--card);border-inline-end:1px solid var(--line);padding:28px 18px 20px}.brand{display:flex;align-items:center;gap:11px;padding:0 6px 24px}.brand-mark{width:40px;height:40px;background:#2b3149;color:#fff;display:grid;place-items:center;border-radius:12px;box-shadow:0 4px 12px #242a4617;font:600 20px Studio,sans-serif}.brand b{font-size:16px;letter-spacing:-.3px}.brand small{display:block;color:var(--muted);font-size:11px;letter-spacing:1.5px}
+.side-label{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#8290a5;padding:12px 10px 9px}.count{font-variant-numeric:tabular-nums;border:1px solid var(--line);padding:0 6px;border-radius:5px}.themes{display:flex;flex-direction:column;gap:5px}.theme-btn{display:flex;align-items:center;gap:11px;width:100%;border:1px solid transparent;background:transparent;color:var(--ink);text-align:start;padding:9px 10px;border-radius:11px;transition:background .15s,border-color .15s}.theme-btn:hover{background:#f3f5f9}.theme-btn[aria-pressed=true]{background:#f0f0fd;border-color:#dcdcf6}.theme-swatch{width:32px;height:32px;flex:none;display:grid;place-items:center;border:1px solid #00000013;border-radius:9px;font:600 13px Studio;color:white;box-shadow:inset 0 1px 0 #ffffff40}.theme-name{font-size:13px;font-weight:600;line-height:1.5}.theme-caption{display:block;font-size:10.5px;color:var(--muted)}.theme-arrow{margin-inline-start:auto;color:#8b8ed6;font-size:16px;opacity:0}.theme-btn[aria-pressed=true] .theme-arrow{opacity:1}.side-foot{margin-top:24px;padding:14px 10px;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}.side-foot i{display:inline-block;width:6px;height:6px;background:#3b9b74;border-radius:50%;margin-inline-end:6px}
+main{padding:26px 40px 28px;min-width:0}.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px;color:var(--muted);margin-bottom:26px}.crumb span{margin-inline:7px;color:#bdc5d3}.version{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:99px;padding:5px 12px;font-size:11px}.version i{width:6px;height:6px;background:#479b7a;border-radius:50%}.intro{display:flex;align-items:center;justify-content:space-between;gap:20px}.eyebrow{font-size:11px;letter-spacing:1.6px;color:#8b93ac;direction:ltr;text-align:right}h1{font-size:30px;font-weight:650;letter-spacing:-.7px;line-height:1.6;margin:5px 0 4px}.intro p{font-size:13px;color:var(--muted);margin:0}.quiet-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:7px 13px;background:#fff;border:1px solid var(--line);border-radius:9px;color:var(--ink);text-decoration:none;font-size:12px;white-space:nowrap}.quiet-btn:hover{border-color:#bec7d9}.quiet-btn[aria-pressed=true]{border-color:#999ce1;color:#484bc8;background:#f3f3ff}.intro-actions{display:flex;gap:8px}.grid-icon{display:grid;grid-template-columns:repeat(2,5px);gap:3px}.grid-icon i{width:5px;height:5px;border-radius:1px;background:currentColor}
+.controls{display:flex;align-items:center;flex-wrap:wrap;justify-content:space-between;gap:16px;margin:25px 0 18px;padding:14px 16px;background:#fff;border:1px solid var(--line);border-radius:13px}.control{display:flex;align-items:center;gap:8px}.control label,.control .label{font-size:11px;color:var(--muted)}.seg{display:flex;gap:3px;padding:3px;border:1px solid var(--line);background:#f7f8fb;border-radius:8px}.seg button{border:0;border-radius:5px;background:transparent;color:var(--muted);padding:4px 10px;min-height:30px;font-size:12px}.seg button[aria-pressed=true]{background:#fff;color:var(--ink);box-shadow:0 1px 4px #202a3e15}.control select{min-height:36px;max-width:190px;border:1px solid var(--line);border-radius:7px;padding:5px 8px;background:#fff;color:var(--ink);font-size:12px}.palette input{width:28px;height:28px;border:0;padding:0;background:transparent;cursor:pointer}.palette label{cursor:pointer}.palette-check{accent-color:var(--accent);width:15px!important;height:15px!important}
+.preview-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 4px 10px}.preview-head strong{font-size:15px;font-weight:600}.preview-head span{font-size:11px;color:var(--muted)}.stage{position:relative;display:flex;align-items:flex-start;justify-content:flex-start;min-height:740px;padding:24px;overflow:auto;background-color:#eaf0f7;background-image:radial-gradient(#b7c3d140 .8px,transparent .8px);background-size:18px 18px;border:1px solid #d9e2ed;border-radius:20px}.stage-label{position:absolute;left:20px;top:17px;display:flex;align-items:center;gap:6px;color:#7e8ba2;font-size:10px;letter-spacing:1px}.stage-label i{display:inline-block;width:5px;height:5px;border-radius:50%;background:#8591a6}.frame-shell{position:relative;flex:none;margin-inline:auto;overflow:hidden;border:1px solid #bac7d833;border-radius:24px;box-shadow:0 14px 42px -18px #253d6a38;background:#fff}.frame-shell.desktop{border-radius:12px}.frame-shell iframe{display:block;position:relative;border:0;width:390px;height:690px;background:#eef2f8}.stage.dark-host{background-color:#202a3b;background-image:radial-gradient(#59698250 .8px,transparent .8px);border-color:#3b485f}.stage.dark-host .stage-label{color:#b1bed0}
+.inspector{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:16px 4px 0;font-size:11px;color:var(--muted)}.file{display:flex;align-items:center;gap:8px;padding:7px 10px;background:#fff;border:1px solid var(--line);border-radius:7px}.file code{direction:ltr;color:#505e76;font:11px/1.5 ui-monospace,Consolas,monospace}.copy-btn{border:0;background:transparent;color:#666bad;font:11px Studio;cursor:pointer;padding:3px 7px;border-radius:4px}.copy-btn:hover{background:#f0f0fc}.notice{margin:16px 4px 0;color:#7b879d;font-size:11px}.notice b{color:#5f6f88;font-weight:500}
+.overview{display:none;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:18px}.overview.on{display:grid}.overview figure{margin:0;min-width:0;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}.overview figcaption{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px;font-size:12px}.overview figcaption span{color:var(--muted);font-size:10px}.overview .mini-stage{display:flex;justify-content:flex-start;padding:14px;background:#eaf0f7;overflow:auto}.overview iframe{display:block;flex:none;margin-inline:auto;border:0;width:340px;height:650px;border-radius:12px;box-shadow:0 4px 14px #23365112}
+.status{min-height:20px;position:fixed;left:24px;bottom:24px;z-index:20;padding:10px 16px;background:#29334b;color:#fff;border-radius:9px;box-shadow:0 8px 28px #29334b30;font-size:13px}.status:empty{display:none}
+@media(max-width:1180px){main{padding:24px}.controls{justify-content:flex-start;gap:12px}.intro-actions #open-single{display:none}}
+@media(max-width:860px){.shell{grid-template-columns:minmax(0,1fr)}.sidebar{position:relative;width:100%;height:auto;padding:16px;border-inline-end:0;border-bottom:1px solid var(--line)}.brand{padding-bottom:10px}.side-label,.side-foot{display:none}.themes{flex-direction:row;overflow:auto;padding:3px}.theme-btn{width:auto;min-width:125px;padding:7px}.theme-caption,.theme-arrow{display:none}.theme-swatch{width:24px;height:24px}.topbar{margin-bottom:18px}.stage{min-height:730px}.intro{align-items:flex-start}h1{font-size:26px}.intro-actions .quiet-btn{font-size:0}.intro-actions .grid-icon{font-size:initial}.eyebrow{font-size:10px}}
+@media(max-width:500px){main{padding:18px 12px}.topbar{font-size:10px}.version{font-size:10px}.controls{padding:12px;gap:12px}.control{flex-wrap:wrap}.stage{padding:14px 6px;border-radius:14px;justify-content:flex-start}.stage-label{display:none}.frame-shell{margin-inline:auto;border-radius:14px}h1{font-size:24px}.preview-head span{display:none}.inspector{align-items:flex-start}.notice{line-height:1.9}.overview{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
-<header>
-  <h1>گالری ۱۱ هویت بصری ویجت</h1>
-  <p class="help">هر کارت یک bundle واقعی (<code>widget-&lt;theme&gt;.js</code>) را لود می‌کند و همان
-  کلاینت‌های عمومی خود ویجت را صدا می‌زند؛ هیچ backend و هیچ استایل کمکی‌ای در iframe نیست.
-  تم‌ها فقط در «هویت» با هم فرق دارند: ساختار DOM، قراردادهای JS و رفتار runtime در همه یکی است.</p>
-  <div class="row">
-    <span class="lbl">state</span>
-    <button data-state="welcome" aria-pressed="true">welcome</button>
-    <button data-state="answer">answer</button>
-    <button data-state="citations">citations</button>
-    <button data-state="handoff">handoff</button>
-    <button data-state="waiting">human waiting</button>
-    <button data-state="agent">operator</button>
-    <button data-state="thinking">thinking</button>
-    <button data-state="error">error</button>
-    <button data-state="offline">offline</button>
-    <button data-state="locked">locked</button>
-    <button data-state="empty">empty</button>
-  </div>
-  <div class="row">
-    <span class="lbl">viewport</span>
-    <button data-w="320">320</button>
-    <button data-w="360">360</button>
-    <button data-w="390" aria-pressed="true">390</button>
-    <button data-w="430">430</button>
-    <button data-w="768">768</button>
-    <button data-w="1024">1024</button>
-    <span class="lbl" style="margin-inline-start:14px">mode</span>
-    <button data-mode="light" aria-pressed="true">light</button>
-    <button data-mode="dark">dark</button>
-    <span class="lbl" style="margin-inline-start:14px">palette</span>
-    <button data-pal="theme" aria-pressed="true">theme default</button>
-    <button data-pal="brand">customer brand</button>
-  </div>
-</header>
-
-<main id="grid"></main>
-
+<div class="shell">
+<aside class="sidebar"><div class="brand"><div class="brand-mark" aria-hidden="true">W</div><div><b>استودیوی ویجت</b><small>WIDGET LIBRARY</small></div></div><div class="side-label"><span>هویت‌های بصری</span><span class="count">۱۱</span></div><nav class="themes" id="themes" aria-label="انتخاب تم"></nav><div class="side-foot"><i></i>یک منطق مشترک، یازده طراحی مستقل<br>بدون وابستگی به فریم‌ورک یا CDN</div></aside>
+<main>
+<div class="topbar"><div class="crumb">پروژه <span>/</span> کتابخانهٔ ویجت‌ها</div><div class="version"><i></i>نسخهٔ ۷ · استودیوی بررسی</div></div>
+<div class="intro"><div><div class="eyebrow">ELEVEN THEMES. ONE GREAT EXPERIENCE.</div><h1>یازده تم، یازده شخصیت.</h1><p>رنگ تنها تفاوت نیست؛ ساختار، فرم، تایپوگرافی و عمق هم امضای هر تم‌اند.</p></div><div class="intro-actions"><button id="overview-toggle" class="quiet-btn" type="button" aria-pressed="false"><span class="grid-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span>همهٔ تم‌ها</button><a id="open-single" class="quiet-btn" target="_blank" rel="noopener" href="./_design_check.html">نمای مستقل ↗</a></div></div>
+<div class="controls">
+<div class="control"><span class="label">ظاهر</span><div class="seg" role="group" aria-label="حالت رنگ"><button data-mode="light" aria-pressed="true">روشن</button><button data-mode="dark" aria-pressed="false">تاریک</button></div></div>
+<div class="control"><label for="viewport">عرض نمایش</label><select id="viewport"><option value="320">موبایل · ۳۲۰</option><option value="360">موبایل · ۳۶۰</option><option value="390" selected>موبایل · ۳۹۰</option><option value="430">موبایل · ۴۳۰</option><option value="768">تبلت · ۷۶۸</option><option value="1024">دسکتاپ · ۱۰۲۴</option></select></div>
+<div class="control"><label for="state">حالت گفتگو</label><select id="state"><option value="welcome">خوش‌آمدگویی</option><option value="answer">پاسخ دستیار</option><option value="citations">منابع و کد</option><option value="waiting">انتظار کارشناس</option><option value="agent">پاسخ کارشناس</option><option value="thinking">در حال پاسخ</option><option value="error">خطا و تلاش مجدد</option><option value="offline">قطع اتصال</option><option value="locked">سرویس غیرفعال</option><option value="contact">فرم تماس</option><option value="multiline">پیام چندخطی</option><option value="long-header">عنوان و توضیح بلند</option><option value="empty">ویجت بسته</option></select></div>
+<div class="control palette"><input class="palette-check" type="checkbox" id="use-brand"><label for="use-brand">رنگ برند</label><input type="color" value="#dfb45f" id="brand-color" aria-label="رنگ برند مشتری"></div>
+</div>
+<section id="single"><div class="preview-head"><strong id="theme-label">Classic <span>— پشتیبانی مطمئن</span></strong><span>نسخهٔ واقعی فایل نصب · پیش‌نمایش تعاملی</span></div><div class="stage" id="stage"><div class="stage-label"><i></i>LIVE SANDBOX</div><div class="frame-shell" id="frame-shell"><iframe id="preview" title="پیش‌نمایش تم انتخاب‌شده"></iframe></div></div><div class="inspector"><span id="signature"></span><div class="file"><code id="bundle"></code><button type="button" class="copy-btn" id="copy-bundle" aria-label="کپی مسیر فایل نصب">کپی مسیر</button></div></div></section>
+<section class="overview" id="overview" aria-label="مقایسهٔ همهٔ تم‌ها"></section>
+<p class="notice"><b>محیط بررسی طراحی:</b> پاسخ‌ها نمونه‌اند و به سرویس اصلی پروژه متصل نیستند. برای تست نوشتن، ارسال، توقف و تماس، با خود ویجت تعامل کنید.</p>
+</main></div><div id="status" class="status" role="status" aria-live="polite"></div>
 <script>
-  (function () {
-    var THEMES = ["classic","onyx","linen","clay","atomic","fluen","glassmo","md3","minimal","neu","skuermo"];
-    var NOTE = {
-      classic: "SaaS support default · gradient masthead",
-      onyx: "premium dark console · hairline + accent rail",
-      linen: "editorial paper · rules, wide measure",
-      clay: "tactile cushions · rounded slab header",
-      atomic: "operations console · compact, hairline grid",
-      fluen: "expressive startup · floating gradient card",
-      glassmo: "premium glass · frosted panes, hairline edges",
-      md3: "Material 3 · tonal surfaces, state layers",
-      minimal: "ultra-minimal · hairline + ink, no colour",
-      neu: "soft depth · extruded controls, inset field",
-      skuermo: "retro-modern · ink outlines, hard offset"
-    };
-
-    var state = { act: "welcome", w: 390, mode: "light", pal: "theme" };
-
-    function build() {
-      var grid = document.getElementById("grid");
-      grid.innerHTML = "";
-      THEMES.forEach(function (theme) {
-        var fig = document.createElement("figure");
-        fig.innerHTML =
-          '<figcaption><b></b><span></span></figcaption>' +
-          '<div class="stage"><iframe loading="lazy"></iframe></div>';
-        fig.querySelector("b").textContent = theme;
-        fig.querySelector("span").textContent = NOTE[theme];
-        var frame = fig.querySelector("iframe");
-        frame.setAttribute("title", theme + " theme");
-        frame.style.height = (state.w >= 768 ? 620 : 600) + "px";
-        frame.src = "./_design_check.html?theme=" + theme +
-                    (state.pal === "theme" ? "&noconf=1" : "") +
-                    "&v=" + Date.now();
-        frame.addEventListener("load", function () { drive(frame); });
-        grid.appendChild(fig);
-      });
-    }
-
-    /* Every state is driven through the widget's own public API from the
-       parent frame (same origin), so the gallery cannot fake a state the
-       runtime would not produce. */
-    function drive(frame) {
-      var win = frame.contentWindow;
-      if (!win || !win._aiWidget) { return; }
-      reset(win);
-      // One turn of the event loop: the offline/live listeners are async and
-      // the reset has to land before the next state is painted.
-      win.setTimeout(function () { apply(win); }, 60);
-    }
-
-    function reset(win) {
-      var w = win._aiWidget;
-      try {
-        w.messages.innerHTML = "";
-        w.messageCount = 0;
-        w._handoffShown = false;
-        w._chatStarted = true;
-        w._stick = true;
-        w.open();
-        w.setLoading(false);
-        // This page has no backend, so the client legitimately reports
-        // "offline". Clear it or every state after `offline` stays red.
-        w._configUnreachable = false;
-        win.AISupportLive.applyMode(w, "ai", {});
-        w._setBlocked(false);
-        Object.defineProperty(win.navigator, "onLine", { value: true, configurable: true });
-        win.dispatchEvent(new win.Event("online"));
-      } catch (e) { /* the state simply was not armed */ }
-    }
-
-    function apply(win) {
-      var w = win._aiWidget;
-      try {
-        w.options.darkMode = state.mode;
-        w.applyVisuals();
-        w.ui.sync();
-
-        w.suggestions.hidden = false;
-        if (w.renderSuggestions && w._suggestionItems && w._suggestionItems.length) w.renderSuggestions();
-
-        if (state.act === "empty") { w.close(); return; }
-        if (state.act === "welcome") { w.addHero(w.options.greeting); return; }
-        w.collapseHero();
-        w.suggestions.hidden = true;
-
-        if (state.act === "thinking") { w.setLoading(true); w.ui.sync(); return; }
-        if (state.act === "offline") {
-          w.addMessage("سلام", "user");
-          Object.defineProperty(win.navigator, "onLine", { value: false, configurable: true });
-          win.dispatchEvent(new win.Event("offline"));
-          w.ui.sync();
-          return;
-        }
-        if (state.act === "locked") {
-          w.addMessage("سلام", "user");
-          w._setBlocked(true, "این سرویس در حال حاضر برای این سایت در دسترس نیست.");
-          w.ui.sync();
-          return;
-        }
-        if (state.act === "error") {
-          w._lastUserMessage = "سؤال قبلی";
-          w.addMessage("این پاسخ دریافت نشد.", "bot", false, { isError: true, retry: true });
-          return;
-        }
-        if (state.act === "answer" || state.act === "citations") {
-          w.addMessage("ساعات کاری شما در روزهای تعطیل چگونه است؟", "user");
-          w.handleAnswerResult(
-            "**ساعات کاری** شنبه تا چهارشنبه از **۹ تا ۱۷** است.\n\n- پنجشنبه ۹ تا ۱۳\n- جمعه تعطیل\n\n" +
-            "```bash\ncurl https://api.example.com/hours\n```",
-            {
-              message_id: 101,
-              citations: state.act === "citations"
-                ? [{ title: "صفحه تماس با ما", page_number: 2, url: "https://example.com/contact" },
-                   { title: "راهنمای سفارش‌ها", page_number: 7, url: "https://example.com/orders" }]
-                : []
-            });
-          return;
-        }
-        if (state.act === "handoff") {
-          // The live layer attaches itself when the remote config enables it;
-          // this page has no backend, so the gallery arms it through the same
-          // public API a production embed uses.
-          win.AISupportLive.applyConfig(w, { enabled: true, sla_minutes: 5, cta_label: "اتصال به پشتیبانی انسانی" });
-          if (!w.live) win.AISupportLive.install(w);
-          w.addMessage("می‌خواهم با یک کارشناس صحبت کنم", "user");
-          // The CTA hangs off the newest *answer*, so there has to be one.
-          w.addMessage("برای پیگیری سفارش، شماره سفارش را در بخش پشتیبانی وارد کنید.", "bot", false, {});
-          var last = w.messages.querySelector(".asw-row.asw-last .asw-feedback");
-          if (last) w.handleFeedback(last.querySelector(".thumbs-down"));
-          return;
-        }
-        if (state.act === "waiting") {
-          w.addMessage("سفارش من هنوز ارسال نشده است.", "user");
-          win.AISupportLive.applyMode(w, "waiting", {});
-          w.ui.sync();
-          return;
-        }
-        if (state.act === "agent") {
-          win.AISupportLive.applyMode(w, "human", { operator: "op1" });
-          w.addMessage("سفارش من هنوز ارسال نشده است.", "user");
-          w.addMessage("بررسی کردم؛ سفارش شما امروز ارسال می‌شود.", "bot", false, { skipFeedback: true });
-          win.AISupportLive.decorateHistory(w, [{ sender: "agent" }]);
-          w.ui.sync();
-          return;
-        }
-      } catch (err) {
-        console.warn("gallery: " + err.message);
+(async function () {
+  const manifest = await fetch('./themes/manifest.json').then(r => r.json());
+  const descriptions = {
+    classic:'میز پشتیبانی منظم · کارت‌های دقیق و هدر گرادیان',onyx:'کنسول دقیق · لبه‌های روشن و ردیف‌های شماره‌دار',linen:'دفتر گفت‌وگو · کاغذ گرم و ساختار تحریریه',clay:'استودیوی نرم · کارت‌های بالشتی و فرم‌های ارگانیک',atomic:'میز عملیات · شبکهٔ هندسی و کنترل‌های ماژولار',fluen:'جریان خلاق · هدر شناور و کارت‌های تمام‌عرض',glassmo:'لایه‌های شفاف · سطوح مات و نشان شیشه‌ای',md3:'فضای کار آشنا · سطوح تونال و کنترل‌های کپسولی',minimal:'گفت‌وگوی آرام · تایپوگرافی خالص و پاسخ بدون قاب',neu:'عمق نرم · کلیدهای برجسته و فیلد فرورفته',skuermo:'کارگاه جسور · خطوط جوهری و سایه‌های سخت'
+  };
+  const params = new URLSearchParams(location.search);
+  const widths=[320,360,390,430,768,1024];
+  const states=Array.from(document.querySelector('#state').options).map(option=>option.value);
+  const view = { theme:Object.prototype.hasOwnProperty.call(manifest,params.get('theme')) ? params.get('theme') : 'classic', mode:params.get('mode') === 'dark' ? 'dark' : 'light', width:widths.includes(Number(params.get('width'))) ? Number(params.get('width')) : 390, state:states.includes(params.get('act')) ? params.get('act') : 'welcome', overview:false, brand:/^#[0-9a-f]{6}$/i.test(params.get('primary')||'') };
+  document.querySelector('#viewport').value=String(view.width);
+  document.querySelector('#state').value=view.state;
+  document.querySelector('#use-brand').checked=view.brand;
+  if(view.brand)document.querySelector('#brand-color').value=params.get('primary');
+  const nav = document.querySelector('#themes');
+  for (const [name, theme] of Object.entries(manifest)) {
+    const button = document.createElement('button'); button.type='button'; button.className='theme-btn'; button.dataset.theme=name;
+    button.innerHTML='<span class="theme-swatch" aria-hidden="true"></span><span><span class="theme-name" dir="ltr"></span><small class="theme-caption"></small></span><span class="theme-arrow" aria-hidden="true">‹</span>';
+    button.querySelector('.theme-swatch').style.background=theme.defaults.primaryColor;
+    button.querySelector('.theme-swatch').textContent=theme.label.charAt(0);
+    if(['atomic','onyx','minimal','skuermo'].includes(name)) button.querySelector('.theme-swatch').style.borderRadius='4px';
+    if(['clay','neu','linen'].includes(name)) button.querySelector('.theme-swatch').style.borderRadius='50%';
+    button.querySelector('.theme-name').textContent=theme.label;
+    button.querySelector('.theme-caption').textContent=theme.title;
+    button.addEventListener('click',()=>{ view.theme=name; view.overview=false; render(); });nav.appendChild(button);
+  }
+  const fileFor = name => 'widget/' + (name === 'classic' ? 'widget.js' : 'widget-' + name + '.js');
+  function urlFor(name, embed=true) {
+    const url = new URL('./_design_check.html', location.href);
+    url.searchParams.set('theme', name);url.searchParams.set('mode', view.mode);url.searchParams.set('act', view.state);
+    if(embed)url.searchParams.set('embed','1');
+    if(view.brand)url.searchParams.set('primary',document.querySelector('#brand-color').value);
+    return url.href;
+  }
+  function render() {
+    nav.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.theme===view.theme)));
+    document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===view.mode)));
+    document.querySelector('#overview-toggle').setAttribute('aria-pressed',String(view.overview));
+    document.querySelector('#single').hidden=view.overview;
+    const overview=document.querySelector('#overview'); overview.classList.toggle('on',view.overview);overview.replaceChildren();
+    const theme=manifest[view.theme];
+    document.querySelector('#theme-label').replaceChildren();
+    const name=document.createElement('b');name.dir='ltr';name.textContent=theme.label;
+    const title=document.createElement('span');title.textContent=' — '+theme.title;
+    document.querySelector('#theme-label').append(name,title);
+    document.querySelector('#signature').textContent=descriptions[view.theme];
+    document.querySelector('#bundle').textContent=fileFor(view.theme);
+    document.querySelector('#open-single').href=urlFor(view.theme,false);
+    document.querySelector('#stage').classList.toggle('dark-host',view.mode==='dark');
+    document.querySelector('#frame-shell').classList.toggle('desktop',view.width>480);
+    if(!view.overview){
+      const frame=document.querySelector('#preview');frame.style.width=view.width+'px';frame.style.height=(view.width<=480?690:740)+'px';frame.src=urlFor(view.theme);
+    } else {
+      document.querySelector('#preview').src='about:blank';
+      for(const [id,t] of Object.entries(manifest)){
+        const card=document.createElement('figure');const caption=document.createElement('figcaption');
+        const b=document.createElement('b');b.dir='ltr';b.textContent=t.label;const span=document.createElement('span');span.textContent=t.title;caption.append(b,span);
+        const stage=document.createElement('div');stage.className='mini-stage';stage.style.background=view.mode==='dark'?'#202a3b':'#eaf0f7';
+        const frame=document.createElement('iframe');frame.title='تم '+t.label;frame.loading='lazy';frame.style.width=view.width+'px';frame.src=urlFor(id);stage.appendChild(frame);card.append(caption,stage);overview.appendChild(card);
       }
     }
-
-    function press(group, node) {
-      Array.prototype.forEach.call(document.querySelectorAll("[data-" + group + "]"), function (b) {
-        b.setAttribute("aria-pressed", String(b === node));
-      });
-    }
-
-    Array.prototype.forEach.call(document.querySelectorAll("[data-state]"), function (b) {
-      b.addEventListener("click", function () {
-        state.act = b.dataset.state; press("state", b);
-        // A fresh document per state: the runtime reports "offline" whenever
-        // the config endpoint is unreachable (true on this page), so reusing a
-        // frame would carry that state into every later state.
-        Array.prototype.forEach.call(document.querySelectorAll("iframe"), function (f) {
-          f.src = f.src.split("&v=")[0] + "&v=" + Date.now();
-        });
-      });
-    });
-    Array.prototype.forEach.call(document.querySelectorAll("[data-w]"), function (b) {
-      b.addEventListener("click", function () {
-        state.w = parseInt(b.dataset.w, 10); press("w", b);
-        Array.prototype.forEach.call(document.querySelectorAll("iframe"), function (f) {
-          f.parentNode.parentNode.style.maxWidth = Math.max(state.w + 2, 300) + "px";
-          f.contentWindow && f.contentWindow.dispatchEvent(new Event("resize"));
-        });
-      });
-    });
-    Array.prototype.forEach.call(document.querySelectorAll("[data-mode]"), function (b) {
-      b.addEventListener("click", function () {
-        state.mode = b.dataset.mode; press("mode", b); build();
-      });
-    });
-    Array.prototype.forEach.call(document.querySelectorAll("[data-pal]"), function (b) {
-      b.addEventListener("click", function () {
-        state.pal = b.dataset.pal; press("pal", b); build();
-      });
-    });
-
-    build();
-  })();
+    const query=new URLSearchParams({theme:view.theme,mode:view.mode,width:String(view.width),act:view.state});
+    if(view.brand)query.set('primary',document.querySelector('#brand-color').value);
+    history.replaceState(null,'','?'+query);
+  }
+  document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>{view.mode=b.dataset.mode;render();}));
+  document.querySelector('#viewport').addEventListener('change',e=>{view.width=Number(e.target.value);render();});
+  document.querySelector('#state').addEventListener('change',e=>{view.state=e.target.value;render();});
+  document.querySelector('#use-brand').addEventListener('change',e=>{view.brand=e.target.checked;render();});
+  document.querySelector('#brand-color').addEventListener('change',()=>{view.brand=true;document.querySelector('#use-brand').checked=true;render();});
+  document.querySelector('#overview-toggle').addEventListener('click',()=>{view.overview=!view.overview;render();});
+  let toastTimer;
+  document.querySelector('#copy-bundle').addEventListener('click',async()=>{
+    const status=document.querySelector('#status');
+    try{await navigator.clipboard.writeText(fileFor(view.theme));status.textContent='مسیر فایل نصب کپی شد.';}catch(_){status.textContent='مسیر فایل را انتخاب و کپی کنید.';}
+    clearTimeout(toastTimer);toastTimer=setTimeout(()=>{status.textContent='';},2200);
+  });
+  render();
+  window.__studioReady=true;
+})();
 </script>
-</body>
-</html>
+</body></html>

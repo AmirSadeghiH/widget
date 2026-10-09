@@ -1,139 +1,40 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<title>Themes check — boot + identity + alignment for all 11 bundles</title>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>بررسی سریع ۱۱ تم</title>
 <style>
-  body{margin:0;font:13px/1.7 Tahoma,sans-serif;background:#0f1116;color:#e8eaf2}
-  h1{font-size:15px;margin:0;padding:12px 16px;background:#151823;border-bottom:1px solid #262b3a}
-  #log{padding:8px 16px}
-  .row{padding:4px 0;border-bottom:1px solid #1d2130;direction:ltr;text-align:left;font-family:ui-monospace,Consolas,monospace;font-size:12px}
-  .ok{color:#5ddba0}.bad{color:#ff6b76}.warn{color:#e0b354}
-  iframe{position:fixed;left:-4000px;top:0;width:420px;height:760px;border:0}
-</style>
-</head>
-<body>
-<h1>Themes check — boots every bundle in its own document</h1>
-<div id="log"></div>
-<div id="frames"></div>
+body{margin:0;background:#f6f8fc;color:#213047;font:14px/1.9 Tahoma,sans-serif}main{max-width:1040px;margin:32px auto;padding:24px}h1{font-size:23px;margin:0 0 8px}p{color:#607089}a{color:#414fc2}table{width:100%;border-collapse:collapse;background:white;border:1px solid #d6deeb}th,td{padding:10px 12px;text-align:start;border-bottom:1px solid #e1e7f1}th{background:#eaf0f8;font-weight:600}code{direction:ltr;display:inline-block;font-size:12px}.ok{color:#06714b}.bad{color:#a81c31}iframe{position:absolute;left:-10000px;top:0;width:360px;height:760px;border:0}#progress{display:block;margin:12px 0;font-weight:600}@media(max-width:650px){main{padding:14px;margin:12px 0}.table-wrap{overflow:auto}table{min-width:680px}}
+</style></head><body><main><a href="./_themes_gallery.html">← استودیوی تم‌ها</a><h1>بررسی سریع فایل‌های نصب</h1><p>هر تم در سند مستقلِ ۳۶۰ × ۷۶۰ پیکسل، با فونت واقعی و API نمونه بررسی می‌شود. این صفحه جایگزین مجموعهٔ تست‌های خودکار نیست.</p><div id="progress" role="status" aria-live="polite">در حال آماده‌سازی…</div><div class="table-wrap"><table><thead><tr><th>تم</th><th>حالت</th><th>نسخه</th><th>جهت گفتگو</th><th>هدر و ورودی</th><th>میکروفون</th><th>نتیجه</th></tr></thead><tbody id="results"></tbody></table></div></main>
 <script>
-(function () {
-  "use strict";
-  var THEMES = ["classic","onyx","linen","clay","atomic","fluen","glassmo","md3","minimal","neu","skuermo"];
-  var results = [];
-  window.__results = results;
-
-  function fileFor(theme) { return theme === "classic" ? "widget.js" : "widget-" + theme + ".js"; }
-
-  function measure(win, doc, theme) {
-    var w = win._aiWidget;
-    var out = { theme: theme, file: fileFor(theme), booted: !!w, version: win.AISupportWidget && win.AISupportWidget.version };
-    if (!w) return out;
-    out.liveClient = typeof win.AISupportLive;
-    out.uiShell = typeof win.AISupportUI;
-    try { w.open(); } catch (e) { out.openError = String(e); }
-
-    var host = doc.getElementById("ai-support-widget-host");
-    out.host = !!host;
-    var sr = host && host.shadowRoot;
-    out.shadow = !!sr;
-    if (!sr) return out;
-
-    out.cssBytes = sr.querySelector("style").textContent.length;
-    var root = sr.querySelector(".asw");
-    out.state = root.getAttribute("data-ui-state");
-    out.dot = getComputedStyle(sr.querySelector(".asw-status")).backgroundColor;
-    out.primary = getComputedStyle(root).getPropertyValue("--asw-primary").trim();
-    out.radiusLg = getComputedStyle(root).getPropertyValue("--asw-r-lg").trim();
-    out.headerBg = getComputedStyle(root).getPropertyValue("--asw-header-bg").trim();
-    out.fontFamily = getComputedStyle(root).fontFamily.slice(0, 28);
-
-    var box = sr.querySelector(".asw-messages").getBoundingClientRect();
-    out.messagesDirection = getComputedStyle(sr.querySelector(".asw-messages")).direction;
-
-    // Render one of each and read the physical side as a 0..1 fraction of the
-    // transcript width: <0.5 is the left half, >0.5 the right half.
-    w.addMessage("پیام بازدیدکننده", "user", false, {});
-    w.addMessage("پاسخ دستیار", "bot", false, {});
-    var frac = function (sel) {
-      var row = sr.querySelector(sel);
-      if (!row || !box.width) return null;
-      var r = row.getBoundingClientRect();
-      return Math.round((((r.left + r.right) / 2) - box.left) / box.width * 100) / 100;
-    };
-    out.userSide = frac(".asw-row.user");
-    out.botSide = frac(".asw-row.bot");
-
-    // A system notice must sit in the middle, not on either side.
-    w.addMessage("یک کارشناس به گفتگو پیوست.", "bot", false, { skipFeedback: true });
-    if (win.AISupportLive && win.AISupportLive.decorateHistory) {
-      win.AISupportLive.decorateHistory(w, [{ sender: "system", content: "x" }]);
-    }
-    out.noteSide = frac(".asw-row.asw-live-row-note");
-
-    out.handoffWired = !!(w.live && typeof w.live.adopt === "function");
-    return out;
-  }
-
-  function run(theme) {
-    return new Promise(function (resolve) {
-      var frame = document.createElement("iframe");
-      frame.src = "./_design_check.html?theme=" + theme + "&t=" + Date.now();
-      document.getElementById("frames").appendChild(frame);
-      var done = false;
-      var finish = function (r) {
-        if (done) return;
-        done = true;
-        resolve(r);
-      };
-      var deadline = Date.now() + 15000;
-      var poll = function () {
-        if (Date.now() > deadline) return finish({ theme: theme, booted: false, reason: "timeout" });
-        var win, doc;
-        try { win = frame.contentWindow; doc = frame.contentDocument; } catch (e) { return finish({ theme: theme, booted: false, reason: "inaccessible" }); }
-        if (win && win._aiWidget && doc && doc.getElementById("ai-support-widget-host")) {
-          var r = measure(win, doc, theme);
-          frame.remove();
-          return finish(r);
-        }
-        setTimeout(poll, 120);
-      };
-      poll();
-    });
-  }
-
-  (async function () {
-    for (var i = 0; i < THEMES.length; i++) {
-      var r = await run(THEMES[i]);
-      results.push(r);
-      paint();
-    }
-    window.__done = true;
-  })();
-
-  function paint() {
-    var log = document.getElementById("log");
-    log.innerHTML = results.map(function (r) {
-      if (!r.booted) return '<div class="row bad">' + r.theme + ' — BOOT FAILED (' + (r.reason || "?") + ")</div>";
-      var sides = "user=" + r.userSide + " bot=" + r.botSide + " note=" + r.noteSide;
-      var sideOk = r.userSide > 0.5 && r.botSide < 0.5;
-      var stateOk = r.state === "online";
-      return '<div class="row">' +
-        '<b>' + r.theme.padEnd(9) + "</b> " +
-        r.file.padEnd(20) +
-        " boot=" + r.booted +
-        " v=" + r.version +
-        " live=" + r.liveClient + " ui=" + r.uiShell +
-        " css=" + r.cssBytes +
-        " state=<span class='" + (stateOk ? "ok" : "warn") + "'>" + r.state + "</span>" +
-        " dot=" + r.dot +
-        " sides=<span class='" + (sideOk ? "ok" : "bad") + "'>" + sides + "</span>" +
-        " primary=" + r.primary +
-        " r-lg=" + r.radiusLg +
-        "</div>";
-    }).join("");
-  }
+(async function(){
+ const names=['classic','onyx','linen','clay','atomic','fluen','glassmo','md3','minimal','neu','skuermo'];
+ const results=window.__results=[];
+ function measure(frame,theme,mode){
+  const win=frame.contentWindow,w=win._aiWidget;
+  w._chatStarted=true;w.collapseHero();w.syncSuggestions();
+  w.addMessage('پیام بازدیدکننده','user');w.addMessage('پاسخ دستیار','bot',false,{skipFeedback:true});
+  const fraction=selector=>{const m=w.messages.getBoundingClientRect(),r=w.root.querySelector(selector).getBoundingClientRect();return((r.left+r.right)/2-m.left)/m.width;};
+  const input=w.input.getBoundingClientRect(),send=w.sendBtn.getBoundingClientRect();
+  const full=e=>e.scrollHeight<=e.clientHeight+1&&getComputedStyle(e).whiteSpace==='normal';
+  const result={theme,mode,booted:true,version:win.AISupportWidget.version,modules:!!(w.ui&&typeof win.AISupportLive.install==='function'),state:w.root.dataset.uiState,
+   direction:fraction('.asw-row.user')>.5&&fraction('.asw-row.bot')<.5,
+   geometry:full(w.titleEl)&&full(w.subtitleEl)&&input.width>=115&&input.height>=44&&send.right<=input.left+1&&w.panel.scrollWidth<=w.panel.clientWidth+1,
+   microphone:!!w.root.querySelector('[id*="mic"],.asw-mic')};
+  result.passed=result.version==='7.0.0'&&result.modules&&result.direction&&result.geometry&&!result.microphone&&result.state==='online';return result;
+ }
+ function run(theme,mode){return new Promise(resolve=>{
+  const frame=document.createElement('iframe');frame.title='بررسی '+theme+' '+mode;frame.src='./_design_check.html?embed=1&theme='+theme+'&mode='+mode;
+  let done=false;
+  const finish=result=>{if(done)return;done=true;clearTimeout(timer);removeEventListener('message',ready);frame.remove();resolve(result);};
+  const timer=setTimeout(()=>finish({theme,mode,booted:false,passed:false,reason:'زمان آماده‌سازی تمام شد'}),15000);
+  async function ready(event){if(event.source!==frame.contentWindow||event.origin!==location.origin||!event.data||event.data.type!=='asw:demo-ready')return;
+   try{await frame.contentDocument.fonts.ready;finish(measure(frame,theme,mode));}catch(error){finish({theme,mode,passed:false,reason:error.message});}}
+  addEventListener('message',ready);document.body.appendChild(frame);
+ });}
+ function paint(result){
+  const tr=document.createElement('tr');const values=[result.theme,result.mode==='dark'?'تاریک':'روشن',result.version||'—',result.direction?'کاربر راست / دستیار چپ':'نیاز به بررسی',result.geometry?'کامل و بدون هم‌پوشانی':'نیاز به بررسی',result.microphone?'وجود دارد':'حذف شده',result.passed?'قبول':result.reason||'ناموفق'];
+  values.forEach((value,i)=>{const cell=document.createElement('td');cell.textContent=value;if(i===0||i===2)cell.dir='ltr';if(i===6)cell.className=result.passed?'ok':'bad';tr.appendChild(cell);});document.querySelector('#results').appendChild(tr);
+ }
+ for(const name of names)for(const mode of ['light','dark']){document.querySelector('#progress').textContent='در حال بررسی '+name+' · '+(mode==='dark'?'تاریک':'روشن');const result=await run(name,mode);results.push(result);paint(result);}
+ const failed=results.filter(result=>!result.passed).length;document.querySelector('#progress').textContent=failed?'بررسی تمام شد؛ '+failed+' مورد نیاز به بررسی دارد.':'هر ۲۲ حالت با موفقیت بررسی شدند.';window.__done=true;
 })();
-</script>
-</body>
-</html>
+</script></body></html>

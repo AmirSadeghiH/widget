@@ -1,0 +1,167 @@
+{
+  "classic": {
+    "label": "Classic",
+    "title": "پشتیبانی مطمئن",
+    "description": "Support desk",
+    "signature": "gradient masthead, structured cards",
+    "defaults": {
+      "primaryColor": "#6366f1",
+      "secondaryColor": "#8b5cf6",
+      "accentColor": "#a78bfa",
+      "botAvatarText": "✦",
+      "themeMode": "gradient",
+      "darkMode": "auto",
+      "borderRadius": 22
+    }
+  },
+  "onyx": {
+    "label": "Onyx",
+    "title": "کنسول دقیق",
+    "description": "Precision console",
+    "signature": "technical rail, hairline packets",
+    "defaults": {
+      "primaryColor": "#087990",
+      "secondaryColor": "#075467",
+      "accentColor": "#188eac",
+      "botAvatarText": "▸",
+      "themeMode": "solid",
+      "darkMode": "dark",
+      "borderRadius": 16
+    }
+  },
+  "linen": {
+    "label": "Linen",
+    "title": "دفتر گفت‌وگو",
+    "description": "Editorial journal",
+    "signature": "paper, editorial rules, open replies",
+    "defaults": {
+      "primaryColor": "#b9471a",
+      "secondaryColor": "#8c3419",
+      "accentColor": "#ad5c23",
+      "botAvatarText": "❋",
+      "themeMode": "solid",
+      "darkMode": "light",
+      "borderRadius": 12
+    }
+  },
+  "clay": {
+    "label": "Clay",
+    "title": "گفت‌وگوی صمیمی",
+    "description": "Soft studio",
+    "signature": "cushioned cards, organic corners",
+    "defaults": {
+      "primaryColor": "#0f8c7c",
+      "secondaryColor": "#087265",
+      "accentColor": "#14b8a6",
+      "botAvatarText": "✦",
+      "themeMode": "gradient",
+      "darkMode": "auto",
+      "borderRadius": 28
+    }
+  },
+  "atomic": {
+    "label": "Atomic",
+    "title": "مرکز پاسخ‌گویی",
+    "description": "Operations desk",
+    "signature": "grid, numbered prompts, modular controls",
+    "defaults": {
+      "primaryColor": "#2563eb",
+      "secondaryColor": "#1d4ed8",
+      "accentColor": "#60a5fa",
+      "botAvatarText": "✦",
+      "themeMode": "gradient",
+      "darkMode": "auto",
+      "borderRadius": 10
+    }
+  },
+  "fluen": {
+    "label": "Fluen",
+    "title": "روان و خلاق",
+    "description": "Creative flow",
+    "signature": "floating masthead, expressive gradient",
+    "defaults": {
+      "primaryColor": "#6d5efc",
+      "secondaryColor": "#c83491",
+      "accentColor": "#ac89ff",
+      "botAvatarText": "✦",
+      "themeMode": "gradient",
+      "darkMode": "auto",
+      "borderRadius": 24
+    }
+  },
+  "glassmo": {
+    "label": "Glassmo",
+    "title": "شفاف و آرام",
+    "description": "Glass atelier",
+    "signature": "frosted layers, translucent inset panes",
+    "defaults": {
+      "primaryColor": "#087b98",
+      "secondaryColor": "#2563eb",
+      "accentColor": "#06b6d4",
+      "botAvatarText": "✦",
+      "themeMode": "gradient",
+      "darkMode": "auto",
+      "borderRadius": 24
+    }
+  },
+  "md3": {
+    "label": "Material 3",
+    "title": "ساده و آشنا",
+    "description": "Material workspace",
+    "signature": "tonal surfaces, pill controls, elevated cards",
+    "defaults": {
+      "primaryColor": "#6750a4",
+      "secondaryColor": "#4f378b",
+      "accentColor": "#9a82db",
+      "botAvatarText": "✦",
+      "themeMode": "gradient",
+      "darkMode": "auto",
+      "borderRadius": 28
+    }
+  },
+  "minimal": {
+    "label": "Minimal",
+    "title": "فقط گفت‌وگو",
+    "description": "Quiet conversation",
+    "signature": "typographic hierarchy, unboxed assistant",
+    "defaults": {
+      "primaryColor": "#18181b",
+      "secondaryColor": "#3f3f46",
+      "accentColor": "#71717a",
+      "botAvatarText": "✦",
+      "themeMode": "gradient",
+      "darkMode": "auto",
+      "borderRadius": 12
+    }
+  },
+  "neu": {
+    "label": "Neu",
+    "title": "عمقِ نرم",
+    "description": "Soft depth",
+    "signature": "extruded surfaces, inset field, tactile keys",
+    "defaults": {
+      "primaryColor": "#5b5bd6",
+      "secondaryColor": "#4a4ac2",
+      "accentColor": "#7d7de2",
+      "botAvatarText": "✦",
+      "themeMode": "gradient",
+      "darkMode": "auto",
+      "borderRadius": 28
+    }
+  },
+  "skuermo": {
+    "label": "Skuermo",
+    "title": "جسور و مستقل",
+    "description": "Bold workshop",
+    "signature": "ink outlines, offset shadows, graphic stamps",
+    "defaults": {
+      "primaryColor": "#a84d10",
+      "secondaryColor": "#733212",
+      "accentColor": "#d49b27",
+      "botAvatarText": "✦",
+      "themeMode": "gradient",
+      "darkMode": "auto",
+      "borderRadius": 12
+    }
+  }
+}

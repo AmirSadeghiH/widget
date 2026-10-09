@@ -1,197 +1,116 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Design check — widget states</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>پیش‌نمایش تعاملی ویجت</title>
 <style>
-  body{margin:0;font-family:Vazirmatn,Tahoma,sans-serif;background:#f2f3f7;color:#1b1d26}
-  .bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid #e6e8ef;position:sticky;top:0;z-index:9}
-  .bar strong{font-size:12px;margin-inline-end:6px}
-  .bar button{font:inherit;font-size:11.5px;padding:5px 9px;border:1px solid #d7dae4;background:#f7f8fb;border-radius:7px;cursor:pointer}
-  .bar button:hover{border-color:#9aa3bd}
-  .bar code{font-size:11px;background:#f2f3f7;border:1px solid #e6e8ef;border-radius:6px;padding:3px 6px;direction:ltr}
-  main{padding:22px 18px;max-width:640px}
-  h1{font-size:17px;margin:0 0 6px}
-  p{color:#5b6172;font-size:13px;line-height:1.9;margin:0 0 10px}
-  .card{background:#fff;border:1px solid #e6e8ef;border-radius:12px;padding:12px;font-size:12px;color:#5b6172}
+@font-face{font-family:Studio;src:url('./fonts/vazirmatn-arabic.woff2');font-weight:100 900;font-display:swap}
+@font-face{font-family:Studio;src:url('./fonts/vazirmatn-latin.woff2');font-weight:100 900;font-display:swap}
+*{box-sizing:border-box}body{margin:0;background:#eef2f8;color:#27324a;font:14px/1.9 Studio,Tahoma,sans-serif}
+.bar{position:relative;z-index:5;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px 18px;background:#fff;border-bottom:1px solid #dce3ee}
+.bar select,.bar button{font:inherit;min-height:40px;border:1px solid #c2cbda;border-radius:8px;padding:6px 10px;background:#fff;color:#27324a}
+.bar a{color:#3d48b1}main{padding:30px;max-width:620px}h1{font-size:28px;line-height:1.6;margin:16px 0}p{color:#60718b;margin:12px 0}
+.host-head{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #d7dfec;padding:18px 24px;font-weight:600;background:rgba(255,255,255,.5)}
+.host-head span:last-child{font-size:12px;color:#738199}.host-mark{display:inline-grid;place-items:center;width:28px;height:28px;background:#36435b;color:#fff;border-radius:8px;margin-inline-end:8px}
+.host-card{height:100px;border:1px solid #d6dfed;background:rgba(255,255,255,.4);border-radius:12px;margin:20px 0;padding:20px}
+.host-card i{display:block;border-radius:4px;height:8px;background:#dce3ef;width:60%;margin-bottom:12px}.host-card i:nth-child(2){width:85%}.host-card i:last-child{width:40%}
+.embed .bar{display:none}.embed main{opacity:.8}.host-note{font-size:12px;color:#7586a0}
+body.host-dark{background:#172132;color:#e4eaf4}.host-dark .host-head{background:#202d42;border-color:#3d4d65}.host-dark p{color:#b4c2d7}.host-dark .host-card{background:#213047;border-color:#34445e}.host-dark .host-card i{background:#3c4d67}
+:focus-visible{outline:2px solid #4d5dce;outline-offset:3px}
 </style>
 </head>
 <body>
-<div class="bar">
-  <strong>state:</strong>
-  <button data-act="open">open</button>
-  <button data-act="close">close</button>
-  <button data-act="welcome">welcome</button>
-  <button data-act="answer">ai answer</button>
-  <button data-act="nothelpful">not helpful → CTA</button>
-  <button data-act="waiting">human waiting</button>
-  <button data-act="claimed">operator joined</button>
-  <button data-act="agent">operator reply</button>
-  <button data-act="closed">human closed</button>
-  <button data-act="thinking">thinking</button>
-  <button data-act="error">error + retry</button>
-  <button data-act="offline">offline</button>
-  <button data-act="locked">locked</button>
-  <code id="which"></code>
-</div>
-<main>
-  <h1>سایت نمونه مشتری</h1>
-  <p>این صفحه برای بازبینی چشمی ویجت است: همان فایل‌های واقعی bundle لود می‌شوند و
-  همه‌ی حالت‌ها از طریق کلاینت‌های عمومی خود ویجت (<code>AISupportLive</code> و
-  <code>AISupportUI</code>) رانده می‌شوند؛ هیچ backend‌ای درگیر نیست.</p>
-  <div class="card">تم انتخابی: <b id="theme"></b> — پارامتر <code>?theme=onyx</code> را عوض کنید.</div>
-</main>
+<div class="bar"><b>پیش‌نمایش ویجت</b><label for="scenario">حالت</label><select id="scenario"><option value="welcome">خوش‌آمدگویی</option><option value="answer">پاسخ دستیار</option><option value="citations">منابع و کد</option><option value="waiting">انتظار کارشناس</option><option value="agent">پاسخ کارشناس</option><option value="thinking">در حال پاسخ</option><option value="error">خطا و تلاش مجدد</option><option value="offline">قطع اتصال</option><option value="locked">سرویس غیرفعال</option><option value="contact">فرم تماس</option><option value="multiline">پیام چندخطی</option><option value="long-header">هدر بلند</option><option value="empty">ویجت بسته</option></select><button id="mode" type="button">تغییر حالت روشن / تاریک</button><a href="./_themes_gallery.html">استودیوی تم‌ها</a></div>
+<div class="host-head"><span><span class="host-mark">S</span>فروشگاه نمونه</span><span>محصولات · راهنما · ارتباط</span></div>
+<main><span class="host-note">سایت میزبان · محیط نمونه</span><h1>یک تجربهٔ خوب،<br>از یک گفت‌وگو شروع می‌شود.</h1><p>پاسخ‌های این صفحه صرفاً نمونه‌اند. ویجت را باز کنید، یک پیام بنویسید و تعامل‌ها را بررسی کنید.</p><div class="host-card" aria-hidden="true"><i></i><i></i><i></i></div><div class="host-card" aria-hidden="true"><i></i><i></i><i></i></div></main>
 <script>
-  (function () {
-    var theme = new URLSearchParams(location.search).get("theme") || "classic";
-    document.getElementById("theme").textContent = theme;
-    var file = theme === "classic" ? "widget.js" : "widget-" + theme + ".js";
-    document.getElementById("which").textContent = file;
-
-    // ?noconf=1 keeps the theme's own palette: the gallery uses it to show what
-    // an installation looks like before a customer overrides any colour.
-    var noconf = new URLSearchParams(location.search).get("noconf") === "1";
-    window.AI_WIDGET_CONFIG = {
-      title: "پشتیبانی آنلاین",
-      subtitle: "آنلاین • پاسخ فوری",
-      greeting: "سلام! چطور می‌توانم کمکتان کنم؟",
-      suggestions: ["قیمت محصولات", "شرایط ارسال", "ساعات کاری", "مرجوعی"],
-      liveHandoffEnabled: true,
-      liveHandoffSlaMinutes: 5
-    };
-    if (!noconf) window.AI_WIDGET_CONFIG.primaryColor = "#4f46e5";
-
-    var script = document.createElement("script");
-    // Cache-bust so the inspection always runs the file currently on disk.
-    script.src = "./" + file + "?v=" + Date.now();
-    script.setAttribute("data-preview", "1");
-    script.defer = true;
-    document.head.appendChild(script);
-
-    function w() { return window._aiWidget; }
-    function row(text, sender) { return w().addMessage(text, sender, false, {}); }
-    // Mirror what sendMessage() does around a real exchange so the capture shows
-    // the same scroll position production would show.
-    function started() {
-      w()._chatStarted = true;
-      w()._stick = true;
-      w().collapseHero();
-      w().suggestions.hidden = true;
+(async function () {
+  const params = new URLSearchParams(location.search);
+  const names = ['classic','onyx','linen','clay','atomic','fluen','glassmo','md3','minimal','neu','skuermo'];
+  const theme = names.includes(params.get('theme')) ? params.get('theme') : 'classic';
+  const embed = params.get('embed') === '1';
+  document.body.classList.toggle('embed', embed);
+  window.AI_WIDGET_CONFIG = {
+    apiEndpoint: '/demo-api/chat/',
+    previewMode: true,
+    title: 'پشتیبانی آنلاین فروشگاه',
+    subtitle: 'راهنمای خرید، پیگیری سفارش و پاسخ به پرسش‌های شما',
+    greeting: 'سلام! چطور می‌توانیم کمکتان کنیم؟',
+    suggestions: ['راهنمای خرید', 'شرایط ارسال سفارش', 'ساعات پاسخ‌گویی', 'شرایط مرجوعی'],
+    darkMode: params.get('mode') || 'light',
+    showTeaser: false,
+    supportEmail: 'support@example.com',
+    liveHandoffEnabled: true
+  };
+  if (params.get('primary')) window.AI_WIDGET_CONFIG.primaryColor = params.get('primary');
+  const script = document.createElement('script');
+  script.src = './' + (theme === 'classic' ? 'widget.js' : 'widget-' + theme + '.js');
+  await new Promise((resolve, reject) => { script.onload = resolve; script.onerror = reject; document.head.appendChild(script); });
+  await window._aiWidget.ready;
+  const w = window._aiWidget;
+  function clearToast() { clearTimeout(w._toastTimer); w.toast.classList.remove('show'); }
+  function start() { w._chatStarted = true; w.collapseHero(); w.syncSuggestions(); w._stick = true; }
+  window.setDemoState = function (state) {
+    Object.defineProperty(navigator, 'onLine', { value: true, configurable: true });
+    dispatchEvent(new Event('online'));
+    w._configUnreachable = false;
+    w._setBlocked(false);
+    w.closeSheet();
+    w.newConversation();
+    AISupportLive.applyMode(w, 'ai', {});
+    w.applyConfig({ title: AI_WIDGET_CONFIG.title, subtitle: AI_WIDGET_CONFIG.subtitle });
+    w.open();
+    clearToast();
+    if (state === 'welcome') return;
+    if (state === 'empty') { w.close(); return; }
+    if (state === 'contact') { w.openSheet(); return; }
+    if (state === 'long-header') {
+      w.applyConfig({ title: 'مرکز پشتیبانی و مشاورهٔ تخصصی فروشگاه محصولات دیجیتال', subtitle: 'برای انتخاب محصول، پیگیری سفارش و پاسخ به تمام پرسش‌های خریدتان همراه شما هستیم.' });
+      return;
     }
-    // Instant (non-smooth) pin: smooth scrolling is requestAnimationFrame driven
-    // and this inspection tab throttles rAF, so we set the end position directly.
-    function pin() {
-      w()._stick = true;
-      var m = w().messages;
-      m.scrollTop = m.scrollHeight;
+    if (state === 'multiline') {
+      w.input.value = 'سلام، برای انتخاب محصول راهنمایی می‌خواهم.\n\nاین پیام چند خط دارد و باید بدون جابه‌جایی دکمهٔ ارسال، قابل ویرایش باشد.\n\nشمارهٔ سفارش: ۱۲۳۴۵';
+      w.autoGrowInput(); w.updateSendState(); return;
     }
-
-    var ACTIONS = {
-      open: function () { w().open(); },
-      close: function () { w().close(); },
-      welcome: function () {
-        w().messages.innerHTML = "";
-        w().messageCount = 0;
-        w().addHero(window.AI_WIDGET_CONFIG.greeting);
-      },
-      answer: function () {
-        w().open();
-        started();
-        w().addMessage("ساعات کاری ما شنبه تا چهارشنبه ۹ تا ۱۷ است.", "user");
-        w().handleAnswerResult(
-          "**ساعات کاری** شنبه تا چهارشنبه از **۹ تا ۱۷** است.\n\n- پنجشنبه ۹ تا ۱۳\n- جمعه تعطیل\n\n```bash\ncurl https://api.example.com/hours\n```",
-          { message_id: 101, citations: [{ title: "صفحه تماس با ما", page_number: 2 }] }
-        );
-        pin();
-      },
-      nothelpful: function () {
-        // The config endpoint is authoritative for this flag; with no backend in
-        // this page we feed the client the same payload the bundle applies.
-        AISupportLive.applyConfig(w(), { enabled: true, sla_minutes: 5, cta_label: "اتصال به پشتیبانی انسانی" });
-        var last = w().messages.querySelector(".asw-row.asw-last .asw-feedback");
-        if (!last) return;
-        w().handleFeedback(last.querySelector(".thumbs-down"));
-        pin();
-      },
-      waiting: function () {
-        w().open();
-        AISupportLive.applyMode(w(), "waiting", {});
-        w().ui.sync();
-      },
-      claimed: function () {
-        w().open();
-        AISupportLive.applyMode(w(), "human", { operator: "op1" });
-        var last = w().messages.lastElementChild;
-        if (last) {
-          var col = last.querySelector(".asw-col");
-          w().addMessage("یک کارشناس انسانی گفتگو را ادامه می‌دهد.", "bot", false, { skipFeedback: true });
-          AISupportLive.decorateHistory(w(), [{ sender: "agent", content: "x" }, { sender: "system", content: "y" }]);
-        }
-        w().ui.sync();
-      },
-      agent: function () {
-        w().open();
-        if (!w().messages.querySelector(".asw-row")) { started(); row("سلام، من کارشناس پشتیبانی هستم.", "user"); }
-        row("سلام! بررسی کردم؛ سفارش شما امروز ارسال می‌شود.", "bot");
-        AISupportLive.decorateHistory(w(), [{ sender: "agent" }]);
-        w().ui.sync();
-        pin();
-      },
-      closed: function () {
-        w().open();
-        started();
-        row("پشتیبانی انسانی پایان یافت. دستیار هوشمند دوباره فعال شد.", "bot");
-        AISupportLive.decorateHistory(w(), [{ sender: "system" }]);
-        row("پس یک سؤال دیگر دارم.", "user");
-        AISupportLive.applyMode(w(), "ai", {});
-        w().ui.sync();
-        pin();
-      },
-      thinking: function () {
-        w().open();
-        w().setLoading(true);
-        w().ui.sync();
-      },
-      error: function () {
-        w().open();
-        started();
-        w()._lastUserMessage = "سؤال قبلی";
-        w().addMessage("این پاسخ دریافت نشد.", "bot", false, { isError: true, retry: true });
-        pin();
-      },
-      offline: function () {
-        w().open();
-        // Drive the real path: flip navigator.onLine and fire the event the
-        // widget already listens to.
-        Object.defineProperty(navigator, "onLine", { value: false, configurable: true });
-        window.dispatchEvent(new Event("offline"));
-        w().ui.sync();
-      },
-      locked: function () {
-        w().open();
-        w()._setBlocked(true, "این سرویس در حال حاضر برای این سایت در دسترس نیست.");
-        pin();
-      }
-    };
-
-    document.querySelectorAll("[data-act]").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        try {
-          ACTIONS[btn.dataset.act]();
-        } catch (error) {
-          console.error(error);
-          btn.textContent = btn.dataset.act + " !";
-        }
-      });
-    });
-
-    // Deep link: ?act=answer runs one state after boot (handy for screenshots).
-    var act = new URLSearchParams(location.search).get("act");
-    if (act && ACTIONS[act]) {
-      setTimeout(function () { ACTIONS[act](); }, 350);
+    start();
+    w.addMessage('سفارش من چه زمانی ارسال می‌شود؟', 'user');
+    if (state === 'thinking') {
+      w.abortStream = new AbortController();
+      w.abortStream.signal.addEventListener('abort', function () { w.abortStream = null; w.setLoading(false); w.showToast('پاسخ‌دهی متوقف شد.'); }, { once: true });
+      w.setLoading(true); return;
     }
-  })();
+    if (state === 'error') {
+      w._lastUserMessage = 'سفارش من چه زمانی ارسال می‌شود؟';
+      w.addMessage('پاسخ دریافت نشد. لطفاً دوباره تلاش کنید.', 'bot', false, { isError: true, retry: true });
+    } else if (state === 'offline') {
+      w.input.value = 'این پیش‌نویس پس از اتصال دوباره قابل ارسال است.';
+      Object.defineProperty(navigator, 'onLine', { value: false, configurable: true }); dispatchEvent(new Event('offline')); w.autoGrowInput();
+    } else if (state === 'locked') {
+      w._setBlocked(true, 'ارسال پیام موقتاً غیرفعال است. لطفاً کمی بعد دوباره مراجعه کنید.');
+    } else if (state === 'waiting') {
+      AISupportLive.applyMode(w, 'waiting', {});
+      w.addMessage('درخواست پشتیبانی شما ثبت شد. کارشناس همین‌جا پاسخ می‌دهد.', 'bot', false, { skipFeedback: true, sender: 'system' });
+      AISupportLive.decorateHistory(w, [{ sender: 'system' }]);
+    } else if (state === 'agent') {
+      AISupportLive.applyMode(w, 'human', {});
+      w.addMessage('سلام! سفارش شما را بررسی کردم؛ امروز تحویل پست می‌شود. کد پیگیری برایتان پیامک خواهد شد.', 'bot', false, { skipFeedback: true, sender: 'agent' });
+      AISupportLive.decorateHistory(w, [{ sender: 'agent' }]);
+    } else if (state === 'citations') {
+      w.handleAnswerResult('**زمان ارسال سفارش‌ها**\n\n- ارسال معمولی: ۲ تا ۴ روز کاری\n- پیگیری از بخش «سفارش‌های من»\n\n```javascript\nconst order = await store.track("12345");\nconsole.log(order.status);\n```', { message_id: 102, citations: [{ title: 'راهنمای ارسال سفارش‌ها', url: '#shipping' }, { title: 'پرسش‌های متداول', page_number: 3 }] });
+    } else {
+      w.handleAnswerResult('سفارش‌های ثبت‌شده در روزهای کاری، معمولاً طی **۲ تا ۴ روز کاری** به دست شما می‌رسند.\n\nاگر شمارهٔ سفارش را دارید، همین‌جا بنویسید تا راهنمایی‌تان کنم.', { message_id: 101 });
+    }
+    w.ui.sync(); w.updateSendState(); w.scrollToBottom(true, true);
+  };
+  function setMode(mode) { w.applyConfig({ darkMode: mode }); document.body.classList.toggle('host-dark', w.root.classList.contains('dark')); }
+  setMode(window.AI_WIDGET_CONFIG.darkMode);
+  const state = params.get('act') || 'welcome';
+  document.querySelector('#scenario').value = state;
+  window.setDemoState(state);
+  document.querySelector('#scenario').addEventListener('change', e => window.setDemoState(e.target.value));
+  document.querySelector('#mode').addEventListener('click', () => setMode(w.root.classList.contains('dark') ? 'light' : 'dark'));
+  window.__demoReady = true;
+  parent.postMessage({ type: 'asw:demo-ready', theme }, location.origin);
+})();
 </script>
-</body>
-</html>
+</body></html>

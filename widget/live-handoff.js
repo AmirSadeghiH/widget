@@ -27,13 +27,13 @@
 (function (global) {
   "use strict";
 
-  if (global.AISupportLive) return;
+  if (global.AISupportLive && global.AISupportLive.v === "2.0.0") return;
 
   var STATE = { AI: "ai", WAITING: "waiting", HUMAN: "human" };
 
   var TEXT = {
     cta: "اتصال به پشتیبانی انسانی",
-    requested: "درخواست شما ثبت شد ✅ — کارشناس انسانی همین‌جا در گفتگو پاسخ می‌دهد.",
+    requested: "درخواست شما ثبت شد — کارشناس انسانی همین‌جا در گفتگو پاسخ می‌دهد.",
     waiting: "در انتظار پاسخ کارشناس…",
     waitingSla: function (minutes) { return "یک کارشناس در حال بررسی درخواست شماست (حدود " + minutes + " دقیقه)."; },
     claimed: "یک کارشناس به گفتگو پیوست.",
@@ -94,6 +94,9 @@
     var controller = typeof AbortController === "function" ? new AbortController() : null;
     var cancelled = false;
     var closedByServer = false;
+    // Bound only the initial HTTP handshake; a healthy idle operator feed may
+    // remain open for as long as the server chooses.
+    var handshakeTimer = controller ? setTimeout(function () { controller.abort(); }, Number(opts.timeoutMs) || 10000) : null;
     // Distinguishes "the server streamed and finished" from "this response was
     // not streamable at all" — the latter must fall back to polling at once.
     var readable = false;
@@ -139,6 +142,7 @@
         headers: headers,
         signal: controller ? controller.signal : undefined,
       }).then(function (res) {
+        clearTimeout(handshakeTimer);
         if (!res.ok) {
           var error = new Error("stream_failed_" + res.status);
           error.status = res.status;
@@ -152,11 +156,15 @@
         function pump() {
           return reader.read().then(function (chunk) {
             if (cancelled) return null;
-            if (chunk.done) return null;
-            buffer += decoder.decode(chunk.value, { stream: true });
+            buffer += chunk.done ? decoder.decode() : decoder.decode(chunk.value, { stream: true });
+            buffer = buffer.replace(/\r\n/g, "\n");
             var frames = buffer.split("\n\n");
             buffer = frames.pop();
             frames.forEach(parseFrames);
+            if (chunk.done) {
+              if (buffer.trim()) parseFrames(buffer);
+              return null;
+            }
             return pump();
           });
         }
@@ -169,13 +177,13 @@
       onEnd({ streamed: readable, closed: closedByServer });
     }).catch(function (error) {
       if (cancelled) return;
-      if (error && error.name === "AbortError") return;
       onError(error);
-    });
+    }).finally(function () { clearTimeout(handshakeTimer); });
 
     return {
       close: function () {
         cancelled = true;
+        clearTimeout(handshakeTimer);
         if (controller) {
           try { controller.abort(); } catch (_) {}
         }
@@ -201,6 +209,7 @@
     var cursor = Math.max(0, Number(opts.afterId) || 0);
     var handle = null;
     var pollTimer = null;
+    var pollController = null;
     var retryTimer = null;
     var failures = 0;
     var stopped = false;
@@ -255,6 +264,10 @@
       onStateChange({ transport: "polling" });
       function tick() {
         if (stopped) return;
+        if (global.document && global.document.visibilityState === "hidden") { pollTimer = setTimeout(tick, pollInterval); return; }
+        var controller = new AbortController();
+        pollController = controller;
+        var timeout = setTimeout(function () { controller.abort(); }, Number(opts.timeoutMs) || 10000);
         var url = opts.pollUrl
           + (opts.pollUrl.indexOf("?") === -1 ? "?" : "&")
           + "conversation_id=" + encodeURIComponent(opts.conversationId || "")
@@ -265,21 +278,24 @@
           mode: "cors",
           credentials: "omit",
           headers: opts.headers || {},
+          signal: controller.signal,
         }).then(function (res) {
           if (!res.ok) throw new Error("poll_" + res.status);
           return res.json();
         }).then(function (data) {
+          if (stopped || controller.signal.aborted) return;
           failures = 0;
-          (data.messages || []).forEach(function (m) {
-            deliver("message", m);
-          });
-          if (data.human) onEvent("status", data.human, cursor);
-          if (!data.live_agent) deliver("closed", data.human || {});
-          pollTimer = setTimeout(tick, pollInterval);
+          (Array.isArray(data.messages) ? data.messages : []).forEach(function (m) { deliver("message", m); });
+          var human = data.human || data.live_handoff || null;
+          var active = human && typeof human.active === "boolean" ? human.active : typeof data.live_agent === "boolean" ? data.live_agent : null;
+          if (active === false) deliver("closed", human || { active: false });
+          else if (human) deliver("status", human);
+          if (!stopped) pollTimer = setTimeout(tick, pollInterval);
         }).catch(function () {
+          if (stopped) return;
           failures++;
           pollTimer = setTimeout(tick, Math.min(maxBackoff, pollInterval * (1 + failures)));
-        });
+        }).finally(function () { clearTimeout(timeout); if (pollController === controller) pollController = null; });
       }
       tick();
     }
@@ -346,6 +362,7 @@
       stopped = true;
       if (handle) { handle.close(); handle = null; }
       if (pollTimer) { clearTimeout(pollTimer); pollTimer = null; }
+      if (pollController) { pollController.abort(); pollController = null; }
       if (retryTimer) { clearTimeout(retryTimer); retryTimer = null; }
       if (global.document && global.document.addEventListener) {
         global.document.removeEventListener("visibilitychange", onVisibility);
@@ -390,6 +407,9 @@
     var human = {};
     var lastRenderedText = "";
     var requested = false;
+    var requestController = null;
+    var epoch = 0;
+    var destroyed = false;
     var cursor = Math.max(0, Number(adapter.lastMessageId && adapter.lastMessageId()) || 0);
 
     function currentConversation() {
@@ -518,7 +538,7 @@
       request: function (question) {
         var conv = currentConversation();
         var endpoints = adapter.getEndpoints() || {};
-        if (!adapter.isEnabled()) {
+        if (destroyed || !adapter.isEnabled()) {
           adapter.toast(TEXT.disabled);
           return Promise.resolve(false);
         }
@@ -526,14 +546,19 @@
           adapter.toast(TEXT.needConversation);
           return Promise.resolve(false);
         }
-        if (requested) return Promise.resolve(state !== STATE.AI);
+        if (state !== STATE.AI) return Promise.resolve(true);
+        if (requested) return Promise.resolve(false);
+        var generation = epoch;
+        var controller = new AbortController();
+        requestController = controller;
+        var timeout = setTimeout(function () { controller.abort(); }, 20000);
         requested = true;
-        appendSystemOnce(TEXT.requested, "requested");
         return fetch(endpoints.handoff, {
           method: "POST",
           mode: "cors",
           credentials: "omit",
           headers: adapter.getHeaders() || {},
+          signal: controller.signal,
           body: JSON.stringify({
             channel: "live_agent",
             message: (question || "").substring(0, 2000),
@@ -542,7 +567,7 @@
           }),
         }).then(function (res) {
           return res.json().catch(function () { return {}; }).then(function (data) {
-            if (!res.ok) {
+            if (!res.ok || data.ok === false) {
               var error = new Error(data.error || "handoff_failed");
               error.status = res.status;
               error.payload = data;
@@ -551,7 +576,9 @@
             return data;
           });
         }).then(function (data) {
+          if (generation !== epoch || destroyed) return false;
           requested = false;
+          appendSystemOnce(TEXT.requested, "requested");
           if (data.human) {
             human = data.human;
           } else {
@@ -562,6 +589,7 @@
           adapter.toast(human.status === "claimed" ? TEXT.claimed : TEXT.waiting);
           return true;
         }).catch(function (error) {
+          if (generation !== epoch || destroyed) return false;
           requested = false;
           var payload = (error && error.payload) || {};
           if (payload.error === "live_handoff_disabled") {
@@ -574,6 +602,9 @@
           }
           adapter.toast(TEXT.failed);
           return false;
+        }).finally(function () {
+          clearTimeout(timeout);
+          if (requestController === controller) requestController = null;
         });
       },
 
@@ -603,7 +634,23 @@
         return true;
       },
 
+      reset: function () {
+        epoch++;
+        if (requestController) requestController.abort();
+        requestController = null;
+        stopSession();
+        requested = false;
+        human = { active: false };
+        cursor = 0;
+        lastRenderedText = "";
+        setMode();
+      },
+
       destroy: function () {
+        epoch++;
+        destroyed = true;
+        if (requestController) requestController.abort();
+        requestController = null;
         stopSession();
       },
     };
@@ -624,7 +671,7 @@
   /** Build the generic adapter every theme shares (no per-theme logic). */
   function widgetAdapter(widget) {
     function addLiveBubble(text, kind, badge) {
-      var opts = { skipFeedback: true, noAnim: false };
+      var opts = { skipFeedback: true, skipUnread: true, noAnim: false, sender: kind === "agent" ? "agent" : "system" };
       var els = widget.addMessage(text, "bot", false, opts);
       var row = els && els.row ? els.row : widget.messages.lastElementChild;
       if (!row) return els;
@@ -657,12 +704,12 @@
       getHeaders: function () {
         return widget.getHeaders ? widget.getHeaders() : { "Content-Type": "application/json" };
       },
-      isEnabled: function () { return !!widget.options.liveHandoffEnabled; },
+      isEnabled: function () { return !!widget.options.liveHandoffEnabled && !widget._blocked && !widget._destroyed; },
       slaMinutes: function () { return Number(widget.options.liveHandoffSlaMinutes) || 5; },
       lastMessageId: function () { return 0; },
-      appendAgent: function (text) { addLiveBubble(text, "agent", "👤 پشتیبان انسانی"); },
+      appendAgent: function (text) { addLiveBubble(text, "agent", "پشتیبان انسانی"); },
       appendSystem: function (text, kind) {
-        var badges = { claimed: "👤 کارشناس", closed: "🔁 بازگشت به دستیار" };
+        var badges = { claimed: "کارشناس", closed: "بازگشت به دستیار" };
         addLiveBubble(text, "note", badges[kind] || "");
       },
       setMode: function (mode, human) { applyMode(widget, mode, human); },
@@ -682,7 +729,7 @@
       root.setAttribute("data-live-mode", mode || STATE.AI);
       if (root.classList) root.classList.toggle("asw-live-active", mode !== STATE.AI);
     }
-    var titleRow = widget.shadow ? widget.shadow.querySelector(".asw-title-row") : null;
+    var titleRow = widget.shadow ? widget.shadow.querySelector(".asw-presence-line") : null;
     if (titleRow) {
       var chip = titleRow.querySelector("#asw-live-chip");
       if (!chip) {
@@ -696,11 +743,9 @@
       chip.textContent = mode === STATE.HUMAN ? "پشتیبانی انسانی" : mode === STATE.WAITING ? "در انتظار کارشناس" : "";
       chip.hidden = mode === STATE.AI;
     }
-    if (widget.subtitleEl) {
-      if (mode === STATE.HUMAN) widget.subtitleEl.textContent = "در حال گفتگو با پشتیبانی انسانی";
-      else if (mode === STATE.WAITING) widget.subtitleEl.textContent = "در انتظار پاسخ کارشناس…";
-      else widget.subtitleEl.textContent = widget.options.subtitle;
-    }
+    if (widget.ui) widget.ui.sync();
+    if (widget.updateSendState) widget.updateSendState();
+
   }
 
   /**
@@ -712,7 +757,7 @@
     var row = null;
     if (widget.messages) {
       if (messageId !== null && messageId !== undefined && messageId !== "") {
-        var fb = widget.messages.querySelector('.asw-feedback[data-message-id="' + messageId + '"]');
+        var fb = Array.from(widget.messages.querySelectorAll(".asw-feedback")).find(function (item) { return item.dataset.messageId === String(messageId); });
         if (fb && fb.closest) row = fb.closest(".asw-row");
       }
       if (!row) row = widget.messages.lastElementChild;
@@ -722,10 +767,12 @@
 
   /** Inject the live CTA into the handoff bar the theme just built. */
   function injectCta(widget, answerText, targetRow) {
+    if (!widget.options.liveHandoffEnabled || widget._blocked || widget._destroyed) return;
     if (widget.live && widget.live.isActive()) return; // already in human mode
     if (widget.messages && widget.messages.querySelector(".asw-live-cta")) return;
     var row = targetRow || (widget.messages ? widget.messages.lastElementChild : null);
-    var bar = row ? row.querySelector(".asw-handoff") : null;
+    if (!row) return;
+    var bar = row.querySelector(".asw-handoff");
     if (!bar) {
       bar = document.createElement("div");
       bar.className = "asw-handoff asw-live-bar";
@@ -747,7 +794,14 @@
     btn.addEventListener("click", function () {
       if (btn.disabled) return;
       btn.disabled = true;
-      widget.live.request(answerText || widget._lastUserMessage || "");
+      btn.dataset.pending = "true";
+      btn.textContent = "در حال اتصال…";
+      widget.live.request(answerText || widget._lastUserMessage || "").then(function (ok) {
+        delete btn.dataset.pending;
+        btn.disabled = !!ok;
+        btn.textContent = ok ? "درخواست ثبت شد" : TEXT.cta;
+        if (widget.updateSendState) widget.updateSendState();
+      });
     });
     bar.appendChild(btn);
     if (widget.scrollToBottom) widget.scrollToBottom();
@@ -794,7 +848,7 @@
     function intercept(meta) {
       if (!meta || !meta.live_agent) return false;
       client.handleMeta(meta);
-      widget.messageCount = Math.max(1, (widget.messageCount || 1) - 1);
+      widget.messageCount = widget.messages.querySelectorAll(".asw-row,.asw-hero").length;
       if (widget.saveLocalHistory) widget.saveLocalHistory();
       return true;
     }
@@ -841,7 +895,8 @@
       widget.options.liveHandoffSlaMinutes = Number(cfg.sla_minutes) || 5;
       widget.options.liveHandoffText = cfg;
     }
-    if (!widget || !cfg.enabled || widget.previewMode) return null;
+    if (!widget || widget.previewMode) return null;
+    if (!cfg.enabled) { if (widget.live && widget.live.reset) widget.live.reset(); return null; }
     if (!widget.options.handoffEndpoint || !widget.options.handoffStreamEndpoint) return null;
     return install(widget);
   }
@@ -868,7 +923,7 @@
           bubble.classList.add("asw-live-bubble-agent");
           var badge = document.createElement("div");
           badge.className = "asw-live-badge";
-          badge.textContent = "👤 پشتیبان انسانی";
+          badge.textContent = "پشتیبان انسانی";
           var col = bubble.parentNode;
           if (col) col.insertBefore(badge, bubble);
         }
@@ -919,6 +974,6 @@
     queueRestore: queueRestore,
     decorateHistory: decorateHistory,
     maxMessageId: maxMessageId,
-    v: "1.0.0",
+    v: "2.0.0",
   };
 })(typeof window !== "undefined" ? window : this);
